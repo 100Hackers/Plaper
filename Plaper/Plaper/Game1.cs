@@ -12,10 +12,16 @@ namespace Plaper {
         SpriteBatch spriteBatch;
 
         Texture2D[] sprites;
-        Vector2 playerPos;
+        Rectangle playerPos;
+        const double PLAYER_SCALE = 3.0;
+        const int PLAYER_H = (int) (17 * PLAYER_SCALE);
+        const int PLAYER_W = (int) (14 * PLAYER_SCALE);
 
         Texture2D platform;
-        Vector2 platformPos;
+        Rectangle platformPos;
+        const double PLAT_SCALE = 0.5;
+        const int PLAT_H = (int) (50 * PLAT_SCALE);
+        const int PLAT_W = (int) (500 * PLAT_SCALE);
 
         Random rand = new Random();
 
@@ -37,8 +43,8 @@ namespace Plaper {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
 
-            playerPos = new Vector2(rand.Next(0, 400), 600);
-            platformPos = new Vector2(rand.Next(0, 400), rand.Next(200, 400));
+            playerPos = new Rectangle(rand.Next(0, 400 - PLAYER_W), 600 - PLAYER_H, PLAYER_W, PLAYER_H);
+            platformPos = new Rectangle(rand.Next(0, 400 - PLAT_W), rand.Next(200, 400 - PLAT_H), PLAT_W, PLAT_H);
 
 
             base.Initialize();
@@ -78,6 +84,14 @@ namespace Plaper {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+
+            KeyboardState state = Keyboard.GetState();
+
+            if (state.IsKeyDown(Keys.Space)) {
+                playerPos = new Rectangle(rand.Next(0, 400 - PLAYER_W), 600 - PLAYER_H, PLAYER_W, PLAYER_H);
+                platformPos = new Rectangle(rand.Next(0, 400 - PLAT_W), rand.Next(200, 400 - PLAT_H), PLAT_W, PLAT_H);
+            }
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -94,8 +108,8 @@ namespace Plaper {
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(sprites[1], playerPos);
-            spriteBatch.Draw(platform, platformPos);
+            spriteBatch.Draw(sprites[1], playerPos, Color.White);
+            spriteBatch.Draw(platform, platformPos, Color.White);
 
             spriteBatch.End();
 
