@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Plaper {
     /// <summary>
@@ -10,9 +11,21 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Texture2D[] sprites;
+        Vector2 playerPos;
+
+        Texture2D platform;
+        Vector2 platformPos;
+
+        Random rand = new Random();
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 400;
+
         }
 
         /// <summary>
@@ -23,6 +36,10 @@ namespace Plaper {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
+
+            playerPos = new Vector2(rand.Next(0, 400), 600);
+            platformPos = new Vector2(rand.Next(0, 400), rand.Next(200, 400));
+
 
             base.Initialize();
         }
@@ -36,6 +53,12 @@ namespace Plaper {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            sprites = new Texture2D[3];
+            sprites[0] = Content.Load<Texture2D>("blocky_left");
+            sprites[1] = Content.Load<Texture2D>("blocky");
+            sprites[2] = Content.Load<Texture2D>("blocky_right");
+
+            platform = Content.Load<Texture2D>("platform");
         }
 
         /// <summary>
@@ -68,6 +91,13 @@ namespace Plaper {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+
+            spriteBatch.Begin();
+
+            spriteBatch.Draw(sprites[1], playerPos);
+            spriteBatch.Draw(platform, platformPos);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
