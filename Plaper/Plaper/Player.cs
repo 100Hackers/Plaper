@@ -14,8 +14,8 @@ namespace Plaper {
 
         private States state;
 
-        const float GRAVITY = 9f;
-        const float JUMP_SPEED = 10f;
+        const float GRAVITY = 20f;
+        const float JUMP_SPEED = 50f;
 
         const double SCALE = 3.0;
         const int HEIGHT = (int) (17 * SCALE);
@@ -53,10 +53,10 @@ namespace Plaper {
 
                 case States.Jumping:
                     velocity.Y -= (float) gTime.ElapsedGameTime.TotalSeconds * GRAVITY;
-                    position.Y += (float) gTime.ElapsedGameTime.TotalSeconds * velocity.Y;
+                    position.Y -= (float) gTime.ElapsedGameTime.TotalSeconds * velocity.Y;
 
                     if (position.Y + HEIGHT > screenBounds.Height) {
-                        position.Y = screenBounds.Height + HEIGHT;
+                        position.Y = screenBounds.Height - HEIGHT;
                         velocity = Vector2.Zero;
 
                         state = States.Standing;
