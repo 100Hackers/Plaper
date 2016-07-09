@@ -106,7 +106,7 @@ namespace Plaper {
 
             // TODO: Add your drawing code here
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
             spriteBatch.Draw(sprites[1], playerPos, Color.White);
             spriteBatch.Draw(platform, platformPos, Color.White);
