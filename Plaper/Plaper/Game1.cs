@@ -11,11 +11,10 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        const int SCREEN_WIDTH = 400;
+        const int SCREEN_HEIGHT = 600;
+
         Texture2D[] sprites;
-        Rectangle playerPos;
-        const double PLAYER_SCALE = 3.0;
-        const int PLAYER_H = (int) (17 * PLAYER_SCALE);
-        const int PLAYER_W = (int) (14 * PLAYER_SCALE);
 
         Texture2D platform;
         Rectangle platformPos;
@@ -23,14 +22,21 @@ namespace Plaper {
         const int PLAT_H = (int) (50 * PLAT_SCALE);
         const int PLAT_W = (int) (500 * PLAT_SCALE);
 
+        Rectangle screenRectangle;
+
         Random rand = new Random();
+
+        Player player;
+
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 400;
+            graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
+            graphics.PreferredBackBufferWidth = SCREEN_WIDTH;
+
+            screenRectangle = new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_WIDTH);
 
         }
 
@@ -43,9 +49,7 @@ namespace Plaper {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
 
-            playerPos = new Rectangle(rand.Next(0, 400 - PLAYER_W), 600 - PLAYER_H, PLAYER_W, PLAYER_H);
-            platformPos = new Rectangle(rand.Next(0, 400 - PLAT_W), rand.Next(200, 400 - PLAT_H), PLAT_W, PLAT_H);
-
+            //platformPos = new Rectangle(rand.Next(0, 400 - PLAT_W), rand.Next(200, 400 - PLAT_H), PLAT_W, PLAT_H);
 
             base.Initialize();
         }
@@ -59,12 +63,17 @@ namespace Plaper {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            sprites = new Texture2D[3];
+
+            Texture2D blocky = Content.Load<Texture2D>("blocky");
+            player = new Player(blocky, screenRectangle);
+
+
+            /*sprites = new Texture2D[3];
             sprites[0] = Content.Load<Texture2D>("blocky_left");
             sprites[1] = Content.Load<Texture2D>("blocky");
             sprites[2] = Content.Load<Texture2D>("blocky_right");
 
-            platform = Content.Load<Texture2D>("platform");
+            platform = Content.Load<Texture2D>("platform");*/
         }
 
         /// <summary>
@@ -84,13 +93,8 @@ namespace Plaper {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            player.Update(gameTime);
 
-            KeyboardState state = Keyboard.GetState();
-
-            if (state.IsKeyDown(Keys.Space)) {
-                playerPos = new Rectangle(rand.Next(0, 400 - PLAYER_W), 600 - PLAYER_H, PLAYER_W, PLAYER_H);
-                platformPos = new Rectangle(rand.Next(0, 400 - PLAT_W), rand.Next(200, 400 - PLAT_H), PLAT_W, PLAT_H);
-            }
 
             // TODO: Add your update logic here
 
@@ -108,8 +112,8 @@ namespace Plaper {
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
-            spriteBatch.Draw(sprites[1], playerPos, Color.White);
-            spriteBatch.Draw(platform, platformPos, Color.White);
+            player.Draw(spriteBatch);
+            //spriteBatch.Draw(platform, platformPos, Color.White);
 
             spriteBatch.End();
 
