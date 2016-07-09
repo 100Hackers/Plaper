@@ -36,7 +36,7 @@ namespace Plaper {
             graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
             graphics.PreferredBackBufferWidth = SCREEN_WIDTH;
 
-            screenRectangle = new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_WIDTH);
+            screenRectangle = new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         }
 

@@ -15,7 +15,7 @@ namespace Plaper {
         private States state;
 
         const float GRAVITY = 9f;
-        const float JUMP_SPEED = 100f;
+        const float JUMP_SPEED = 10f;
 
         const double SCALE = 3.0;
         const int HEIGHT = (int) (17 * SCALE);
@@ -72,7 +72,8 @@ namespace Plaper {
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(texture, position, Color.White);
+            Rectangle posRect = new Rectangle((int) position.X, (int) position.Y, WIDTH, HEIGHT);
+            spriteBatch.Draw(texture, posRect, Color.White);
         }
     }
 }
