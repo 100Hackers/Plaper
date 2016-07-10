@@ -65,7 +65,8 @@ namespace Plaper {
             // TODO: use this.Content to load your game content here
 
             Texture2D blocky = Content.Load<Texture2D>("blocky");
-            player = new Player(blocky, screenRectangle);
+            Texture2D arrow  = Content.Load<Texture2D>("arrow");
+            player = new Player(blocky, arrow, screenRectangle);
 
 
             /*sprites = new Texture2D[3];
