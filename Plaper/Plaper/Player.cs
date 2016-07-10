@@ -14,8 +14,9 @@ namespace Plaper {
 
         private States state;
 
-        const int GRAVITY = 348;
-        const int JUMP_SPEED = 152;
+        const double PI = Math.PI;
+        const int GRAVITY = 400;
+        const int JUMP_SPEED = 300;
 
         const double SCALE = 3.0;
         const int HEIGHT = (int) (17 * SCALE);
@@ -25,6 +26,7 @@ namespace Plaper {
         Vector2 velocity;
 
         KeyboardState keyboardState;
+        KeyboardState lastState;
 
         Texture2D texture;
         Rectangle screenBounds;
@@ -34,10 +36,10 @@ namespace Plaper {
         Texture2D arrowTexture;
         const int ARROW_HEIGHT = 64;
         const int ARROW_WIDTH  = 32;
-        const int ARROW_PADING = 75;
+        const int ARROW_PADING = 90;
         const int ARROW_SPEED  = 3;
-        const double ARROW_BOUND_UPPER = 0;
-        const double ARROW_BOUND_LOWER = -Math.PI;
+        const double ARROW_BOUND_UPPER = PI / 2;
+        const double ARROW_BOUND_LOWER = -PI / 2;
 
         public Player(Texture2D texture, Texture2D arrowTexture, Rectangle screenBounds) {
             this.texture = texture;
@@ -47,6 +49,8 @@ namespace Plaper {
             state = States.Standing;
             arrowAngle = 0.0;
             arrowGoingLeft = false;
+
+            lastState = Keyboard.GetState();
 
             SetInStartPosition();
         }
@@ -72,20 +76,34 @@ namespace Plaper {
                     }
 
                     // jump if space is hit
-                    if (keyboardState.IsKeyDown(Keys.Space)) {
-                        velocity.Y = JUMP_SPEED;
+                    bool t1 = keyboardState.IsKeyDown(Keys.Space);
+                    bool t2 = lastState.IsKeyDown(Keys.Space);
+
+                    if (t1 && !t2) {
+                        velocity.Y = (float) (Math.Cos(arrowAngle) * JUMP_SPEED);
+                        velocity.X = (float) (Math.Sin(-arrowAngle) * JUMP_SPEED);
                         state = States.Jumping;
                     }
 
+                    lastState = keyboardState;
                     break;
 
                 case States.Jumping:
                     velocity.Y -= (float) (elapsedSeconds * GRAVITY);
                     position.Y -= (float) (elapsedSeconds * velocity.Y);
 
+                    if (position.X < 0 || screenBounds.Width < position.X + WIDTH) {
+                        velocity.X = -velocity.X;
+                        position.X = position.X < 0 ? 0f : screenBounds.Width - WIDTH;
+                    }
+                    position.X -= (float) (elapsedSeconds * velocity.X);
+
                     if (position.Y + HEIGHT > screenBounds.Height) {
                         position.Y = screenBounds.Height - HEIGHT;
                         velocity = Vector2.Zero;
+
+                        arrowAngle = 0;
+                        arrowGoingLeft = false;
 
                         state = States.Standing;
                     }
@@ -105,14 +123,15 @@ namespace Plaper {
             spriteBatch.Draw(texture, posRect, Color.White);
 
             //draw arrow
-            var arrowRect = new Rectangle();
-            arrowRect.X = (int) (ARROW_PADING * Math.Cos(arrowAngle) + position.X);
-            arrowRect.Y = (int) (ARROW_PADING * Math.Sin(arrowAngle) + position.Y);
-            arrowRect.Height = ARROW_HEIGHT;
-            arrowRect.Width = ARROW_WIDTH;
+            if (state == States.Standing) {
+                var arrowRect = new Rectangle();
+                arrowRect.X = (int)(ARROW_PADING * Math.Cos(arrowAngle - PI / 2) + position.X + WIDTH / 2 - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
+                arrowRect.Y = (int)(ARROW_PADING * Math.Sin(arrowAngle - PI / 2) + position.Y + 5*SCALE - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
+                arrowRect.Height = ARROW_HEIGHT;
+                arrowRect.Width = ARROW_WIDTH;
 
-            spriteBatch.Draw(arrowTexture, arrowRect, Color.White);
-
+                spriteBatch.Draw(arrowTexture, arrowRect, null, Color.White, (float)arrowAngle, Vector2.Zero, SpriteEffects.None, 0);
+            }
         }
     }
 }
