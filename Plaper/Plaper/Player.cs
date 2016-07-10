@@ -75,11 +75,11 @@ namespace Plaper {
                         arrowGoingLeft = !arrowGoingLeft;
                     }
 
-                    // jump if space is hit
-                    bool t1 = keyboardState.IsKeyDown(Keys.Space);
-                    bool t2 = lastState.IsKeyDown(Keys.Space);
+                    // jump if space is hit; make sure it has been released since last jump
+                    bool spacePressed  = keyboardState.IsKeyDown(Keys.Space);
+                    bool spaceReleased = !lastState.IsKeyDown(Keys.Space);
 
-                    if (t1 && !t2) {
+                    if (spacePressed && spaceReleased) {
                         velocity.Y = (float) (Math.Cos(arrowAngle) * JUMP_SPEED);
                         velocity.X = (float) (Math.Sin(-arrowAngle) * JUMP_SPEED);
                         state = States.Jumping;

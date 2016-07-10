@@ -38,6 +38,9 @@ namespace Plaper {
 
             screenRectangle = new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+            // unrestricted framerate
+            //this.IsFixedTimeStep = false;
+            //this.graphics.SynchronizeWithVerticalRetrace = false;
         }
 
         /// <summary>
@@ -108,6 +111,8 @@ namespace Plaper {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            Window.Title = (1 / gameTime.ElapsedGameTime.TotalSeconds).ToString();
 
             // TODO: Add your drawing code here
 
