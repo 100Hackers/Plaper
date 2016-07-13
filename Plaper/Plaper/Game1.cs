@@ -69,7 +69,8 @@ namespace Plaper {
 
             Texture2D blocky = Content.Load<Texture2D>("blocky");
             Texture2D arrow  = Content.Load<Texture2D>("arrow");
-            player = new Player(blocky, arrow, screenRectangle);
+            Texture2D arrowFill = Content.Load<Texture2D>("arrow_fill");
+            player = new Player(blocky, arrow, arrowFill, screenRectangle);
 
 
             /*sprites = new Texture2D[3];

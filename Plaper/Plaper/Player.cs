@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 namespace Plaper {
     class Player {
 
-        private enum States { Standing, Jumping};
+        private enum States { Standing, Power, Jumping};
 
         private States state;
 
         const double PI = Math.PI;
         const int GRAVITY = 400;
-        const int JUMP_SPEED = 300;
+        const int JUMP_SPEED = 11;
 
         const double SCALE = 3.0;
         const int HEIGHT = (int) (17 * SCALE);
@@ -34,6 +34,9 @@ namespace Plaper {
         double arrowAngle;
         bool   arrowGoingLeft;
         Texture2D arrowTexture;
+        Texture2D arrowFill;
+        double arrowPower;
+        bool   powerInc;
         const int ARROW_HEIGHT = 64;
         const int ARROW_WIDTH  = 32;
         const int ARROW_PADING = 90;
@@ -41,13 +44,15 @@ namespace Plaper {
         const double ARROW_BOUND_UPPER = PI / 2;
         const double ARROW_BOUND_LOWER = -PI / 2;
 
-        public Player(Texture2D texture, Texture2D arrowTexture, Rectangle screenBounds) {
-            this.texture = texture;
+        public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, Rectangle screenBounds) {
+            this.texture   = texture;
+            this.arrowFill = arrowFill;
             this.arrowTexture = arrowTexture;
             this.screenBounds = screenBounds;
 
             state = States.Standing;
             arrowAngle = 0.0;
+            arrowPower = ARROW_HEIGHT;
             arrowGoingLeft = false;
 
             lastState = Keyboard.GetState();
@@ -77,15 +82,38 @@ namespace Plaper {
 
                     // jump if space is hit; make sure it has been released since last jump
                     bool spacePressed  = keyboardState.IsKeyDown(Keys.Space);
-                    bool spaceReleased = !lastState.IsKeyDown(Keys.Space);
+                    //bool spaceReleased = !lastState.IsKeyDown(Keys.Space);
 
-                    if (spacePressed && spaceReleased) {
-                        velocity.Y = (float) (Math.Cos(arrowAngle) * JUMP_SPEED);
-                        velocity.X = (float) (Math.Sin(-arrowAngle) * JUMP_SPEED);
-                        state = States.Jumping;
+                    if (spacePressed) {
+                        //arrowPower = 0.0;
+                        powerInc = true;
+                        state = States.Power;
                     }
 
                     lastState = keyboardState;
+                    break;
+
+                case States.Power:
+                    bool spaceReleased = !Keyboard.GetState().IsKeyDown(Keys.Space);
+
+                    if (powerInc) {
+                        arrowPower -= elapsedSeconds * 100;// / 100;
+                    } else {
+                        arrowPower += elapsedSeconds * 100;
+                    }
+
+                    if (arrowPower < 0 || ARROW_HEIGHT < arrowPower) {
+                        powerInc = !powerInc;
+                    }
+
+                    if (spaceReleased) {
+                        velocity.Y = (float) (Math.Cos(arrowAngle)  * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
+                        velocity.X = (float) (Math.Sin(-arrowAngle) * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
+                        arrowPower = ARROW_HEIGHT;
+                        state = States.Jumping;
+                    }
+
+
                     break;
 
                 case States.Jumping:
@@ -123,13 +151,17 @@ namespace Plaper {
             spriteBatch.Draw(texture, posRect, Color.White);
 
             //draw arrow
-            if (state == States.Standing) {
+            if (state == States.Standing || state == States.Power) {
                 var arrowRect = new Rectangle();
+                arrowRect.X = (int)((ARROW_PADING - arrowPower) * Math.Cos(arrowAngle - PI / 2) + position.X + WIDTH / 2 - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
+                arrowRect.Y = (int)((ARROW_PADING - arrowPower) * Math.Sin(arrowAngle - PI / 2) + position.Y + 5*SCALE - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
+                arrowRect.Height = ARROW_HEIGHT - (int) arrowPower;
+                arrowRect.Width = ARROW_WIDTH;
+
+                spriteBatch.Draw(arrowFill, arrowRect, new Rectangle(0, (int) arrowPower, ARROW_WIDTH, ARROW_HEIGHT-(int)arrowPower), Color.White, (float)arrowAngle, Vector2.Zero, SpriteEffects.None, 0);
                 arrowRect.X = (int)(ARROW_PADING * Math.Cos(arrowAngle - PI / 2) + position.X + WIDTH / 2 - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
                 arrowRect.Y = (int)(ARROW_PADING * Math.Sin(arrowAngle - PI / 2) + position.Y + 5*SCALE - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
                 arrowRect.Height = ARROW_HEIGHT;
-                arrowRect.Width = ARROW_WIDTH;
-
                 spriteBatch.Draw(arrowTexture, arrowRect, null, Color.White, (float)arrowAngle, Vector2.Zero, SpriteEffects.None, 0);
             }
         }
