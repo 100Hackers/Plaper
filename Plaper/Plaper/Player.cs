@@ -22,13 +22,16 @@ namespace Plaper {
         const int HEIGHT = (int) (17 * SCALE);
         const int WIDTH  = (int) (14 * SCALE);
 
+        int lastXPosition;
+
         Vector2 position;
         Vector2 velocity;
 
         KeyboardState keyboardState;
         KeyboardState lastState;
 
-        Texture2D texture;
+        Texture2D[] sprites = new Texture2D[3];
+
         Rectangle screenBounds;
 
         double arrowAngle;
@@ -44,8 +47,10 @@ namespace Plaper {
         const double ARROW_BOUND_UPPER = PI / 2;
         const double ARROW_BOUND_LOWER = -PI / 2;
 
-        public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, Rectangle screenBounds) {
-            this.texture   = texture;
+        public Player(Texture2D[] texture, Texture2D arrowTexture, Texture2D arrowFill, Rectangle screenBounds) {
+            this.sprites[0] = texture[0];
+            this.sprites[1] = texture[1];
+            this.sprites[2] = texture[2];
             this.arrowFill = arrowFill;
             this.arrowTexture = arrowTexture;
             this.screenBounds = screenBounds;
@@ -147,9 +152,19 @@ namespace Plaper {
 
         public void Draw(SpriteBatch spriteBatch) {
             // draw character
-            Rectangle posRect = new Rectangle((int) position.X, (int) position.Y, WIDTH, HEIGHT);
-            spriteBatch.Draw(texture, posRect, Color.White);
+            Rectangle posRect = new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
 
+            if (lastXPosition > (int)position.X) {
+                spriteBatch.Draw(sprites[0], posRect, Color.White);
+            } else if(lastXPosition < (int)position.X) {
+                spriteBatch.Draw(sprites[2], posRect, Color.White);
+            } else {
+                spriteBatch.Draw(sprites[1], posRect, Color.White);
+            }
+
+            lastXPosition = (int)position.X;
+
+            
             //draw arrow
             if (state == States.Standing || state == States.Power) {
                 var arrowRect = new Rectangle();

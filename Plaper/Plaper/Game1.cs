@@ -67,18 +67,17 @@ namespace Plaper {
 
             // TODO: use this.Content to load your game content here
 
-            Texture2D blocky = Content.Load<Texture2D>("blocky");
             Texture2D arrow  = Content.Load<Texture2D>("arrow");
             Texture2D arrowFill = Content.Load<Texture2D>("arrow_fill");
-            player = new Player(blocky, arrow, arrowFill, screenRectangle);
 
-
-            /*sprites = new Texture2D[3];
+            sprites = new Texture2D[3];
             sprites[0] = Content.Load<Texture2D>("blocky_left");
             sprites[1] = Content.Load<Texture2D>("blocky");
             sprites[2] = Content.Load<Texture2D>("blocky_right");
 
-            platform = Content.Load<Texture2D>("platform");*/
+            player = new Player(sprites, arrow, arrowFill, screenRectangle);
+
+            platform = Content.Load<Texture2D>("platform");
         }
 
         /// <summary>
