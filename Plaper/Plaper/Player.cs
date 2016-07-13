@@ -22,15 +22,13 @@ namespace Plaper {
         const int HEIGHT = (int) (17 * SCALE);
         const int WIDTH  = (int) (14 * SCALE);
 
-        int lastXPosition;
-
         Vector2 position;
         Vector2 velocity;
 
         KeyboardState keyboardState;
         KeyboardState lastState;
 
-        Texture2D[] sprites = new Texture2D[3];
+        Texture2D[] sprites;
 
         Rectangle screenBounds;
 
@@ -48,6 +46,7 @@ namespace Plaper {
         const double ARROW_BOUND_LOWER = -PI / 2;
 
         public Player(Texture2D[] texture, Texture2D arrowTexture, Texture2D arrowFill, Rectangle screenBounds) {
+            this.sprites = new Texture2D[3];
             this.sprites[0] = texture[0];
             this.sprites[1] = texture[1];
             this.sprites[2] = texture[2];
@@ -154,16 +153,13 @@ namespace Plaper {
             // draw character
             Rectangle posRect = new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
 
-            if (lastXPosition > (int)position.X) {
+            if (velocity.X > 0.0) {
                 spriteBatch.Draw(sprites[0], posRect, Color.White);
-            } else if(lastXPosition < (int)position.X) {
+            } else if(velocity.X < 0.0) {
                 spriteBatch.Draw(sprites[2], posRect, Color.White);
             } else {
                 spriteBatch.Draw(sprites[1], posRect, Color.White);
             }
-
-            lastXPosition = (int)position.X;
-
             
             //draw arrow
             if (state == States.Standing || state == States.Power) {
