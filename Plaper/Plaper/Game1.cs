@@ -14,8 +14,6 @@ namespace Plaper {
         const int SCREEN_WIDTH = 400;
         const int SCREEN_HEIGHT = 600;
 
-        Texture2D[] sprites;
-
         Texture2D platform;
         Rectangle platformPos;
         const double PLAT_SCALE = 0.5;
@@ -70,12 +68,9 @@ namespace Plaper {
             Texture2D arrow  = Content.Load<Texture2D>("arrow");
             Texture2D arrowFill = Content.Load<Texture2D>("arrow_fill");
 
-            sprites = new Texture2D[3];
-            sprites[0] = Content.Load<Texture2D>("blocky_left");
-            sprites[1] = Content.Load<Texture2D>("blocky");
-            sprites[2] = Content.Load<Texture2D>("blocky_right");
+            Texture2D sprite = Content.Load<Texture2D>("blocky_all");
 
-            player = new Player(sprites, arrow, arrowFill, screenRectangle);
+            player = new Player(sprite, arrow, arrowFill, screenRectangle);
 
             platform = Content.Load<Texture2D>("platform");
         }

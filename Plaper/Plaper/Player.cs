@@ -28,7 +28,7 @@ namespace Plaper {
         KeyboardState keyboardState;
         KeyboardState lastState;
 
-        Texture2D[] sprites;
+        Texture2D sprite;
 
         Rectangle screenBounds;
 
@@ -45,11 +45,8 @@ namespace Plaper {
         const double ARROW_BOUND_UPPER = PI / 2;
         const double ARROW_BOUND_LOWER = -PI / 2;
 
-        public Player(Texture2D[] texture, Texture2D arrowTexture, Texture2D arrowFill, Rectangle screenBounds) {
-            this.sprites = new Texture2D[3];
-            this.sprites[0] = texture[0];
-            this.sprites[1] = texture[1];
-            this.sprites[2] = texture[2];
+        public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, Rectangle screenBounds) {
+            this.sprite = texture;
             this.arrowFill = arrowFill;
             this.arrowTexture = arrowTexture;
             this.screenBounds = screenBounds;
@@ -153,16 +150,20 @@ namespace Plaper {
             // draw character
             Rectangle posRect = new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
 
+            Rectangle spriteRect = new Rectangle(14, 0, 14, 17);
+
             if (velocity.X > 0.0) {
-                spriteBatch.Draw(sprites[0], posRect, Color.White);
+                spriteRect.X = 0;
             } else if(velocity.X < 0.0) {
-                spriteBatch.Draw(sprites[2], posRect, Color.White);
+                spriteRect.X = 28;
             } else {
-                spriteBatch.Draw(sprites[1], posRect, Color.White);
+                spriteRect.X = 14;
             }
-            
+
+            spriteBatch.Draw(sprite, posRect, spriteRect, Color.White);
+
             //draw arrow
-            if (state == States.Standing || state == States.Power) {
+            if(state == States.Standing || state == States.Power) {
                 var arrowRect = new Rectangle();
                 arrowRect.X = (int)((ARROW_PADING - arrowPower) * Math.Cos(arrowAngle - PI / 2) + position.X + WIDTH / 2 - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
                 arrowRect.Y = (int)((ARROW_PADING - arrowPower) * Math.Sin(arrowAngle - PI / 2) + position.Y + 5*SCALE - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
