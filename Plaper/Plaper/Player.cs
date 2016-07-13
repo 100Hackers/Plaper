@@ -154,7 +154,7 @@ namespace Plaper {
 
             if (velocity.X > 0.0) {
                 spriteRect.X = 0;
-            } else if(velocity.X < 0.0) {
+            } else if (velocity.X < 0.0) {
                 spriteRect.X = 28;
             } else {
                 spriteRect.X = 14;
@@ -163,7 +163,7 @@ namespace Plaper {
             spriteBatch.Draw(sprite, posRect, spriteRect, Color.White);
 
             //draw arrow
-            if(state == States.Standing || state == States.Power) {
+            if (state == States.Standing || state == States.Power) {
                 var arrowRect = new Rectangle();
                 arrowRect.X = (int)((ARROW_PADING - arrowPower) * Math.Cos(arrowAngle - PI / 2) + position.X + WIDTH / 2 - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
                 arrowRect.Y = (int)((ARROW_PADING - arrowPower) * Math.Sin(arrowAngle - PI / 2) + position.Y + 5*SCALE - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
