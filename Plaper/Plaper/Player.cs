@@ -28,7 +28,8 @@ namespace Plaper {
         KeyboardState keyboardState;
         KeyboardState lastState;
 
-        Texture2D texture;
+        Texture2D sprite;
+
         Rectangle screenBounds;
 
         double arrowAngle;
@@ -45,7 +46,7 @@ namespace Plaper {
         const double ARROW_BOUND_LOWER = -PI / 2;
 
         public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, Rectangle screenBounds) {
-            this.texture   = texture;
+            this.sprite = texture;
             this.arrowFill = arrowFill;
             this.arrowTexture = arrowTexture;
             this.screenBounds = screenBounds;
@@ -147,8 +148,19 @@ namespace Plaper {
 
         public void Draw(SpriteBatch spriteBatch) {
             // draw character
-            Rectangle posRect = new Rectangle((int) position.X, (int) position.Y, WIDTH, HEIGHT);
-            spriteBatch.Draw(texture, posRect, Color.White);
+            Rectangle posRect = new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
+
+            Rectangle spriteRect = new Rectangle(14, 0, 14, 17);
+
+            if (velocity.X > 0.0) {
+                spriteRect.X = 0;
+            } else if (velocity.X < 0.0) {
+                spriteRect.X = 28;
+            } else {
+                spriteRect.X = 14;
+            }
+
+            spriteBatch.Draw(sprite, posRect, spriteRect, Color.White);
 
             //draw arrow
             if (state == States.Standing || state == States.Power) {
