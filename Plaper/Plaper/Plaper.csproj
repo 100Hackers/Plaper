@@ -49,6 +49,23 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="MonoGame.Framework.Linux, Version=2.5.1.0, Culture=neutral">
+      <Private>False</Private>
+      <Package>monogame</Package>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4">
+      <Private>False</Private>
+      <Package>opentk</Package>
+    </Reference>
+    <Reference Include="Lidgren.Network, Version=2011.3.12.0, Culture=neutral">
+      <Private>False</Private>
+      <Package>monogame</Package>
+    </Reference>
+    <Reference Include="Tao.Sdl, Version=1.2.13.0, Culture=neutral, PublicKeyToken=9c7a200e36c0094e">
+      <Private>False</Private>
+      <Package>tao-sdl</Package>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
