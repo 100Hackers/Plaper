@@ -53,7 +53,7 @@ namespace Plaper {
 
             base.Initialize();
 
-            gameState = new GameState(player, spriteBatch);
+            gameState = new GameState(player);
             State.setState(gameState);
 
             //platformPos = new Rectangle(rand.Next(0, 400 - PLAT_W), rand.Next(200, 400 - PLAT_H), PLAT_W, PLAT_H);
@@ -114,7 +114,7 @@ namespace Plaper {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             if(State.getState() != null) {
-                State.getState().Draw();
+                State.getState().Draw(spriteBatch);
             }
 
             Window.Title = (1 / gameTime.ElapsedGameTime.TotalSeconds).ToString();

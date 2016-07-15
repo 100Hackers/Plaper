@@ -10,13 +10,11 @@ namespace Plaper {
 
     class GameState : State {
 
-        public GameState(Player player, SpriteBatch spriteBatch) {
+        public GameState(Player player) {
             this.player = player;
-            this.spriteBatch = spriteBatch;
         }
 
         Player player;
-        SpriteBatch spriteBatch;
 
         public override void Update(GameTime gameTime) {
 
@@ -24,7 +22,7 @@ namespace Plaper {
 
         }
 
-        public override void Draw() {
+        public override void Draw(SpriteBatch spriteBatch) {
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
