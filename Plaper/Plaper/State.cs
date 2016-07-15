@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Plaper {
+
+    //abstract base class for game states
     abstract class State {
 
         static State currentState = null;
