@@ -26,6 +26,7 @@ namespace Plaper {
 
         Player player;
 
+        State gameState;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -49,6 +50,9 @@ namespace Plaper {
         /// </summary>
         protected override void Initialize() {
             // TODO: Add your initialization logic here
+
+            gameState = new GameState(player, spriteBatch);
+            State.setState(gameState);
 
             //platformPos = new Rectangle(rand.Next(0, 400 - PLAT_W), rand.Next(200, 400 - PLAT_H), PLAT_W, PLAT_H);
 
@@ -89,13 +93,15 @@ namespace Plaper {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+
+            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) {
                 Exit();
+            }
 
-            player.Update(gameTime);
-
-
-            // TODO: Add your update logic here
+            if (State.getState() != null) {
+                State.getState().updateGameTime(gameTime);
+                State.getState().tick();
+            }
 
             base.Update(gameTime);
         }
@@ -107,16 +113,11 @@ namespace Plaper {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            if(State.getState() != null) {
+                State.getState().render();
+            }
+
             Window.Title = (1 / gameTime.ElapsedGameTime.TotalSeconds).ToString();
-
-            // TODO: Add your drawing code here
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-
-            player.Draw(spriteBatch);
-            //spriteBatch.Draw(platform, platformPos, Color.White);
-
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }
