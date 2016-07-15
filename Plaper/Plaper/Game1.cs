@@ -51,12 +51,13 @@ namespace Plaper {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
 
+            base.Initialize();
+
             gameState = new GameState(player, spriteBatch);
             State.setState(gameState);
 
             //platformPos = new Rectangle(rand.Next(0, 400 - PLAT_W), rand.Next(200, 400 - PLAT_H), PLAT_W, PLAT_H);
 
-            base.Initialize();
         }
 
         /// <summary>
@@ -99,8 +100,7 @@ namespace Plaper {
             }
 
             if (State.getState() != null) {
-                State.getState().updateGameTime(gameTime);
-                State.getState().tick();
+                State.getState().Update(gameTime);
             }
 
             base.Update(gameTime);
@@ -114,7 +114,7 @@ namespace Plaper {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             if(State.getState() != null) {
-                State.getState().render();
+                State.getState().Draw();
             }
 
             Window.Title = (1 / gameTime.ElapsedGameTime.TotalSeconds).ToString();
