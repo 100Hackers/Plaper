@@ -50,8 +50,6 @@ namespace Plaper {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
 
-            //platformPos = new Rectangle(rand.Next(0, 400 - PLAT_W), rand.Next(200, 400 - PLAT_H), PLAT_W, PLAT_H);
-
             base.Initialize();
         }
 
