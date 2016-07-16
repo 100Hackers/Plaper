@@ -68,7 +68,6 @@ namespace Plaper {
 
 
             //platformPos = new Rectangle(rand.Next(0, 400 - PLAT_W), rand.Next(200, 400 - PLAT_H), PLAT_W, PLAT_H);
-
         }
 
         /// <summary>

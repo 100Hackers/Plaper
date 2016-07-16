@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plaper", "Plaper\Plaper.csproj", "{F1A72A12-F2EC-4759-8041-481F5D41B5EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plaper", "Plaper\Plaper.csproj", "{2DA590AB-134C-4143-AC48-C215612FD00E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F1A72A12-F2EC-4759-8041-481F5D41B5EA}.Debug|x86.ActiveCfg = Debug|x86
-		{F1A72A12-F2EC-4759-8041-481F5D41B5EA}.Debug|x86.Build.0 = Debug|x86
-		{F1A72A12-F2EC-4759-8041-481F5D41B5EA}.Release|x86.ActiveCfg = Release|x86
-		{F1A72A12-F2EC-4759-8041-481F5D41B5EA}.Release|x86.Build.0 = Release|x86
+		{2DA590AB-134C-4143-AC48-C215612FD00E}.Debug|x86.ActiveCfg = Debug|x86
+		{2DA590AB-134C-4143-AC48-C215612FD00E}.Debug|x86.Build.0 = Debug|x86
+		{2DA590AB-134C-4143-AC48-C215612FD00E}.Release|x86.ActiveCfg = Release|x86
+		{2DA590AB-134C-4143-AC48-C215612FD00E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
