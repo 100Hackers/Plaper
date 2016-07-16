@@ -13,8 +13,8 @@ namespace Plaper {
         SpriteBatch spriteBatch;
 
         //resolution
-        const int SCREEN_WIDTH = 400;
-        const int SCREEN_HEIGHT = 600;
+        public const int SCREEN_WIDTH = 400;
+        public const int SCREEN_HEIGHT = 600;
 
         //unused
         Texture2D platform;
@@ -31,7 +31,7 @@ namespace Plaper {
 
         Player player;
 
-        State gameState;
+        State currentState;
 
         public Game1() {
 
@@ -60,9 +60,12 @@ namespace Plaper {
             base.Initialize();
 
             //create state and pass player object
-            gameState = new GameState(player);
+            currentState = new MenuState(player, graphics);
             //set state to game
-            State.setState(gameState);
+            State.setState(currentState);
+
+            this.IsMouseVisible = true;
+
 
             //platformPos = new Rectangle(rand.Next(0, 400 - PLAT_W), rand.Next(200, 400 - PLAT_H), PLAT_W, PLAT_H);
 
@@ -106,7 +109,10 @@ namespace Plaper {
         protected override void Update(GameTime gameTime) {
 
             //exit if back or esc is pressed
-            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) {
+            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) {
+                Exit();
+            }
+            if(Keyboard.GetState().IsKeyDown(Keys.LeftAlt) && Keyboard.GetState().IsKeyDown(Keys.F4)) {
                 Exit();
             }
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,17 +13,23 @@ namespace Plaper {
     class GameState : State {
 
         Player player;
+        GraphicsDeviceManager graphics;
 
         //ctor
-        public GameState(Player player) {
+        public GameState(Player player, GraphicsDeviceManager graphics) {
             this.player = player;
+            this.graphics = graphics;
         }
 
         //update for game logic
         public override void Update(GameTime gameTime) {
 
             player.Update(gameTime);
-        
+
+            if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
+                State.setState(new MenuState(player, graphics));
+            }
+
         }
 
         //update graphics
