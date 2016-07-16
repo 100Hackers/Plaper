@@ -10,47 +10,45 @@ using System.Threading.Tasks;
 namespace Plaper {
 
     //game state class
-    class MenuState : State {
+    class SettingsState : State {
 
         Player player;
         GraphicsDeviceManager graphics;
 
-        Rectangle settingsButtonPosition;
+        Rectangle backButtonPosition;
         Texture2D menuButtonTexture;
-        Rectangle startButtonPosition;
+        //Rectangle startButtonPosition;
 
         //ctor
-        public MenuState(Player player, GraphicsDeviceManager graphics) {
+        public SettingsState(Player player, GraphicsDeviceManager graphics) {
             this.player = player;
             this.graphics = graphics;
 
             //stuff for button texture
             menuButtonTexture = new Texture2D(graphics.GraphicsDevice, 20, 10);
-            Color[] startTextureData = new Color[20*10];
-            for (int i = 0; i < startTextureData.Length; i++) {
+            Color[] startTextureData = new Color[20 * 10];
+            for(int i = 0; i < startTextureData.Length; i++) {
                 startTextureData[i] = Color.Chocolate;
             }
             menuButtonTexture.SetData(startTextureData);
 
             //setting where the buttons will be
-            settingsButtonPosition = new Rectangle(0, Game1.SCREEN_HEIGHT-(Game1.SCREEN_HEIGHT/10)-Game1.SCREEN_HEIGHT/5, Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT/5);
-            startButtonPosition = new Rectangle(0, settingsButtonPosition.Y-settingsButtonPosition.Height-(Game1.SCREEN_HEIGHT/10), Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT/5);
+            backButtonPosition = new Rectangle(0, Game1.SCREEN_HEIGHT - (Game1.SCREEN_HEIGHT / 10) - Game1.SCREEN_HEIGHT / 5, Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT / 5);
+            //startButtonPosition = new Rectangle(0, settingsButtonPosition.Y - settingsButtonPosition.Height - (Game1.SCREEN_HEIGHT / 10), Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT / 5);
         }
 
         //update for game logic
         public override void Update(GameTime gameTime) {
 
             //check where mouse is and do stuff if it's clicked
+            if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
+                State.setState(new MenuState(player, graphics));
+            }
             var mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
             if(mouseState.LeftButton == ButtonState.Pressed) {
-                if(startButtonPosition.Contains(mousePosition)) {
-                    State.setState(new GameState(player, graphics));
-                }
-            }
-            if(mouseState.LeftButton == ButtonState.Pressed) {
-                if(settingsButtonPosition.Contains(mousePosition)) {
-                    State.setState(new SettingsState(player, graphics));
+                if(backButtonPosition.Contains(mousePosition)) {
+                    State.setState(new MenuState(player, graphics));
                 }
             }
         }
@@ -60,11 +58,8 @@ namespace Plaper {
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
-            //start button
-            spriteBatch.Draw(menuButtonTexture, startButtonPosition, Color.White);
-
-            //settings button
-            spriteBatch.Draw(menuButtonTexture, settingsButtonPosition, Color.White);
+            //back button
+            spriteBatch.Draw(menuButtonTexture, backButtonPosition, Color.White);
 
             spriteBatch.End();
 
