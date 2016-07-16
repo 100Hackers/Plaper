@@ -12,17 +12,17 @@ namespace Plaper {
     //game state class
     class MenuState : State {
 
-        Player player;
         GraphicsDeviceManager graphics;
+        Game1 game;
 
         Rectangle settingsButtonPosition;
         Texture2D menuButtonTexture;
         Rectangle startButtonPosition;
 
         //ctor
-        public MenuState(Player player, GraphicsDeviceManager graphics) {
-            this.player = player;
+        public MenuState(GraphicsDeviceManager graphics, Game1 game) {
             this.graphics = graphics;
+            this.game = game;
 
             //stuff for button texture
             menuButtonTexture = new Texture2D(graphics.GraphicsDevice, 20, 10);
@@ -45,12 +45,12 @@ namespace Plaper {
             var mousePosition = new Point(mouseState.X, mouseState.Y);
             if(mouseState.LeftButton == ButtonState.Pressed) {
                 if(startButtonPosition.Contains(mousePosition)) {
-                    State.setState(new GameState(player, graphics));
+                    State.setState(new GameState(graphics, game));
                 }
             }
             if(mouseState.LeftButton == ButtonState.Pressed) {
                 if(settingsButtonPosition.Contains(mousePosition)) {
-                    State.setState(new SettingsState(player, graphics));
+                    State.setState(new SettingsState(graphics, game));
                 }
             }
         }
