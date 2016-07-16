@@ -8,26 +8,33 @@ namespace Plaper {
     /// This is the main type for your game.
     /// </summary>
     public class Game1 : Game {
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        const int SCREEN_WIDTH = 400;
-        const int SCREEN_HEIGHT = 600;
+        //resolution
+        public const int SCREEN_WIDTH = 400;
+        public const int SCREEN_HEIGHT = 600;
 
+        //unused
         Texture2D platform;
         Rectangle platformPos;
+
         const double PLAT_SCALE = 0.5;
         const int PLAT_H = (int) (50 * PLAT_SCALE);
         const int PLAT_W = (int) (500 * PLAT_SCALE);
 
         Rectangle screenRectangle;
 
+        //used for generating platform
         Random rand = new Random();
 
         Player player;
 
+        State currentState;
 
         public Game1() {
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
@@ -39,6 +46,7 @@ namespace Plaper {
             // unrestricted framerate
             //this.IsFixedTimeStep = false;
             //this.graphics.SynchronizeWithVerticalRetrace = false;
+
         }
 
         /// <summary>
@@ -48,9 +56,18 @@ namespace Plaper {
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize() {
-            // TODO: Add your initialization logic here
 
             base.Initialize();
+
+            //create state and pass player object
+            currentState = new MenuState(player, graphics);
+            //set state to game
+            State.setState(currentState);
+
+            this.IsMouseVisible = true;
+
+
+            //platformPos = new Rectangle(rand.Next(0, 400 - PLAT_W), rand.Next(200, 400 - PLAT_H), PLAT_W, PLAT_H);
         }
 
         /// <summary>
@@ -58,19 +75,21 @@ namespace Plaper {
         /// all of your content.
         /// </summary>
         protected override void LoadContent() {
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-
+            //arrow
             Texture2D arrow  = Content.Load<Texture2D>("arrow");
             Texture2D arrowFill = Content.Load<Texture2D>("arrow_fill");
 
+            //player
             Texture2D sprite = Content.Load<Texture2D>("blocky_all");
-
             player = new Player(sprite, arrow, arrowFill, screenRectangle);
 
+            //platform
             platform = Content.Load<Texture2D>("platform");
+
         }
 
         /// <summary>
@@ -87,13 +106,19 @@ namespace Plaper {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+
+            //exit if back or esc is pressed
+            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) {
                 Exit();
+            }
+            if(Keyboard.GetState().IsKeyDown(Keys.LeftAlt) && Keyboard.GetState().IsKeyDown(Keys.F4)) {
+                Exit();
+            }
 
-            player.Update(gameTime);
-
-
-            // TODO: Add your update logic here
+            //check that state is initalized then call current state's update
+            if(State.getState() != null) {
+                State.getState().Update(gameTime);
+            }
 
             base.Update(gameTime);
         }
@@ -103,18 +128,16 @@ namespace Plaper {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            Window.Title = (1 / gameTime.ElapsedGameTime.TotalSeconds).ToString();
+            //check that state is initalized then call current state's draw
+            if(State.getState() != null) {
+                State.getState().Draw(spriteBatch);
+            }
 
-            // TODO: Add your drawing code here
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-
-            player.Draw(spriteBatch);
-            //spriteBatch.Draw(platform, platformPos, Color.White);
-
-            spriteBatch.End();
+            //display framerate in title bar
+            Window.Title = "Plaper - " + Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 2).ToString() + " FPS";
 
             base.Draw(gameTime);
         }
