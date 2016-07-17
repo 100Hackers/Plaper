@@ -15,13 +15,26 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         Game1 game;
 
-        Rectangle settingsButtonPosition;
         Texture2D menuButtonTexture;
+        SpriteFont font;
+        bool      mouseOverStart;
+        bool      mouseOverSettings;
+        Rectangle settingsButtonPosition;
         Rectangle startButtonPosition;
+        const string START_TEXT = "START";
+        const string SETTINGS_TEXT = "SETTINGS";
+        Vector2 startTextPosition;
+        Vector2 settingsTextPosition;
+
+        const  float TEXT_SCALE  = 2.5f;
+        static Color HOVER_COLOR = Color.White;
+        static Color TEXT_COLOR  = Color.Black;
+
 
         //ctor
         public MenuState(GraphicsDeviceManager graphics, Game1 game) {
             this.graphics = graphics;
+            this.font = Game1.font36;
             this.game = game;
 
             //stuff for button texture
@@ -35,6 +48,14 @@ namespace Plaper {
             //setting where the buttons will be
             settingsButtonPosition = new Rectangle(0, Game1.SCREEN_HEIGHT-(Game1.SCREEN_HEIGHT/10)-Game1.SCREEN_HEIGHT/5, Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT/5);
             startButtonPosition = new Rectangle(0, settingsButtonPosition.Y-settingsButtonPosition.Height-(Game1.SCREEN_HEIGHT/10), Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT/5);
+
+            Vector2 startTextSize = this.font.MeasureString(START_TEXT);
+            startTextPosition.Y = (startButtonPosition.Height - startTextSize.Y) / 2 + startButtonPosition.Y;
+            startTextPosition.X = (startButtonPosition.Width  - startTextSize.X) / 2 + startButtonPosition.X;
+
+            Vector2 settingsTextSize = this.font.MeasureString(SETTINGS_TEXT);
+            settingsTextPosition.Y = (settingsButtonPosition.Height - settingsTextSize.Y) / 2 + settingsButtonPosition.Y;
+            settingsTextPosition.X = (settingsButtonPosition.Width  - settingsTextSize.X) / 2 + settingsButtonPosition.X;
         }
 
         //update for game logic
@@ -43,13 +64,14 @@ namespace Plaper {
             //check where mouse is and do stuff if it's clicked
             var mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
+
+            mouseOverStart    = startButtonPosition.Contains(mousePosition);
+            mouseOverSettings = settingsButtonPosition.Contains(mousePosition);
+
             if(mouseState.LeftButton == ButtonState.Pressed) {
-                if(startButtonPosition.Contains(mousePosition)) {
+                if(mouseOverStart) {
                     State.setState(new GameState(graphics, game));
-                }
-            }
-            if(mouseState.LeftButton == ButtonState.Pressed) {
-                if(settingsButtonPosition.Contains(mousePosition)) {
+                } else if (mouseOverSettings) {
                     State.setState(new SettingsState(graphics, game));
                 }
             }
@@ -65,6 +87,9 @@ namespace Plaper {
 
             //settings button
             spriteBatch.Draw(menuButtonTexture, settingsButtonPosition, Color.White);
+
+            spriteBatch.DrawString(font, START_TEXT, startTextPosition, mouseOverStart ? HOVER_COLOR : TEXT_COLOR);
+            spriteBatch.DrawString(font, SETTINGS_TEXT, settingsTextPosition, mouseOverSettings ? HOVER_COLOR : TEXT_COLOR);
 
             spriteBatch.End();
 
