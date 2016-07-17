@@ -20,11 +20,15 @@ namespace Plaper {
         Texture2D platform;
         Rectangle platformPos;
 
+        Texture2D sprite;
+        Texture2D arrow;
+        Texture2D arrowFill;
+
         const double PLAT_SCALE = 0.5;
         const int PLAT_H = (int) (50 * PLAT_SCALE);
         const int PLAT_W = (int) (500 * PLAT_SCALE);
 
-        Rectangle screenRectangle;
+        
 
         //used for generating platform
         Random rand = new Random();
@@ -41,12 +45,24 @@ namespace Plaper {
             graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
             graphics.PreferredBackBufferWidth = SCREEN_WIDTH;
 
-            screenRectangle = new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            
 
             // unrestricted framerate
             //this.IsFixedTimeStep = false;
             //this.graphics.SynchronizeWithVerticalRetrace = false;
 
+        }
+
+        public Texture2D Sprite {
+            get { return sprite; }
+        }
+
+        public Texture2D Arrow {
+            get { return arrow; }
+        }
+
+        public Texture2D ArrowFill {
+            get { return arrowFill; }
         }
 
         /// <summary>
@@ -60,7 +76,7 @@ namespace Plaper {
             base.Initialize();
 
             //create state and pass player object
-            currentState = new MenuState(player, graphics);
+            currentState = new MenuState(graphics, this);
             //set state to game
             State.setState(currentState);
 
@@ -80,12 +96,11 @@ namespace Plaper {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //arrow
-            Texture2D arrow  = Content.Load<Texture2D>("arrow");
-            Texture2D arrowFill = Content.Load<Texture2D>("arrow_fill");
+            arrow  = Content.Load<Texture2D>("arrow");
+            arrowFill = Content.Load<Texture2D>("arrow_fill");
 
             //player
-            Texture2D sprite = Content.Load<Texture2D>("blocky_all");
-            player = new Player(sprite, arrow, arrowFill, screenRectangle);
+            sprite = Content.Load<Texture2D>("blocky_all");
 
             //platform
             platform = Content.Load<Texture2D>("platform");

@@ -12,17 +12,17 @@ namespace Plaper {
     //game state class
     class SettingsState : State {
 
-        Player player;
         GraphicsDeviceManager graphics;
+        Game1 game;
 
         Rectangle backButtonPosition;
         Texture2D menuButtonTexture;
         //Rectangle startButtonPosition;
 
         //ctor
-        public SettingsState(Player player, GraphicsDeviceManager graphics) {
-            this.player = player;
+        public SettingsState(GraphicsDeviceManager graphics, Game1 game) {
             this.graphics = graphics;
+            this.game = game;
 
             //stuff for button texture
             menuButtonTexture = new Texture2D(graphics.GraphicsDevice, 20, 10);
@@ -42,13 +42,13 @@ namespace Plaper {
 
             //check where mouse is and do stuff if it's clicked
             if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
-                State.setState(new MenuState(player, graphics));
+                State.setState(new MenuState(graphics, game));
             }
             var mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
             if(mouseState.LeftButton == ButtonState.Pressed) {
                 if(backButtonPosition.Contains(mousePosition)) {
-                    State.setState(new MenuState(player, graphics));
+                    State.setState(new MenuState(graphics, game));
                 }
             }
         }
