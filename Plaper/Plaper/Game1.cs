@@ -81,7 +81,7 @@ namespace Plaper {
             base.Initialize();
 
             //create state and pass player object
-            currentState = new MenuState(graphics, Game1.font, this);
+            currentState = new MenuState(graphics, this);
             //set state to game
             State.setState(currentState);
 

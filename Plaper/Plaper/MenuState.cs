@@ -32,9 +32,9 @@ namespace Plaper {
 
 
         //ctor
-        public MenuState(GraphicsDeviceManager graphics, SpriteFont font, Game1 game) {
+        public MenuState(GraphicsDeviceManager graphics, Game1 game) {
             this.graphics = graphics;
-            this.font = font;
+            this.font = Game1.font36;
             this.game = game;
 
             //stuff for button texture
