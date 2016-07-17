@@ -33,6 +33,8 @@ namespace Plaper {
 
         State currentState;
 
+        public static SpriteFont font;
+
         public Game1() {
 
             graphics = new GraphicsDeviceManager(this);
@@ -90,6 +92,7 @@ namespace Plaper {
             //platform
             platform = Content.Load<Texture2D>("platform");
 
+            font = Content.Load<SpriteFont>("joystik");
         }
 
         /// <summary>

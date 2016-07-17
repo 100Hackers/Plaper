@@ -66,6 +66,8 @@ namespace Plaper {
             //settings button
             spriteBatch.Draw(menuButtonTexture, settingsButtonPosition, Color.White);
 
+            spriteBatch.DrawString(Game1.font, "test", new Vector2(200, 200), Color.Black);
+
             spriteBatch.End();
 
         }
