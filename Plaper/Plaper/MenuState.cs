@@ -15,14 +15,19 @@ namespace Plaper {
         Player player;
         GraphicsDeviceManager graphics;
 
-        Rectangle settingsButtonPosition;
         Texture2D menuButtonTexture;
+        bool      mouseOverStart;
+        bool      mouseOverSettings;
+        Rectangle settingsButtonPosition;
         Rectangle startButtonPosition;
-
         const string START_TEXT = "START";
-        Vector2 startTextPosition;
         const string SETTINGS_TEXT = "SETTINGS";
+        Vector2 startTextPosition;
         Vector2 settingsTextPosition;
+
+        static Color HOVER_COLOR = Color.White;
+        static Color TEXT_COLOR  = Color.Black;
+
 
         //ctor
         public MenuState(Player player, GraphicsDeviceManager graphics) {
@@ -56,13 +61,14 @@ namespace Plaper {
             //check where mouse is and do stuff if it's clicked
             var mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
+
+            mouseOverStart    = startButtonPosition.Contains(mousePosition);
+            mouseOverSettings = settingsButtonPosition.Contains(mousePosition);
+
             if(mouseState.LeftButton == ButtonState.Pressed) {
-                if(startButtonPosition.Contains(mousePosition)) {
+                if(mouseOverStart) {
                     State.setState(new GameState(player, graphics));
-                }
-            }
-            if(mouseState.LeftButton == ButtonState.Pressed) {
-                if(settingsButtonPosition.Contains(mousePosition)) {
+                } else if (mouseOverSettings) {
                     State.setState(new SettingsState(player, graphics));
                 }
             }
@@ -79,9 +85,9 @@ namespace Plaper {
             //settings button
             spriteBatch.Draw(menuButtonTexture, settingsButtonPosition, Color.White);
 
-            spriteBatch.DrawString(Game1.font, START_TEXT, startTextPosition, Color.Black);
+            spriteBatch.DrawString(Game1.font, START_TEXT, startTextPosition, mouseOverStart ? HOVER_COLOR : TEXT_COLOR);
             
-            spriteBatch.DrawString(Game1.font, SETTINGS_TEXT, settingsTextPosition, Color.Black);
+            spriteBatch.DrawString(Game1.font, SETTINGS_TEXT, settingsTextPosition, mouseOverSettings ? HOVER_COLOR : TEXT_COLOR);
 
             spriteBatch.End();
 
