@@ -19,6 +19,11 @@ namespace Plaper {
         Texture2D menuButtonTexture;
         Rectangle startButtonPosition;
 
+        const string START_TEXT = "START";
+        Vector2 startTextPosition;
+        const string SETTINGS_TEXT = "SETTINGS";
+        Vector2 settingsTextPosition;
+
         //ctor
         public MenuState(Player player, GraphicsDeviceManager graphics) {
             this.player = player;
@@ -35,6 +40,14 @@ namespace Plaper {
             //setting where the buttons will be
             settingsButtonPosition = new Rectangle(0, Game1.SCREEN_HEIGHT-(Game1.SCREEN_HEIGHT/10)-Game1.SCREEN_HEIGHT/5, Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT/5);
             startButtonPosition = new Rectangle(0, settingsButtonPosition.Y-settingsButtonPosition.Height-(Game1.SCREEN_HEIGHT/10), Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT/5);
+
+            Vector2 startTextSize = Game1.font.MeasureString(START_TEXT);
+            startTextPosition.Y = (startButtonPosition.Height - startTextSize.Y) / 2 + startButtonPosition.Y;
+            startTextPosition.X = (startButtonPosition.Width  - startTextSize.X) / 2 + startButtonPosition.X;
+
+            Vector2 settingsTextSize = Game1.font.MeasureString(START_TEXT);
+            settingsTextPosition.Y = (settingsButtonPosition.Height - settingsTextSize.Y) / 2 + settingsButtonPosition.Y;
+            settingsTextPosition.X = (settingsButtonPosition.Width  - settingsTextSize.X) / 2 + settingsButtonPosition.X;
         }
 
         //update for game logic
@@ -66,7 +79,9 @@ namespace Plaper {
             //settings button
             spriteBatch.Draw(menuButtonTexture, settingsButtonPosition, Color.White);
 
-            spriteBatch.DrawString(Game1.font, "test", new Vector2(200, 200), Color.Black);
+            spriteBatch.DrawString(Game1.font, START_TEXT, startTextPosition, Color.Black);
+            
+            spriteBatch.DrawString(Game1.font, SETTINGS_TEXT, settingsTextPosition, Color.Black);
 
             spriteBatch.End();
 
