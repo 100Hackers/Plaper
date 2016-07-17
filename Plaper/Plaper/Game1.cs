@@ -34,6 +34,9 @@ namespace Plaper {
         State currentState;
 
         public static SpriteFont font;
+        public static SpriteFont font12;
+        public static SpriteFont font24;
+        public static SpriteFont font36;
 
         public Game1() {
 
@@ -62,7 +65,7 @@ namespace Plaper {
             base.Initialize();
 
             //create state and pass player object
-            currentState = new MenuState(player, graphics);
+            currentState = new MenuState(player, Game1.font, graphics);
             //set state to game
             State.setState(currentState);
 
@@ -92,7 +95,11 @@ namespace Plaper {
             //platform
             platform = Content.Load<Texture2D>("platform");
 
-            font = Content.Load<SpriteFont>("joystik");
+            font12 = Content.Load<SpriteFont>("joystik");
+            font24 = Content.Load<SpriteFont>("joystik24");
+            font36 = Content.Load<SpriteFont>("joystik36");
+
+            font = font24;
         }
 
         /// <summary>

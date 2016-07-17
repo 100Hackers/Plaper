@@ -42,13 +42,13 @@ namespace Plaper {
 
             //check where mouse is and do stuff if it's clicked
             if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
-                State.setState(new MenuState(player, graphics));
+                State.setState(new MenuState(player, Game1.font, graphics));
             }
             var mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
             if(mouseState.LeftButton == ButtonState.Pressed) {
                 if(backButtonPosition.Contains(mousePosition)) {
-                    State.setState(new MenuState(player, graphics));
+                    State.setState(new MenuState(player, Game1.font, graphics));
                 }
             }
         }

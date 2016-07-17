@@ -16,6 +16,7 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
 
         Texture2D menuButtonTexture;
+        SpriteFont font;
         bool      mouseOverStart;
         bool      mouseOverSettings;
         Rectangle settingsButtonPosition;
@@ -25,13 +26,15 @@ namespace Plaper {
         Vector2 startTextPosition;
         Vector2 settingsTextPosition;
 
+        const  float TEXT_SCALE  = 2.5f;
         static Color HOVER_COLOR = Color.White;
         static Color TEXT_COLOR  = Color.Black;
 
 
         //ctor
-        public MenuState(Player player, GraphicsDeviceManager graphics) {
+        public MenuState(Player player, SpriteFont font, GraphicsDeviceManager graphics) {
             this.player = player;
+            this.font = font;
             this.graphics = graphics;
 
             //stuff for button texture
@@ -46,11 +49,11 @@ namespace Plaper {
             settingsButtonPosition = new Rectangle(0, Game1.SCREEN_HEIGHT-(Game1.SCREEN_HEIGHT/10)-Game1.SCREEN_HEIGHT/5, Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT/5);
             startButtonPosition = new Rectangle(0, settingsButtonPosition.Y-settingsButtonPosition.Height-(Game1.SCREEN_HEIGHT/10), Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT/5);
 
-            Vector2 startTextSize = Game1.font.MeasureString(START_TEXT);
+            Vector2 startTextSize = this.font.MeasureString(START_TEXT);
             startTextPosition.Y = (startButtonPosition.Height - startTextSize.Y) / 2 + startButtonPosition.Y;
             startTextPosition.X = (startButtonPosition.Width  - startTextSize.X) / 2 + startButtonPosition.X;
 
-            Vector2 settingsTextSize = Game1.font.MeasureString(START_TEXT);
+            Vector2 settingsTextSize = this.font.MeasureString(SETTINGS_TEXT);
             settingsTextPosition.Y = (settingsButtonPosition.Height - settingsTextSize.Y) / 2 + settingsButtonPosition.Y;
             settingsTextPosition.X = (settingsButtonPosition.Width  - settingsTextSize.X) / 2 + settingsButtonPosition.X;
         }
@@ -85,9 +88,8 @@ namespace Plaper {
             //settings button
             spriteBatch.Draw(menuButtonTexture, settingsButtonPosition, Color.White);
 
-            spriteBatch.DrawString(Game1.font, START_TEXT, startTextPosition, mouseOverStart ? HOVER_COLOR : TEXT_COLOR);
-            
-            spriteBatch.DrawString(Game1.font, SETTINGS_TEXT, settingsTextPosition, mouseOverSettings ? HOVER_COLOR : TEXT_COLOR);
+            spriteBatch.DrawString(font, START_TEXT, startTextPosition, mouseOverStart ? HOVER_COLOR : TEXT_COLOR);
+            spriteBatch.DrawString(font, SETTINGS_TEXT, settingsTextPosition, mouseOverSettings ? HOVER_COLOR : TEXT_COLOR);
 
             spriteBatch.End();
 

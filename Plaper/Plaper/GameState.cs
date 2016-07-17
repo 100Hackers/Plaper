@@ -27,7 +27,7 @@ namespace Plaper {
             player.Update(gameTime);
 
             if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
-                State.setState(new MenuState(player, graphics));
+                State.setState(new MenuState(player, Game1.font, graphics));
             }
 
         }
