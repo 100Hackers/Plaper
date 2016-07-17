@@ -97,3 +97,21 @@
 /processorParam:TextureFormat=Color
 /build:platform.png
 
+#begin joystik.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:joystik.spritefont
+
+#begin joystik24.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:joystik24.spritefont
+
+#begin joystik36.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:joystik36.spritefont
+
