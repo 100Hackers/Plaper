@@ -12,8 +12,8 @@ namespace Plaper {
     //game state class
     class MenuState : State {
 
-        Player player;
         GraphicsDeviceManager graphics;
+        Game1 game;
 
         Texture2D menuButtonTexture;
         SpriteFont font;
@@ -32,10 +32,10 @@ namespace Plaper {
 
 
         //ctor
-        public MenuState(Player player, SpriteFont font, GraphicsDeviceManager graphics) {
-            this.player = player;
-            this.font = font;
+        public MenuState(GraphicsDeviceManager graphics, SpriteFont font, Game1 game) {
             this.graphics = graphics;
+            this.font = font;
+            this.game = game;
 
             //stuff for button texture
             menuButtonTexture = new Texture2D(graphics.GraphicsDevice, 20, 10);
@@ -70,9 +70,9 @@ namespace Plaper {
 
             if(mouseState.LeftButton == ButtonState.Pressed) {
                 if(mouseOverStart) {
-                    State.setState(new GameState(player, graphics));
+                    State.setState(new GameState(graphics, game));
                 } else if (mouseOverSettings) {
-                    State.setState(new SettingsState(player, graphics));
+                    State.setState(new SettingsState(graphics, game));
                 }
             }
         }

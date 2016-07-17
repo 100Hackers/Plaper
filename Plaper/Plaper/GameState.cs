@@ -12,13 +12,19 @@ namespace Plaper {
     //game state class
     class GameState : State {
 
-        Player player;
         GraphicsDeviceManager graphics;
+        Game1 game;
+
+        Player player;
+
+        Rectangle screenRectangle;
 
         //ctor
-        public GameState(Player player, GraphicsDeviceManager graphics) {
-            this.player = player;
+        public GameState(GraphicsDeviceManager graphics, Game1 game) {
             this.graphics = graphics;
+            this.game = game;
+            screenRectangle = new Rectangle(0, 0, Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT);
+            player = new Player(game.Sprite, game.Arrow, game.ArrowFill, screenRectangle);
         }
 
         //update for game logic
@@ -27,7 +33,7 @@ namespace Plaper {
             player.Update(gameTime);
 
             if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
-                State.setState(new MenuState(player, Game1.font, graphics));
+                State.setState(new MenuState(graphics, Game1.font, game));
             }
 
         }
