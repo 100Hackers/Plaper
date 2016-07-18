@@ -10,37 +10,37 @@ using System.Threading.Tasks;
 namespace Plaper {
     class Player {
 
-        private enum States { Standing, Power, Jumping};
+        private enum States { Standing, Power, Jumping }; // Possible states Player can be in
+        private States state; // Current state
 
-        private States state;
+        const double PI = Math.PI;  // Too lazy to keep typing Math.PI
+        const int GRAVITY = 400;    // Subtracted from velocity.X
+        const int JUMP_SPEED = 11;  // Initial upwards velocity.Y
 
-        const double PI = Math.PI;
-        const int GRAVITY = 400;
-        const int JUMP_SPEED = 11;
-
-        const double SCALE = 3.0;
+        const double SCALE = 3.0;   // How much to scale player sprite by
         const int HEIGHT = (int) (17 * SCALE);
         const int WIDTH  = (int) (14 * SCALE);
 
-        Vector2 position;
+        Vector2 position;   // Position and velocity of player
         Vector2 velocity;
 
-        KeyboardState keyboardState;
+        KeyboardState keyboardState; // Current state of keyboard, and state from last update
         KeyboardState lastState;
 
-        Texture2D sprite;
+        Texture2D sprite; // Player texture
 
-        Rectangle screenBounds;
+        Rectangle screenBounds; 
 
-        double arrowAngle;
-        bool   arrowGoingLeft;
-        Texture2D arrowTexture;
-        Texture2D arrowFill;
-        double arrowPower;
-        bool   powerInc;
-        const int ARROW_HEIGHT = 64;
+        double arrowAngle;      // Used for current angle of the arrow
+        bool   arrowGoingLeft;  // Controls direction of arrow
+        Texture2D arrowTexture; // Outline of arrow
+        Texture2D arrowFill;    // Fills in arrow
+        double arrowPower;      // Used for current arrow power
+        bool   powerInc;        // Controls whether power increasing or decreasing
+
+        const int ARROW_HEIGHT = 64;    // Arrow constants
         const int ARROW_WIDTH  = 32;
-        const int ARROW_PADING = 90;
+        const int ARROW_PADING = 90;    // Distance from player's head
         const int ARROW_SPEED  = 3;
         const double ARROW_BOUND_UPPER = PI / 2;
         const double ARROW_BOUND_LOWER = -PI / 2;
@@ -51,29 +51,31 @@ namespace Plaper {
             this.arrowTexture = arrowTexture;
             this.screenBounds = screenBounds;
 
+            // Initial conditions of the game
             state = States.Standing;
             arrowAngle = 0.0;
             arrowPower = ARROW_HEIGHT;
             arrowGoingLeft = false;
+            SetInStartPosition();
 
             lastState = Keyboard.GetState();
-
-            SetInStartPosition();
         }
 
         public void Update(GameTime gameTime) {
+            // time since Update was last called
             double elapsedSeconds = gameTime.ElapsedGameTime.TotalSeconds;
 
+            // See which state we are in
             switch (state) {
                 case States.Standing:
 
                     keyboardState = Keyboard.GetState();
 
-                    // rotate arrow
+                    // Rotate arrow
                     double arrowDelta = elapsedSeconds * ARROW_SPEED;
                     arrowAngle += arrowGoingLeft ? -arrowDelta : arrowDelta;
 
-                    // check bounds
+                    // Check arrow bounds
                     if (arrowAngle < ARROW_BOUND_LOWER || ARROW_BOUND_UPPER < arrowAngle) {
                         // limit to bounds
                         arrowAngle = arrowGoingLeft ? ARROW_BOUND_LOWER : ARROW_BOUND_UPPER;
@@ -81,12 +83,9 @@ namespace Plaper {
                         arrowGoingLeft = !arrowGoingLeft;
                     }
 
-                    // jump if space is hit; make sure it has been released since last jump
+                    // Move to Power state to get jump power if space is pressed
                     bool spacePressed  = keyboardState.IsKeyDown(Keys.Space);
-                    //bool spaceReleased = !lastState.IsKeyDown(Keys.Space);
-
                     if (spacePressed) {
-                        //arrowPower = 0.0;
                         powerInc = true;
                         state = States.Power;
                     }
@@ -96,37 +95,39 @@ namespace Plaper {
 
                 case States.Power:
                     bool spaceReleased = !Keyboard.GetState().IsKeyDown(Keys.Space);
+                    
+                    // Move power up and down
+                    arrowPower = arrowPower + elapsedSeconds * (powerInc ? -100 : 100);
 
-                    if (powerInc) {
-                        arrowPower -= elapsedSeconds * 100;// / 100;
-                    } else {
-                        arrowPower += elapsedSeconds * 100;
-                    }
-
+                    // Check power bounds (full and empty)
                     if (arrowPower < 0 || ARROW_HEIGHT < arrowPower) {
+                        arrowPower = powerInc ? 0 : ARROW_HEIGHT;
                         powerInc = !powerInc;
                     }
 
+                    // Jump once space is released and move to Jumping state
                     if (spaceReleased) {
                         velocity.Y = (float) (Math.Cos(arrowAngle)  * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
                         velocity.X = (float) (Math.Sin(-arrowAngle) * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
                         arrowPower = ARROW_HEIGHT;
                         state = States.Jumping;
                     }
-
-
                     break;
 
                 case States.Jumping:
+                    // Subtract Gravity from vertical velocity and add velocity to position
                     velocity.Y -= (float) (elapsedSeconds * GRAVITY);
                     position.Y -= (float) (elapsedSeconds * velocity.Y);
 
+                    // Check for wall colissions for add horizontal velocity to position
                     if (position.X < 0 || screenBounds.Width < position.X + WIDTH) {
                         velocity.X = -velocity.X;
                         position.X = position.X < 0 ? 0f : screenBounds.Width - WIDTH;
                     }
                     position.X -= (float) (elapsedSeconds * velocity.X);
 
+                    // Check for player hitting the bottom of the screen
+                    // If so, go back to Standing state and reset arrow
                     if (position.Y + HEIGHT > screenBounds.Height) {
                         position.Y = screenBounds.Height - HEIGHT;
                         velocity = Vector2.Zero;
@@ -136,14 +137,11 @@ namespace Plaper {
 
                         state = States.Standing;
                     }
-
                     break;
             }
-
-            
-
         }
 
+        // Put player around middle of the screen
         public void SetInStartPosition() {
             position.X = screenBounds.Width / 2;
             position.Y = screenBounds.Height - HEIGHT;
@@ -155,6 +153,7 @@ namespace Plaper {
 
             Rectangle spriteRect = new Rectangle(14, 0, 14, 17);
 
+            // Player direction
             if (velocity.X > 0.0) {
                 spriteRect.X = 0;
             } else if (velocity.X < 0.0) {
@@ -165,17 +164,33 @@ namespace Plaper {
 
             spriteBatch.Draw(sprite, posRect, spriteRect, Color.White);
 
-            //draw arrow
+            // Draw arrow if the player is still on the ground
             if (state == States.Standing || state == States.Power) {
+
+                // Arrow Fill
+                // Gross math to get the position of where the arrow should be
                 var arrowRect = new Rectangle();
-                arrowRect.X = (int)((ARROW_PADING - arrowPower) * Math.Cos(arrowAngle - PI / 2) + position.X + WIDTH / 2 - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
-                arrowRect.Y = (int)((ARROW_PADING - arrowPower) * Math.Sin(arrowAngle - PI / 2) + position.Y + 5*SCALE - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
+                arrowRect.X = (int)((ARROW_PADING - arrowPower) * Math.Cos(arrowAngle - PI / 2) + position.X + WIDTH / 2 
+                                        - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
+
+                arrowRect.Y = (int)((ARROW_PADING - arrowPower) * Math.Sin(arrowAngle - PI / 2) + position.Y + 5*SCALE
+                                        - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
+
                 arrowRect.Height = ARROW_HEIGHT - (int) arrowPower;
                 arrowRect.Width = ARROW_WIDTH;
 
-                spriteBatch.Draw(arrowFill, arrowRect, new Rectangle(0, (int) arrowPower, ARROW_WIDTH, ARROW_HEIGHT-(int)arrowPower), Color.White, (float)arrowAngle, Vector2.Zero, SpriteEffects.None, 0);
-                arrowRect.X = (int)(ARROW_PADING * Math.Cos(arrowAngle - PI / 2) + position.X + WIDTH / 2 - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
-                arrowRect.Y = (int)(ARROW_PADING * Math.Sin(arrowAngle - PI / 2) + position.Y + 5*SCALE - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
+                spriteBatch.Draw(arrowFill, arrowRect, new Rectangle(0, (int) arrowPower, ARROW_WIDTH, ARROW_HEIGHT-(int)arrowPower),
+                                    Color.White, (float)arrowAngle, Vector2.Zero, SpriteEffects.None, 0);
+
+
+                // Arrow Outline
+                // More gross math, yet somehow beautiful at the same time. I </3 trig.
+                arrowRect.X = (int)(ARROW_PADING * Math.Cos(arrowAngle - PI / 2) + position.X + WIDTH / 2 
+                                    - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
+
+                arrowRect.Y = (int)(ARROW_PADING * Math.Sin(arrowAngle - PI / 2) + position.Y + 5*SCALE 
+                                    - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
+
                 arrowRect.Height = ARROW_HEIGHT;
                 spriteBatch.Draw(arrowTexture, arrowRect, null, Color.White, (float)arrowAngle, Vector2.Zero, SpriteEffects.None, 0);
             }
