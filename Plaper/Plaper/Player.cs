@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Plaper {
     class Player {
 
-        private enum States { Standing, Power, Jumping};
+        private enum States { Standing, Power, Jumping };
 
         private States state;
 
@@ -31,6 +31,14 @@ namespace Plaper {
         Texture2D sprite;
 
         Rectangle screenBounds;
+
+        public Rectangle posRect
+        {
+            get
+            {
+                return new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
+            }
+        }
 
         double arrowAngle;
         bool   arrowGoingLeft;
@@ -61,7 +69,7 @@ namespace Plaper {
             SetInStartPosition();
         }
 
-        public void Update(GameTime gameTime) {
+        public void Update(GameTime gameTime, Platform platform) {
             double elapsedSeconds = gameTime.ElapsedGameTime.TotalSeconds;
 
             switch (state) {
@@ -140,8 +148,34 @@ namespace Plaper {
                     break;
             }
 
-            
+            //Platform collision detection
+            if (posRect.Intersects(platform.BoundingBox) && state != States.Standing)
+            {
+                //If character is above platform and falling when he collides, sets conditions for landing on platform
+                if (position.Y < platform.Pos.Y)
+                {
+                    if (velocity.Y < 0)
+                    {
+                        velocity = Vector2.Zero;
+                        position.Y = platform.Pos.Y - HEIGHT;
+                        state = States.Standing;
+                    }
+                }
+                //If character is below platform and rising when he collides, sets conditions for falling back down and bounding off of platform
+                else if (position.Y + HEIGHT > platform.Pos.Y + platform.Tex.Height)
+                {
+                    if (velocity.Y > 0)
+                    {
+                        velocity.Y *= -1;
+                    }
+                }
 
+                //If character hits side of platform, reverses horizontal travel direction
+                if (position.X < platform.Pos.X || position.X + WIDTH > platform.Pos.X + platform.Tex.Width)
+                {
+                    velocity.X *= -1;
+                }
+            }
         }
 
         public void SetInStartPosition() {
@@ -150,9 +184,8 @@ namespace Plaper {
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            // draw character
-            Rectangle posRect = new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
-
+            
+            //draw character
             Rectangle spriteRect = new Rectangle(14, 0, 14, 17);
 
             if (velocity.X > 0.0) {

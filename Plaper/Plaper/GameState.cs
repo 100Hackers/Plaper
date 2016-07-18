@@ -15,7 +15,10 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         Game1 game;
 
+        Random rand = new Random();
+
         Player player;
+        Platform platform;
 
         Rectangle screenRectangle;
 
@@ -25,12 +28,13 @@ namespace Plaper {
             this.game = game;
             screenRectangle = new Rectangle(0, 0, Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT);
             player = new Player(game.Sprite, game.Arrow, game.ArrowFill, screenRectangle);
+            platform = new Platform(game.PlatformTex, new Vector2(rand.Next(0, this.graphics.GraphicsDevice.Viewport.Width - game.PlatformTex.Width), rand.Next(250, this.graphics.GraphicsDevice.Viewport.Height - game.PlatformTex.Height - 100)));
         }
 
         //update for game logic
         public override void Update(GameTime gameTime) {
 
-            player.Update(gameTime);
+            player.Update(gameTime, platform);
 
             if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
                 State.setState(new MenuState(graphics, game));
@@ -44,6 +48,7 @@ namespace Plaper {
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
             player.Draw(spriteBatch);
+            platform.Draw(spriteBatch);
 
             spriteBatch.End();
 

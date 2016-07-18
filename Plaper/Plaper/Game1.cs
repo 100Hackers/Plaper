@@ -16,24 +16,15 @@ namespace Plaper {
         public const int SCREEN_WIDTH = 400;
         public const int SCREEN_HEIGHT = 600;
 
-        //unused
-        Texture2D platform;
-        Rectangle platformPos;
-
+        //Textures
         Texture2D sprite;
+        Texture2D platformTex;
         Texture2D arrow;
         Texture2D arrowFill;
 
         const double PLAT_SCALE = 0.5;
         const int PLAT_H = (int) (50 * PLAT_SCALE);
         const int PLAT_W = (int) (500 * PLAT_SCALE);
-
-        
-
-        //used for generating platform
-        Random rand = new Random();
-
-        Player player;
 
         State currentState;
 
@@ -70,6 +61,11 @@ namespace Plaper {
             get { return arrowFill; }
         }
 
+        public Texture2D PlatformTex
+        {
+            get { return platformTex; }
+        }
+
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -87,8 +83,8 @@ namespace Plaper {
 
             this.IsMouseVisible = true;
 
+            
 
-            //platformPos = new Rectangle(rand.Next(0, 400 - PLAT_W), rand.Next(200, 400 - PLAT_H), PLAT_W, PLAT_H);
         }
 
         /// <summary>
@@ -108,8 +104,9 @@ namespace Plaper {
             sprite = Content.Load<Texture2D>("blocky_all");
 
             //platform
-            platform = Content.Load<Texture2D>("platform");
+            platformTex = Content.Load<Texture2D>("platform");
 
+            //fonts
             font12 = Content.Load<SpriteFont>("joystik");
             font24 = Content.Load<SpriteFont>("joystik24");
             font36 = Content.Load<SpriteFont>("joystik36");
