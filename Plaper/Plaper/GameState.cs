@@ -32,6 +32,7 @@ namespace Plaper {
 
             player.Update(gameTime);
 
+            // Quit to make menu is esc is pressed
             if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
                 State.setState(new MenuState(graphics, game));
             }

@@ -12,7 +12,7 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        //resolution
+        // Height and Width to make screen
         public const int SCREEN_WIDTH = 400;
         public const int SCREEN_HEIGHT = 600;
 
@@ -20,15 +20,15 @@ namespace Plaper {
         Texture2D platform;
         Rectangle platformPos;
 
+        // Textures for Player
         Texture2D sprite;
         Texture2D arrow;
         Texture2D arrowFill;
 
+        // Platform constants
         const double PLAT_SCALE = 0.5;
         const int PLAT_H = (int) (50 * PLAT_SCALE);
         const int PLAT_W = (int) (500 * PLAT_SCALE);
-
-        
 
         //used for generating platform
         Random rand = new Random();
@@ -47,6 +47,7 @@ namespace Plaper {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
+            // Set screen height and width
             graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
             graphics.PreferredBackBufferWidth = SCREEN_WIDTH;
 
@@ -82,6 +83,7 @@ namespace Plaper {
 
             //create state and pass player object
             currentState = new MenuState(graphics, this);
+
             //set state to game
             State.setState(currentState);
 
@@ -132,11 +134,8 @@ namespace Plaper {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
 
-            //exit if back or esc is pressed
+            //exit if esc is pressed
             if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) {
-                Exit();
-            }
-            if(Keyboard.GetState().IsKeyDown(Keys.LeftAlt) && Keyboard.GetState().IsKeyDown(Keys.F4)) {
                 Exit();
             }
 
