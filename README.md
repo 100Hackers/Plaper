@@ -6,5 +6,6 @@
 | Hotfix   | hf-* | master  | any     |
 | Release  | rl-* | develop | master  |
 
+Create new branch for everything. Push it and submit a pull request to get it merged.
 
 Join our chat: https://100guys.slack.com/
