@@ -48,9 +48,9 @@ namespace Plaper {
         }
         const int ARROW_WIDTH  = 32;
         const int ARROW_PADING = 90;    // Distance from player's head
-        const int ARROW_SPEED  = 3;
-        const double ARROW_BOUND_UPPER = PI / 2;
-        const double ARROW_BOUND_LOWER = -PI / 2;
+        const int ARROW_SPEED  = 2;
+        const double ARROW_BOUND_UPPER = (PI / 3);
+        const double ARROW_BOUND_LOWER = (-PI / 3);
 
         public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, Rectangle screenBounds) {
             this.sprite = texture;

@@ -17,7 +17,7 @@ namespace Plaper {
 
         Texture2D menuButtonTexture;
         SpriteFont font;
-        bool      mouseOverStart;
+        bool      isMouseOverStart;
         bool      mouseOverSettings;
         Rectangle settingsButtonPosition;
         Rectangle startButtonPosition;
@@ -48,6 +48,7 @@ namespace Plaper {
 
             //setting where the buttons will be
             // Wut the aktul hek
+            //  idek but yours right belo is weird 2
             settingsButtonPosition = new Rectangle(0, Game1.SCREEN_HEIGHT-(Game1.SCREEN_HEIGHT/10)-Game1.SCREEN_HEIGHT/5, Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT/5);
             startButtonPosition = new Rectangle(0, settingsButtonPosition.Y-settingsButtonPosition.Height-(Game1.SCREEN_HEIGHT/10), Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT/5);
 
@@ -67,12 +68,12 @@ namespace Plaper {
             var mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
 
-            mouseOverStart    = startButtonPosition.Contains(mousePosition);
+            isMouseOverStart    = startButtonPosition.Contains(mousePosition);
             mouseOverSettings = settingsButtonPosition.Contains(mousePosition);
 
             //check if mouse button has just been depressed
             if(mouseState.LeftButton != ButtonState.Pressed && lastMouseState == true) {
-                if(mouseOverStart) {
+                if(isMouseOverStart) {
                     //start the game
                     State.setState(new GameState(graphics, game));
                 } else if (mouseOverSettings) {
@@ -103,7 +104,7 @@ namespace Plaper {
             spriteBatch.Draw(menuButtonTexture, settingsButtonPosition, Color.White);
 
             //start button
-            spriteBatch.DrawString(font, START_TEXT, startTextPosition, mouseOverStart ? HOVER_COLOR : TEXT_COLOR);
+            spriteBatch.DrawString(font, START_TEXT, startTextPosition, isMouseOverStart ? HOVER_COLOR : TEXT_COLOR);
 
             //settings button
             spriteBatch.DrawString(font, SETTINGS_TEXT, settingsTextPosition, mouseOverSettings ? HOVER_COLOR : TEXT_COLOR);

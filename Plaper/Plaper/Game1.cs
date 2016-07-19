@@ -72,9 +72,12 @@ namespace Plaper {
             get { return arrowFill; }
         }
 
-        public Texture2D PlatformTex
-        {
+        public Texture2D PlatformTex{
             get { return platformTex; }
+        }
+
+        public GraphicsDeviceManager Graphics {
+            get { return graphics; }
         }
 
         /// <summary>

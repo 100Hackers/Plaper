@@ -15,15 +15,26 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         Game1 game;
 
+        SpriteFont font;
+        bool isMouseOverBack;
+        const string BACK_TEXT = "BACK";
+        Vector2 backTextPosition;
+
+
         Rectangle backButtonPosition;
         Texture2D menuButtonTexture;
         //Rectangle newButtonPosition;
 
         Boolean lastMouseState = false;
 
+        const float TEXT_SCALE = 2.5f;
+        static Color HOVER_COLOR = Color.White;
+        static Color TEXT_COLOR = Color.Black;
+
         //ctor
         public SettingsState(GraphicsDeviceManager graphics, Game1 game) {
             this.graphics = graphics;
+            this.font = Game1.font36;
             this.game = game;
 
             //stuff for button texture
@@ -37,6 +48,10 @@ namespace Plaper {
             //setting where the buttons will be
             backButtonPosition = new Rectangle(0, Game1.SCREEN_HEIGHT - (Game1.SCREEN_HEIGHT / 10) - Game1.SCREEN_HEIGHT / 5, Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT / 5);
             //newButtonPosition = new Rectangle(0, settingsButtonPosition.Y - settingsButtonPosition.Height - (Game1.SCREEN_HEIGHT / 10), Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT / 5);
+
+            Vector2 backTextSize = this.font.MeasureString(BACK_TEXT);
+            backTextPosition.Y = (backButtonPosition.Height - backTextSize.Y) / 2 + backButtonPosition.Y;
+            backTextPosition.X = (backButtonPosition.Width - backTextSize.X) / 2 + backButtonPosition.X;
         }
 
         //update for game logic
@@ -48,6 +63,8 @@ namespace Plaper {
             }
             var mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
+
+            isMouseOverBack = backButtonPosition.Contains(mousePosition);
 
             //check if mouse button has just been depressed
             if(mouseState.LeftButton != ButtonState.Pressed && lastMouseState == true) {
@@ -74,6 +91,8 @@ namespace Plaper {
             spriteBatch.Draw(menuButtonTexture, backButtonPosition, Color.White);
 
             //TODO: add text for back button
+            spriteBatch.DrawString(font, BACK_TEXT, backTextPosition, isMouseOverBack ? HOVER_COLOR : TEXT_COLOR);
+
 
             spriteBatch.End();
 
