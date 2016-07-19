@@ -39,6 +39,13 @@ namespace Plaper {
         bool   powerInc;        // Controls whether power increasing or decreasing
 
         const int ARROW_HEIGHT = 64;    // Arrow constants
+        public Rectangle posRect
+        {
+            get
+            {
+                return new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
+            }
+        }
         const int ARROW_WIDTH  = 32;
         const int ARROW_PADING = 90;    // Distance from player's head
         const int ARROW_SPEED  = 3;
@@ -61,7 +68,7 @@ namespace Plaper {
             lastState = Keyboard.GetState();
         }
 
-        public void Update(GameTime gameTime) {
+        public void Update(GameTime gameTime, Platform platform) {
             // time since Update was last called
             double elapsedSeconds = gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -139,6 +146,35 @@ namespace Plaper {
                     }
                     break;
             }
+
+            //Platform collision detection
+            if (posRect.Intersects(platform.BoundingBox) && state != States.Standing)
+            {
+                //If character is above platform and falling when he collides, sets conditions for landing on platform
+                if (position.Y < platform.Pos.Y)
+                {
+                    if (velocity.Y < 0)
+                    {
+                        velocity = Vector2.Zero;
+                        position.Y = platform.Pos.Y - HEIGHT;
+                        state = States.Standing;
+                    }
+                }
+                //If character is below platform and rising when he collides, sets conditions for falling back down and bounding off of platform
+                else if (position.Y + HEIGHT > platform.Pos.Y + platform.Tex.Height)
+                {
+                    if (velocity.Y > 0)
+                    {
+                        velocity.Y *= -1;
+                    }
+                }
+
+                //If character hits side of platform, reverses horizontal travel direction
+                if (position.X < platform.Pos.X || position.X + WIDTH > platform.Pos.X + platform.Tex.Width)
+                {
+                    velocity.X *= -1;
+                }
+            }
         }
 
         // Put player around middle of the screen
@@ -148,9 +184,8 @@ namespace Plaper {
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            // draw character
-            Rectangle posRect = new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
-
+            
+            //draw character
             Rectangle spriteRect = new Rectangle(14, 0, 14, 17);
 
             // Player direction
