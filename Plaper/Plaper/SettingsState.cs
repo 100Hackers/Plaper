@@ -17,7 +17,9 @@ namespace Plaper {
 
         Rectangle backButtonPosition;
         Texture2D menuButtonTexture;
-        //Rectangle startButtonPosition;
+        //Rectangle newButtonPosition;
+
+        Boolean lastMouseState = false;
 
         //ctor
         public SettingsState(GraphicsDeviceManager graphics, Game1 game) {
@@ -34,7 +36,7 @@ namespace Plaper {
 
             //setting where the buttons will be
             backButtonPosition = new Rectangle(0, Game1.SCREEN_HEIGHT - (Game1.SCREEN_HEIGHT / 10) - Game1.SCREEN_HEIGHT / 5, Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT / 5);
-            //startButtonPosition = new Rectangle(0, settingsButtonPosition.Y - settingsButtonPosition.Height - (Game1.SCREEN_HEIGHT / 10), Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT / 5);
+            //newButtonPosition = new Rectangle(0, settingsButtonPosition.Y - settingsButtonPosition.Height - (Game1.SCREEN_HEIGHT / 10), Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT / 5);
         }
 
         //update for game logic
@@ -46,10 +48,20 @@ namespace Plaper {
             }
             var mouseState = Mouse.GetState();
             var mousePosition = new Point(mouseState.X, mouseState.Y);
-            if(mouseState.LeftButton == ButtonState.Pressed) {
+
+            //check if mouse button has just been depressed
+            if(mouseState.LeftButton != ButtonState.Pressed && lastMouseState == true) {
                 if(backButtonPosition.Contains(mousePosition)) {
                     State.setState(new MenuState(graphics, game));
                 }
+            }
+
+            //set last mouse state for betterClick
+            //this code also seen in MenuState
+            if(mouseState.LeftButton == ButtonState.Pressed) {
+                lastMouseState = true;
+            } else {
+                lastMouseState = false;
             }
         }
 
@@ -60,6 +72,8 @@ namespace Plaper {
 
             //back button
             spriteBatch.Draw(menuButtonTexture, backButtonPosition, Color.White);
+
+            //TODO: add text for back button
 
             spriteBatch.End();
 

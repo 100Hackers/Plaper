@@ -25,6 +25,7 @@ namespace Plaper {
         const string SETTINGS_TEXT = "SETTINGS";
         Vector2 startTextPosition;
         Vector2 settingsTextPosition;
+        Boolean lastMouseState = false;
 
         const  float TEXT_SCALE  = 2.5f;
         static Color HOVER_COLOR = Color.White;
@@ -59,7 +60,7 @@ namespace Plaper {
             settingsTextPosition.X = (settingsButtonPosition.Width  - settingsTextSize.X) / 2 + settingsButtonPosition.X;
         }
 
-        //update for game logic
+        //update game logic
         public override void Update(GameTime gameTime) {
 
             //check where mouse is and do stuff if it's clicked
@@ -69,13 +70,25 @@ namespace Plaper {
             mouseOverStart    = startButtonPosition.Contains(mousePosition);
             mouseOverSettings = settingsButtonPosition.Contains(mousePosition);
 
-            if(mouseState.LeftButton == ButtonState.Pressed) {
+            //check if mouse button has just been depressed
+            if(mouseState.LeftButton != ButtonState.Pressed && lastMouseState == true) {
                 if(mouseOverStart) {
+                    //start the game
                     State.setState(new GameState(graphics, game));
                 } else if (mouseOverSettings) {
+                    //enter settings menu
                     State.setState(new SettingsState(graphics, game));
                 }
             }
+
+            //set last mouse state for betterClick
+            //also seen in SettingsState
+            if (mouseState.LeftButton == ButtonState.Pressed) {
+                lastMouseState = true;
+            } else {
+                lastMouseState = false;
+            }
+
         }
 
         //update graphics
@@ -89,7 +102,10 @@ namespace Plaper {
             //settings button
             spriteBatch.Draw(menuButtonTexture, settingsButtonPosition, Color.White);
 
+            //start button
             spriteBatch.DrawString(font, START_TEXT, startTextPosition, mouseOverStart ? HOVER_COLOR : TEXT_COLOR);
+
+            //settings button
             spriteBatch.DrawString(font, SETTINGS_TEXT, settingsTextPosition, mouseOverSettings ? HOVER_COLOR : TEXT_COLOR);
 
             spriteBatch.End();
