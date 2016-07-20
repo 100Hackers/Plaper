@@ -18,24 +18,23 @@ namespace Plaper {
 
         Texture2D buttonTexture;
         int nButtons = 0;
-        int buttonHeight;
 
         //ctor
         public SettingsState(GraphicsDeviceManager graphics, Game1 game) {
             this.graphics = graphics;
             this.game = game;
-            buttonHeight = Game1.SCREEN_HEIGHT / 5;
 
             //stuff for button texture
             buttonTexture = new Texture2D(graphics.GraphicsDevice, 20, 10);
-            Color[] startTextureData = new Color[buttonHeight * Game1.SCREEN_WIDTH];
+            Color[] startTextureData = new Color[Game1.buttonHeight * Game1.SCREEN_WIDTH];
             for(int i = 0; i < startTextureData.Length; i++) {
                 startTextureData[i] = Color.Chocolate;
             }
             buttonTexture.SetData(startTextureData);
 
-            //(string, texture, right, down, right, down)
-            backButton = new Plaper.Button("BACK", buttonTexture, new Rectangle(0, (buttonHeight/2) + (nButtons * buttonHeight), Game1.SCREEN_WIDTH, buttonHeight));
+            backButton = new Button("BACK", buttonTexture, 
+                new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight), 
+                Game1.SCREEN_WIDTH, Game1.buttonHeight));
             nButtons++;
         }
 
