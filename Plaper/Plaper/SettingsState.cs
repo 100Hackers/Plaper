@@ -16,11 +16,9 @@ namespace Plaper {
         Game1 game;
         Button backButton;
 
-        Rectangle backButtonPosition;
         Texture2D buttonTexture;
         int nButtons = 0;
         int buttonHeight;
-        ButtonState lastMouseButton;
 
         //ctor
         public SettingsState(GraphicsDeviceManager graphics, Game1 game) {
@@ -37,12 +35,14 @@ namespace Plaper {
             buttonTexture.SetData(startTextureData);
 
             //(string, texture, right, down, right, down)
-            backButton = new Plaper.Button("BACK", buttonTexture, 0, (buttonHeight/2) + (nButtons * buttonHeight), Game1.SCREEN_WIDTH, buttonHeight);
+            backButton = new Plaper.Button("BACK", buttonTexture, new Rectangle(0, (buttonHeight/2) + (nButtons * buttonHeight), Game1.SCREEN_WIDTH, buttonHeight));
             nButtons++;
         }
 
         //update for game logic
         public override void Update(GameTime gameTime) {
+
+            backButton.Update(gameTime);
 
             //check where mouse is and do stuff if it's clicked
             if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {

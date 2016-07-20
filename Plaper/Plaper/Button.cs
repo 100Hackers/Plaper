@@ -15,10 +15,6 @@ http://stackoverflow.com/questions/32430598/making-a-button-xna-monogame
 namespace Plaper {
     class Button {
 
-        int x;
-        int y;
-        int width;
-        int height;
         string name;
         Texture2D texture;
         static Color HOVER_COLOR = Color.White;
@@ -26,26 +22,17 @@ namespace Plaper {
         SpriteFont font;
         Vector2 textPosition;
         ButtonState lastMouseButton;
+        Rectangle buttonRect;
 
-        public int X {
-            get { return x; }
-        }
-        public int Y {
-            get { return y; }
-        }
-
-        public Button(string name, Texture2D texture, int buttonX, int buttonY, int width, int height) {
+        public Button(string name, Texture2D texture, Rectangle buttonRect) {
             this.name = name;
             this.texture = texture;
-            this.x = buttonX;
-            this.y = buttonY;
-            this.width = width;
-            this.height = height;
+            this.buttonRect = buttonRect;
             this.font = Game1.font36;
 
             Vector2 textSize = this.font.MeasureString(name);
-            textPosition.Y = (height - textSize.Y) / 2 + y;
-            textPosition.X = (width - textSize.X) / 2 + x;
+            textPosition.Y = (buttonRect.Height - textSize.Y) / 2 + buttonRect.Y;
+            textPosition.X = (buttonRect.Width - textSize.X) / 2 + buttonRect.X;
         }
 
         public Boolean Clicked() {
@@ -62,10 +49,10 @@ namespace Plaper {
         public Boolean isInBounds() {
             var mouseState = Mouse.GetState();
 
-            if(mouseState.X < X + texture.Width &&
-                    mouseState.X > X &&
-                    mouseState.Y < Y + texture.Height &&
-                    mouseState.Y > Y) {
+            if(mouseState.X < buttonRect.X + texture.Width &&
+               mouseState.X > buttonRect.X &&
+               mouseState.Y < buttonRect.Y + texture.Height &&
+               mouseState.Y > buttonRect.Y) {
                 return true;
             }
             return false;
@@ -76,7 +63,7 @@ namespace Plaper {
         }
         public void Draw(SpriteBatch spriteBatch) {
 
-            spriteBatch.Draw(texture, new Rectangle((int)X, (int)Y, width, height), Color.White);
+            spriteBatch.Draw(texture, buttonRect, Color.White);
 
             spriteBatch.DrawString(font, name, textPosition, isInBounds() ? HOVER_COLOR : TEXT_COLOR);
 
