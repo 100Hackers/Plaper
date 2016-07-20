@@ -27,6 +27,9 @@ namespace Plaper {
         Vector2 settingsTextPosition;
         Boolean lastMouseState = false;
 
+        int nButtons = 0;
+        int buttonHeight;
+
         const  float TEXT_SCALE  = 2.5f;
         static Color HOVER_COLOR = Color.White;
         static Color TEXT_COLOR  = Color.Black;
@@ -37,10 +40,11 @@ namespace Plaper {
             this.graphics = graphics;
             this.font = Game1.font36;
             this.game = game;
+            buttonHeight = Game1.SCREEN_HEIGHT / 5;
 
             //stuff for button texture
             menuButtonTexture = new Texture2D(graphics.GraphicsDevice, 20, 10);
-            Color[] startTextureData = new Color[20*10];
+            Color[] startTextureData = new Color[buttonHeight * Game1.SCREEN_WIDTH];
             for (int i = 0; i < startTextureData.Length; i++) {
                 startTextureData[i] = Color.Chocolate;
             }
