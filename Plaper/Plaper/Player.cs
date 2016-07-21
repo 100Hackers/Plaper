@@ -8,28 +8,21 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Plaper {
-    class Player {
+    class Player : Entity {
 
         private enum States { Standing, Power, Jumping, Dead }; // Possible states Player can be in
         private States state; // Current state
 
         const double PI = Math.PI;  // Too lazy to keep typing Math.PI
-        const int GRAVITY = 400;    // Subtracted from velocity.X
         const int JUMP_SPEED = 11;  // Initial upwards velocity.Y
 
         const double SCALE = 3.0;   // How much to scale player sprite by
         const int HEIGHT = (int) (17 * SCALE);
         const int WIDTH  = (int) (14 * SCALE);
 
-        Vector2 position;   // Position and velocity of player
         Vector2 velocity;
 
-        KeyboardState keyboardState; // Current state of keyboard, and state from last update
-        KeyboardState lastState;
-
         Texture2D sprite; // Player texture
-
-        Rectangle screenBounds; 
 
         double arrowAngle;      // Used for current angle of the arrow
         bool   arrowGoingLeft;  // Controls direction of arrow
@@ -52,21 +45,17 @@ namespace Plaper {
         const double ARROW_BOUND_UPPER = (PI / 3);
         const double ARROW_BOUND_LOWER = (-PI / 3);
 
-        public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, int startHeight, Rectangle screenBounds) {
+        public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, int startHeight, Rectangle screenBounds) 
+            : base(texture, new Vector2((screenBounds.Width - WIDTH) / 2, screenBounds.Height - startHeight - HEIGHT)) {
             this.sprite = texture;
             this.arrowFill = arrowFill;
             this.arrowTexture = arrowTexture;
-            this.screenBounds = screenBounds;
-
-            this.position = new Vector2((screenBounds.Width - WIDTH) / 2, screenBounds.Height - startHeight - HEIGHT);
 
             // Initial conditions of the game
             state = States.Standing;
             arrowAngle = 0.0;
             arrowPower = ARROW_HEIGHT;
             arrowGoingLeft = false;
-
-            lastState = Keyboard.GetState();
         }
 
         public bool Update(GameTime gameTime, Platform[] platforms, int curPlatform) {
@@ -78,8 +67,6 @@ namespace Plaper {
             // See which state we are in
             switch (state) {
                 case States.Standing:
-
-                    keyboardState = Keyboard.GetState();
 
                     // Rotate arrow
                     double arrowDelta = elapsedSeconds * ARROW_SPEED;
@@ -94,17 +81,15 @@ namespace Plaper {
                     }
 
                     // Move to Power state to get jump power if space is pressed
-                    bool spacePressed  = keyboardState.IsKeyDown(Keys.Space);
+                    bool spacePressed  = Plaper.keyboardState.IsKeyDown(Keys.Space);
                     if (spacePressed) {
                         powerInc = true;
                         state = States.Power;
                     }
-
-                    lastState = keyboardState;
                     break;
 
                 case States.Power:
-                    bool spaceReleased = !Keyboard.GetState().IsKeyDown(Keys.Space);
+                    bool spaceReleased = !Plaper.keyboardState.IsKeyDown(Keys.Space);
                     
                     // Move power up and down
                     arrowPower = arrowPower + elapsedSeconds * (powerInc ? -100 : 100);
@@ -126,20 +111,20 @@ namespace Plaper {
 
                 case States.Jumping:
                     // Subtract Gravity from vertical velocity and add velocity to position
-                    velocity.Y -= (float) (elapsedSeconds * GRAVITY);
+                    velocity.Y -= (float) (elapsedSeconds * Plaper.GRAVITY);
                     position.Y -= (float) (elapsedSeconds * velocity.Y);
 
                     // Check for wall colissions for add horizontal velocity to position
-                    if (position.X < 0 || screenBounds.Width < position.X + WIDTH) {
+                    if (position.X < 0 || Plaper.SCREEN_WIDTH < position.X + WIDTH) {
                         velocity.X = -velocity.X;
-                        position.X = position.X < 0 ? 0f : screenBounds.Width - WIDTH;
+                        position.X = position.X < 0 ? 0f : Plaper.SCREEN_WIDTH - WIDTH;
                     }
                     position.X -= (float) (elapsedSeconds * velocity.X);
 
                     // Check for player hitting the bottom of the screen
                     // If so, go back to Standing state and reset arrow
-                    if (position.Y + HEIGHT > screenBounds.Height) {
-                        position.Y = screenBounds.Height - HEIGHT;
+                    if (position.Y + HEIGHT > Plaper.SCREEN_HEIGHT) {
+                        position.Y = Plaper.SCREEN_HEIGHT - HEIGHT;
                         velocity = Vector2.Zero;
 
                         arrowAngle = 0;

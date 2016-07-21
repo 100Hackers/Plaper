@@ -92,7 +92,8 @@ namespace Plaper {
 
             this.IsMouseVisible = true;
 
-            
+            Plaper.lastKeyBoardState = Keyboard.GetState();
+            Plaper.keyboardState     = Keyboard.GetState();
 
         }
 
@@ -138,6 +139,8 @@ namespace Plaper {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
 
+            Plaper.keyboardState = Keyboard.GetState();
+
             //exit if esc is pressed
             if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) {
                 Exit();
@@ -149,6 +152,8 @@ namespace Plaper {
             }
 
             base.Update(gameTime);
+
+            Plaper.lastKeyBoardState = Plaper.keyboardState;
         }
 
         /// <summary>
