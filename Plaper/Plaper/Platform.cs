@@ -12,6 +12,7 @@ namespace Plaper
     class Platform
     {
         //Data Members
+        Rectangle screenBounds;
         private Texture2D tex;
         private Vector2 pos;
         const double SCALE = 3.0;
@@ -25,9 +26,17 @@ namespace Plaper
         }
 
         //Constructor
-        public Platform(Texture2D t, Vector2 v) {
+        public Platform(Texture2D t, Vector2 v, Rectangle screenBounds) {
             tex = t;
             pos = v;
+            this.screenBounds = screenBounds;
+        }
+
+        public Platform(Texture2D texture, int startHeight, Rectangle screenBounds) {
+            this.tex = texture;
+            this.screenBounds = screenBounds;
+
+            this.pos = new Vector2((screenBounds.Width - WIDTH)/2, screenBounds.Height - startHeight);
         }
 
         //Properties
@@ -41,6 +50,10 @@ namespace Plaper
         {
             get { return pos; }
             set { pos = value; }
+        }
+
+        public void SetPlatform(Vector2 position) {
+            this.pos = position;
         }
 
         //Draw

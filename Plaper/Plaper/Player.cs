@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Plaper {
     class Player {
 
-        private enum States { Standing, Power, Jumping }; // Possible states Player can be in
+        private enum States { Standing, Power, Jumping, Dead }; // Possible states Player can be in
         private States state; // Current state
 
         const double PI = Math.PI;  // Too lazy to keep typing Math.PI
@@ -52,25 +52,28 @@ namespace Plaper {
         const double ARROW_BOUND_UPPER = (PI / 3);
         const double ARROW_BOUND_LOWER = (-PI / 3);
 
-        public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, Rectangle screenBounds) {
+        public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, int startHeight, Rectangle screenBounds) {
             this.sprite = texture;
             this.arrowFill = arrowFill;
             this.arrowTexture = arrowTexture;
             this.screenBounds = screenBounds;
+
+            this.position = new Vector2((screenBounds.Width - WIDTH) / 2, screenBounds.Height - startHeight - HEIGHT);
 
             // Initial conditions of the game
             state = States.Standing;
             arrowAngle = 0.0;
             arrowPower = ARROW_HEIGHT;
             arrowGoingLeft = false;
-            SetInStartPosition();
 
             lastState = Keyboard.GetState();
         }
 
-        public void Update(GameTime gameTime, Platform platform) {
+        public bool Update(GameTime gameTime, Platform[] platforms, int curPlatform) {
             // time since Update was last called
             double elapsedSeconds = gameTime.ElapsedGameTime.TotalSeconds;
+
+            bool onNextPlat = false;
 
             // See which state we are in
             switch (state) {
@@ -142,45 +145,50 @@ namespace Plaper {
                         arrowAngle = 0;
                         arrowGoingLeft = false;
 
-                        state = States.Standing;
+                        state = States.Dead;
                     }
+                    break;
+
+                case States.Dead:
+                    position = Vector2.Zero;
                     break;
             }
 
             //Platform collision detection
-            if (posRect.Intersects(platform.BoundingBox) && state != States.Standing)
-            {
-                //If character is above platform and falling when he collides, sets conditions for landing on platform
-                if (position.Y < platform.Pos.Y)
-                {
-                    if (velocity.Y < 0)
-                    {
-                        velocity = Vector2.Zero;
-                        position.Y = platform.Pos.Y - HEIGHT;
-                        state = States.Standing;
-                    }
-                }
-                //If character is below platform and rising when he collides, sets conditions for falling back down and bounding off of platform
-                else if (position.Y + HEIGHT > platform.Pos.Y + platform.Tex.Height)
-                {
-                    if (velocity.Y > 0)
-                    {
-                        velocity.Y *= -1;
-                    }
-                }
+            for (int i = 0; i < platforms.Length; i++) {
 
-                //If character hits side of platform, reverses horizontal travel direction
-                if (position.X < platform.Pos.X || position.X + WIDTH > platform.Pos.X + platform.Tex.Width)
-                {
-                    velocity.X *= -1;
+
+                if (posRect.Intersects(platforms[i].BoundingBox) && state != States.Standing) {
+                    //If character is above platform and falling when he collides, sets conditions for landing on platform
+                    if (position.Y < platforms[i].Pos.Y) {
+                        if (velocity.Y < 0) {
+                            velocity = Vector2.Zero;
+                            position.Y = platforms[i].Pos.Y - HEIGHT;
+                            state = States.Standing;
+                            if (i == ((curPlatform + 1) % 3))
+                                onNextPlat = true;
+                        }
+                    }
+                    //If character is below platform and rising when he collides, sets conditions for falling back down and bounding off of platform
+                    else if (position.Y + HEIGHT > platforms[i].Pos.Y + platforms[i].Tex.Height) {
+                        if (velocity.Y > 0) {
+                            velocity.Y *= -1;
+                        }
+                    }
+
+                    //If character hits side of platform, reverses horizontal travel direction
+                    if (position.X < platforms[i].Pos.X || position.X + WIDTH > platforms[i].Pos.X + platforms[i].Tex.Width) {
+                        velocity.X *= -1;
+                    }
                 }
             }
+
+            return onNextPlat;
         }
 
         // Put player around middle of the screen
-        public void SetInStartPosition() {
-            position.X = screenBounds.Width / 2;
-            position.Y = screenBounds.Height - HEIGHT;
+        public void SetPlayer(Vector2 position) {
+            this.position = position;
         }
 
         public void Draw(SpriteBatch spriteBatch) {
