@@ -59,7 +59,7 @@ namespace Plaper
         //Draw
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(tex, pos);
+            spriteBatch.Draw(tex, pos, null, Color.White);
         }
     }
 }
