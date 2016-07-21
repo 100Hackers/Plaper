@@ -15,32 +15,44 @@ http://stackoverflow.com/questions/32430598/making-a-button-xna-monogame
 namespace Plaper {
     class Button {
 
-        int x; 
-        int y;
         string name;
         Texture2D texture;
+        static Color HOVER_COLOR = Color.White;
+        static Color TEXT_COLOR = Color.Black;
+        SpriteFont font;
+        Vector2 textPosition;
+        ButtonState lastMouseButton;
+        Rectangle buttonRect;
 
-        public int X {
-            get { return x; }
-        }
-        public int Y {
-            get { return y; }
-        }
-
-        public Button(string name, Texture2D texture, int buttonX, int buttonY) {
+        public Button(string name, Texture2D texture, Rectangle buttonRect) {
             this.name = name;
             this.texture = texture;
-            this.x = buttonX;
-            this.y = buttonY;
+            this.buttonRect = buttonRect;
+            this.font = Game1.font36;
+
+            Vector2 textSize = this.font.MeasureString(name);
+            textPosition.Y = (buttonRect.Height - textSize.Y) / 2 + buttonRect.Y;
+            textPosition.X = (buttonRect.Width - textSize.X) / 2 + buttonRect.X;
         }
 
-        public bool enterButton() {
+        public Boolean Clicked() {
+
+            if(Mouse.GetState().LeftButton == ButtonState.Released && lastMouseButton == ButtonState.Pressed) {
+                if(this.isInBounds()) {
+                    return true;
+                }
+            }
+            lastMouseButton = Mouse.GetState().LeftButton;
+            return false;            
+        }
+
+        public Boolean isInBounds() {
             var mouseState = Mouse.GetState();
 
-            if(mouseState.X <  + texture.Width &&
-                    mouseState.X > X &&
-                    mouseState.Y < Y + texture.Height &&
-                    mouseState.Y > Y) {
+            if(mouseState.X < buttonRect.X + buttonRect.Width &&
+               mouseState.X > buttonRect.X &&
+               mouseState.Y < buttonRect.Y + buttonRect.Height &&
+               mouseState.Y > buttonRect.Y) {
                 return true;
             }
             return false;
@@ -51,11 +63,9 @@ namespace Plaper {
         }
         public void Draw(SpriteBatch spriteBatch) {
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            spriteBatch.Draw(texture, buttonRect, Color.White);
 
-            spriteBatch.Draw(texture, new Rectangle((int)X, (int)Y, texture.Width, texture.Height), Color.White);
-
-            spriteBatch.End();
+            spriteBatch.DrawString(font, name, textPosition, isInBounds() ? HOVER_COLOR : TEXT_COLOR);
 
         }
     }

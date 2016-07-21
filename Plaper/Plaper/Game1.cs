@@ -16,9 +16,8 @@ namespace Plaper {
         public const int SCREEN_WIDTH = 400;
         public const int SCREEN_HEIGHT = 600;
 
-        //unused
-        Texture2D platform;
-        Rectangle platformPos;
+        public const int buttonHeight = SCREEN_HEIGHT / 5;
+        public const int buttonSpacing = buttonHeight / 3;
 
         // Textures for Player
         Texture2D sprite;
@@ -33,8 +32,6 @@ namespace Plaper {
 
         //used for generating platform
         Random rand = new Random();
-
-        Player player;
 
         State currentState;
 
@@ -52,12 +49,9 @@ namespace Plaper {
             graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
             graphics.PreferredBackBufferWidth = SCREEN_WIDTH;
 
-            
-
             // unrestricted framerate
             //this.IsFixedTimeStep = false;
             //this.graphics.SynchronizeWithVerticalRetrace = false;
-
         }
 
         public Texture2D Sprite {
