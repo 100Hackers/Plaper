@@ -19,6 +19,10 @@ namespace Plaper {
         Texture2D buttonTexture;
         int nButtons = 0;
 
+        const float TEXT_SCALE = 2.5f;
+        static Color HOVER_COLOR = Color.White;
+        static Color TEXT_COLOR = Color.Black;
+
         //ctor
         public SettingsState(GraphicsDeviceManager graphics, Game1 game) {
             this.graphics = graphics;
@@ -48,6 +52,7 @@ namespace Plaper {
                 State.setState(new MenuState(graphics, game));
             }
 
+
             //check if mouse button has just been depressed
             if(backButton.Clicked()) {
                 State.setState(new MenuState(graphics, game));
@@ -63,7 +68,6 @@ namespace Plaper {
             //back button
             backButton.Draw(spriteBatch);
 
-            //TODO: add text for back button
 
             spriteBatch.End();
 
