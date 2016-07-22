@@ -39,6 +39,7 @@ namespace Plaper {
         public static SpriteFont font12;
         public static SpriteFont font24;
         public static SpriteFont font36;
+		public /*static*/ SpriteFont font10;
 
         public Game1() {
 
@@ -120,6 +121,7 @@ namespace Plaper {
             font12 = Content.Load<SpriteFont>("joystik");
             font24 = Content.Load<SpriteFont>("joystik24");
             font36 = Content.Load<SpriteFont>("joystik36");
+			font10 = Content.Load<SpriteFont>("ScoreFont");
 
             font = font24;
         }

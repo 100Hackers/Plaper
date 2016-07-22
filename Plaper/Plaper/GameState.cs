@@ -29,6 +29,10 @@ namespace Plaper {
         float preShift;
         const int SHIFT_SPEED = 300;
 
+		//used for scoring
+		Vector2 scorePos;
+		/*static*/ int scoreCnt = 0;
+
         Rectangle screenRectangle;
 
         //ctor
@@ -37,6 +41,9 @@ namespace Plaper {
             this.game = game;
             screenRectangle = new Rectangle(0, 0, Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT);
             player = new Player(game.Sprite, game.Arrow, game.ArrowFill, START_HEIGHT, screenRectangle);
+
+			scorePos = new Vector2(5.0f, 5.0f);
+			scoreCnt = 0;
 
             platformCounter = 0;
             platforms = new Platform[3];
@@ -49,6 +56,10 @@ namespace Plaper {
             generateNewPlatform();
         }
 
+		public int GetScore() {
+			return platformCounter;
+		}
+
         //update for game logic
         public override void Update(GameTime gameTime) {
 
@@ -56,6 +67,7 @@ namespace Plaper {
                 if (player.Update(gameTime, platforms, platformCounter)) {
                     generateNewPlatform();
                     ++platformCounter;
+					++scoreCnt;
                     platformCounter %= 3;
                     isShifting = true;
                     shiftDelta = (int) (600 - platforms[platformCounter].Pos.Y) - START_HEIGHT;
@@ -65,6 +77,7 @@ namespace Plaper {
                 if (shiftPlatforms(gameTime)) {
                     isShifting = false;
                 }
+				
                 
             }
 
@@ -85,6 +98,8 @@ namespace Plaper {
             foreach (var plat in platforms) {
                 plat.Draw(spriteBatch);
             }
+
+			spriteBatch.DrawString(game.font10, "Score: " + scoreCnt.ToString(), scorePos, Color.Black);
 
             spriteBatch.End();
 

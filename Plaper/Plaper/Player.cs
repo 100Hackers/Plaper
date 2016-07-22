@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 namespace Plaper {
     class Player : Entity {
 
-        private enum States { Standing, Power, Jumping, Dead }; // Possible states Player can be in
-        private States state; // Current state
+        /*private*/ protected enum States { Standing, Power, Jumping, Dead }; // Possible states Player can be in
+        /*private*/ protected States state; // Current state
 
         const double PI = Math.PI;  // Too lazy to keep typing Math.PI
         const int JUMP_SPEED = 11;  // Initial upwards velocity.Y
@@ -39,6 +39,11 @@ namespace Plaper {
                 return new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
             }
         }
+
+		//public States GetState() {
+		//	return state;
+		//}
+
         const int ARROW_WIDTH  = 32;
         const int ARROW_PADING = 90;    // Distance from player's head
         const int ARROW_SPEED  = 2;
