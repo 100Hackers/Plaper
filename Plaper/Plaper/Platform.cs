@@ -14,6 +14,9 @@ namespace Plaper
         //Data Members
         Rectangle screenBounds;
 
+        private static Color[] colors = { Color.White, Color.Red, Color.Green };
+        private static Random rand = new Random();
+
         //Constructor
         public Platform(Texture2D t, Vector2 v)
                 :base(t, Plaper.PLAT_SCALE, v) { }
@@ -31,7 +34,7 @@ namespace Plaper
 
         //Draw
         public void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(Texture, position, null, Color.White);
+            spriteBatch.Draw(Texture, position, null, colors[rand.Next(0, colors.Length)]);
         }
     }
 }
