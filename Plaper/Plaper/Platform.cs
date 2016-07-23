@@ -14,7 +14,7 @@ namespace Plaper
         //Data Members
         Rectangle screenBounds;
 
-        private static Color[] colors = { Color.White, Color.Red, Color.Green };
+        private static Color[] colors = { Color.Red, Color.Green, Color.LightSalmon, Color.LawnGreen, Color.Orange };
         private static Random rand = new Random();
 
         private Color color;
