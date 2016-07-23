@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 namespace Plaper {
     class Player : Entity {
 
-        /*private*/ protected enum States { Standing, Power, Jumping, Dead }; // Possible states Player can be in
-        /*private*/ protected States state; // Current state
+        private enum States { Standing, Power, Jumping, Dead }; // Possible states Player can be in
+        private States state; // Current state
 
         const double PI = Math.PI;  // Too lazy to keep typing Math.PI
         const int JUMP_SPEED = 11;  // Initial upwards velocity.Y
@@ -207,7 +207,7 @@ namespace Plaper {
                 arrowRect.X = (int)((ARROW_PADING - arrowPower) * Math.Cos(arrowAngle - PI / 2) + position.X + Width / 2 
                                         - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
 
-                arrowRect.Y = (int)((ARROW_PADING - arrowPower) * Math.Sin(arrowAngle - PI / 2) + position.Y + 15
+                arrowRect.Y = (int)((ARROW_PADING - arrowPower) * Math.Sin(arrowAngle - PI / 2) + position.Y + Height / 3
                                         - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
 
                 arrowRect.Height = ARROW_HEIGHT - (int) arrowPower;
@@ -222,7 +222,7 @@ namespace Plaper {
                 arrowRect.X = (int)(ARROW_PADING * Math.Cos(arrowAngle - PI / 2) + position.X + Width / 2 
                                     - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
 
-                arrowRect.Y = (int)(ARROW_PADING * Math.Sin(arrowAngle - PI / 2) + position.Y + 15 
+                arrowRect.Y = (int)(ARROW_PADING * Math.Sin(arrowAngle - PI / 2) + position.Y + Height / 3
                                     - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
 
                 arrowRect.Height = ARROW_HEIGHT;
