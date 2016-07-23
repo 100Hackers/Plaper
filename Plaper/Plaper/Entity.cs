@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Plaper {
     class Entity {
-        protected Texture2D texture;
+        protected Texture2D Texture { get; }
         protected Vector2   position;
 
         public Entity (Texture2D texture, Vector2 position) {
-            this.texture  = texture;
+            this.Texture  = texture;
             this.position = position;
         }
     }

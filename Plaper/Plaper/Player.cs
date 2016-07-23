@@ -22,8 +22,6 @@ namespace Plaper {
 
         Vector2 velocity;
 
-        Texture2D sprite; // Player texture
-
         double arrowAngle;      // Used for current angle of the arrow
         bool   arrowGoingLeft;  // Controls direction of arrow
         Texture2D arrowTexture; // Outline of arrow
@@ -52,7 +50,6 @@ namespace Plaper {
 
         public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, int startHeight, Rectangle screenBounds) 
             : base(texture, new Vector2((screenBounds.Width - WIDTH) / 2, screenBounds.Height - startHeight - HEIGHT)) {
-            this.sprite = texture;
             this.arrowFill = arrowFill;
             this.arrowTexture = arrowTexture;
 
@@ -195,7 +192,7 @@ namespace Plaper {
                 spriteRect.X = 14;
             }
 
-            spriteBatch.Draw(sprite, posRect, spriteRect, Color.White);
+            spriteBatch.Draw(Texture, posRect, spriteRect, Color.White);
 
             // Draw arrow if the player is still on the ground
             if (state == States.Standing || state == States.Power) {
