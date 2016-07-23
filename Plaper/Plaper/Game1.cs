@@ -12,11 +12,7 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        // Height and Width to make screen
-        public const int SCREEN_WIDTH = 400;
-        public const int SCREEN_HEIGHT = 600;
-
-        public const int buttonHeight = SCREEN_HEIGHT / 5;
+        public const int buttonHeight = Plaper.SCREEN_HEIGHT / 5;
         public const int buttonSpacing = buttonHeight / 3;
 
         // Textures for Player
@@ -47,8 +43,8 @@ namespace Plaper {
             Content.RootDirectory = "Content";
 
             // Set screen height and width
-            graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
-            graphics.PreferredBackBufferWidth = SCREEN_WIDTH;
+            graphics.PreferredBackBufferHeight = Plaper.SCREEN_HEIGHT;
+            graphics.PreferredBackBufferWidth = Plaper.SCREEN_WIDTH;
 
             // unrestricted framerate
             //this.IsFixedTimeStep = false;

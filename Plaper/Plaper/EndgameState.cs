@@ -40,11 +40,11 @@ namespace Plaper {
 
             retryButton = new Button("RETRY", buttonTexture,
                 new Rectangle(0, (Game1.buttonHeight + Game1.buttonSpacing * 3) * nButtons,
-                Game1.SCREEN_WIDTH, Game1.buttonHeight));
+                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
             nButtons++;
             menuButton = new Button("MENU", buttonTexture,
                 new Rectangle(0, (Game1.buttonHeight + Game1.buttonSpacing * 2) * nButtons,
-                Game1.SCREEN_WIDTH, Game1.buttonHeight));
+                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
         }
 
         //update game logic
@@ -57,6 +57,14 @@ namespace Plaper {
                 State.setState(new GameState(graphics, game));
             }
             if(menuButton.Clicked()) {
+                State.setState(new MenuState(graphics, game));
+            }
+
+            if(Keyboard.GetState().IsKeyDown(Keys.Space)) {
+                State.setState(new GameState(graphics, game));
+            }
+
+            if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
                 State.setState(new MenuState(graphics, game));
             }
 

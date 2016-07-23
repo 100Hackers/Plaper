@@ -39,7 +39,7 @@ namespace Plaper {
         public GameState(GraphicsDeviceManager graphics, Game1 game) {
             this.graphics = graphics;
             this.game = game;
-            screenRectangle = new Rectangle(0, 0, Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT);
+            screenRectangle = new Rectangle(0, 0, Plaper.SCREEN_WIDTH, Plaper.SCREEN_HEIGHT);
             player = new Player(game.Sprite, game.Arrow, game.ArrowFill, START_HEIGHT, screenRectangle);
 
 			scorePos = new Vector2(5.0f, 5.0f);

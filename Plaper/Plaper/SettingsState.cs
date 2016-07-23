@@ -33,8 +33,8 @@ namespace Plaper {
             buttonTexture.SetData(new Color[] { Color.Chocolate });
 
             backButton = new Button("BACK", buttonTexture, 
-                new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight), 
-                Game1.SCREEN_WIDTH, Game1.buttonHeight));
+                new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight),
+                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
             nButtons++;
         }
 
