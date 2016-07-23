@@ -30,14 +30,6 @@ namespace Plaper {
             get { return isDead; }
         }
 
-        /*public new int Width { get { return base.Width / 3; } }
-
-        public new Rectangle Hitbox() {
-            Rectangle temp = base.Hitbox();
-            temp.Width /= 3;
-            return temp;
-        }*/
-
         const int ARROW_HEIGHT = 64;    // Arrow constants
         const int ARROW_WIDTH  = 32;
         const int ARROW_PADING = 90;    // Distance from player's head
@@ -194,7 +186,7 @@ namespace Plaper {
             spriteBatch.Draw(Texture, Hitbox(), spriteRect, Color.White);
 
             // Draw arrow if the player is still on the ground
-            if (state == States.Standing || state == States.Power) {
+            if ((state == States.Standing || state == States.Power) && !Entity.IsScrolling) {
 
                 // Arrow Fill
                 // Gross math to get the position of where the arrow should be

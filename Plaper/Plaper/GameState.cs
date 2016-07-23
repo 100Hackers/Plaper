@@ -66,15 +66,12 @@ namespace Plaper {
 					++scoreCnt;
                     platformCounter %= 3;
                     isShifting = true;
-                    shiftDelta = (int) (600 - platforms[platformCounter].Pos.Y) - START_HEIGHT;
-                    preShift = platforms[platformCounter].Pos.Y;
+                    Entity.ScrollInit((600 - platforms[platformCounter].Pos.Y) - START_HEIGHT);
                 }
             } else {
-                if (shiftPlatforms(gameTime)) {
+                if (!Entity.ScrollDown()) {
                     isShifting = false;
                 }
-				
-                
             }
 
             // Quit to make menu is esc is pressed
@@ -102,19 +99,6 @@ namespace Plaper {
 
             spriteBatch.End();
 
-        }
-
-        private bool shiftPlatforms(GameTime gameTime) {
-            float delta = (int) (SHIFT_SPEED * gameTime.ElapsedGameTime.TotalSeconds);
-
-            foreach (Platform p in platforms) {
-                p.SetPlatform(new Vector2(p.Pos.X, p.Pos.Y + delta));
-            }
-
-            player.SetPlayer(new Vector2(player.Hitbox().X, player.Hitbox().Y + delta));
-
-            preShift += delta;
-            return preShift > screenRectangle.Height - START_HEIGHT;
         }
 
         private void generateNewPlatform() {

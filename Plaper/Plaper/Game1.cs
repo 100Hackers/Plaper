@@ -139,6 +139,7 @@ namespace Plaper {
         protected override void Update(GameTime gameTime) {
 
             Plaper.keyboardState = Keyboard.GetState();
+            Plaper.gameTime = gameTime;
 
             //exit if esc is pressed
             if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) {
