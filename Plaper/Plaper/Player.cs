@@ -16,10 +16,6 @@ namespace Plaper {
         const double PI = Math.PI;  // Too lazy to keep typing Math.PI
         const int JUMP_SPEED = 11;  // Initial upwards velocity.Y
 
-        const double SCALE = 3.0;   // How much to scale player sprite by
-        const int HEIGHT = (int) (17 * SCALE);
-        const int WIDTH  = (int) (14 * SCALE);
-
         Vector2 velocity;
 
         double arrowAngle;      // Used for current angle of the arrow
@@ -40,7 +36,7 @@ namespace Plaper {
         {
             get
             {
-                return new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
+                return new Rectangle((int)position.X, (int)position.Y, Width, Height);
             }
         }
 
@@ -55,7 +51,7 @@ namespace Plaper {
         const double ARROW_BOUND_LOWER = (-PI / 3);
 
         public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, int startHeight, Rectangle screenBounds) 
-            : base(texture, new Vector2((screenBounds.Width - WIDTH) / 2, screenBounds.Height - startHeight - HEIGHT)) {
+            : base(texture, Plaper.PLAYER_SCALE, new Vector2(0f, 0f)) {
             this.arrowFill = arrowFill;
             this.arrowTexture = arrowTexture;
 
@@ -64,6 +60,8 @@ namespace Plaper {
             arrowAngle = 0.0;
             arrowPower = ARROW_HEIGHT;
             arrowGoingLeft = false;
+
+            position = new Vector2((screenBounds.Width - Width) / 2, screenBounds.Height - startHeight - Height);
         }
 
         public bool Update(GameTime gameTime, Platform[] platforms, int curPlatform) {
@@ -123,16 +121,16 @@ namespace Plaper {
                     position.Y -= (float) (elapsedSeconds * velocity.Y);
 
                     // Check for wall colissions for add horizontal velocity to position
-                    if (position.X < 0 || Plaper.SCREEN_WIDTH < position.X + WIDTH) {
+                    if (position.X < 0 || Plaper.SCREEN_WIDTH < position.X + Width) {
                         velocity.X = -velocity.X;
-                        position.X = position.X < 0 ? 0f : Plaper.SCREEN_WIDTH - WIDTH;
+                        position.X = position.X < 0 ? 0f : Plaper.SCREEN_WIDTH - Width;
                     }
                     position.X -= (float) (elapsedSeconds * velocity.X);
 
                     // Check for player hitting the bottom of the screen
                     // If so, go back to Standing state and reset arrow
-                    if (position.Y + HEIGHT > Plaper.SCREEN_HEIGHT) {
-                        position.Y = Plaper.SCREEN_HEIGHT - HEIGHT;
+                    if (position.Y + Height > Plaper.SCREEN_HEIGHT) {
+                        position.Y = Plaper.SCREEN_HEIGHT - Height;
                         velocity = Vector2.Zero;
 
                         arrowAngle = 0;
@@ -157,21 +155,21 @@ namespace Plaper {
                     if (position.Y < platforms[i].Pos.Y) {
                         if (velocity.Y < 0) {
                             velocity = Vector2.Zero;
-                            position.Y = platforms[i].Pos.Y - HEIGHT;
+                            position.Y = platforms[i].Pos.Y - Height;
                             state = States.Standing;
                             if (i == ((curPlatform + 1) % 3))
                                 onNextPlat = true;
                         }
                     }
                     //If character is below platform and rising when he collides, sets conditions for falling back down and bounding off of platform
-                    else if (position.Y + HEIGHT > platforms[i].Pos.Y + platforms[i].Tex.Height) {
+                    else if (position.Y + Height > platforms[i].Pos.Y + platforms[i].Tex.Height) {
                         if (velocity.Y > 0) {
                             velocity.Y *= -1;
                         }
                     }
 
                     //If character hits side of platform, reverses horizontal travel direction
-                    if (position.X < platforms[i].Pos.X || position.X + WIDTH > platforms[i].Pos.X + platforms[i].Tex.Width) {
+                    if (position.X < platforms[i].Pos.X || position.X + Width > platforms[i].Pos.X + platforms[i].Tex.Width) {
                         velocity.X *= -1;
                     }
                 }
@@ -207,10 +205,10 @@ namespace Plaper {
                 // Arrow Fill
                 // Gross math to get the position of where the arrow should be
                 var arrowRect = new Rectangle();
-                arrowRect.X = (int)((ARROW_PADING - arrowPower) * Math.Cos(arrowAngle - PI / 2) + position.X + WIDTH / 2 
+                arrowRect.X = (int)((ARROW_PADING - arrowPower) * Math.Cos(arrowAngle - PI / 2) + position.X + Width / 2 
                                         - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
 
-                arrowRect.Y = (int)((ARROW_PADING - arrowPower) * Math.Sin(arrowAngle - PI / 2) + position.Y + 5*SCALE
+                arrowRect.Y = (int)((ARROW_PADING - arrowPower) * Math.Sin(arrowAngle - PI / 2) + position.Y + 15
                                         - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
 
                 arrowRect.Height = ARROW_HEIGHT - (int) arrowPower;
@@ -222,10 +220,10 @@ namespace Plaper {
 
                 // Arrow Outline
                 // More gross math, yet somehow beautiful at the same time. I </3 trig.
-                arrowRect.X = (int)(ARROW_PADING * Math.Cos(arrowAngle - PI / 2) + position.X + WIDTH / 2 
+                arrowRect.X = (int)(ARROW_PADING * Math.Cos(arrowAngle - PI / 2) + position.X + Width / 2 
                                     - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
 
-                arrowRect.Y = (int)(ARROW_PADING * Math.Sin(arrowAngle - PI / 2) + position.Y + 5*SCALE 
+                arrowRect.Y = (int)(ARROW_PADING * Math.Sin(arrowAngle - PI / 2) + position.Y + 15 
                                     - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
 
                 arrowRect.Height = ARROW_HEIGHT;
