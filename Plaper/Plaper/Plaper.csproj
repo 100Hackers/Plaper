@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Button.cs" />
+    <Compile Include="EndgameState.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameState.cs" />

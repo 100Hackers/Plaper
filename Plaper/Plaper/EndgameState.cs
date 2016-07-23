@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Plaper {
 
     //game state class
-    class MenuState : State {
+    class EndgameState : State {
 
         GraphicsDeviceManager graphics;
         Game1 game;
@@ -19,18 +19,18 @@ namespace Plaper {
         const string START_TEXT = "START";
         const string SETTINGS_TEXT = "SETTINGS";
 
-        Button startButton;
-        Button settingsButton;
+        Button retryButton;
+        Button menuButton;
 
         int nButtons = 1;
 
-        const  float TEXT_SCALE  = 2.5f;
+        const float TEXT_SCALE = 2.5f;
         static Color HOVER_COLOR = Color.White;
-        static Color TEXT_COLOR  = Color.Black;
+        static Color TEXT_COLOR = Color.Black;
 
 
         //ctor
-        public MenuState(GraphicsDeviceManager graphics, Game1 game) {
+        public EndgameState(GraphicsDeviceManager graphics, Game1 game) {
             this.graphics = graphics;
             this.game = game;
 
@@ -38,26 +38,26 @@ namespace Plaper {
             buttonTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
             buttonTexture.SetData(new Color[] { Color.Chocolate });
 
-            startButton = new Button("START", buttonTexture,
-                new Rectangle(0, (Game1.buttonHeight + Game1.buttonSpacing*3) * nButtons,
+            retryButton = new Button("RETRY", buttonTexture,
+                new Rectangle(0, (Game1.buttonHeight + Game1.buttonSpacing * 3) * nButtons,
                 Game1.SCREEN_WIDTH, Game1.buttonHeight));
             nButtons++;
-            settingsButton = new Button("SETTINGS", buttonTexture,
-                new Rectangle(0, (Game1.buttonHeight + Game1.buttonSpacing*2) * nButtons,
+            menuButton = new Button("MENU", buttonTexture,
+                new Rectangle(0, (Game1.buttonHeight + Game1.buttonSpacing * 2) * nButtons,
                 Game1.SCREEN_WIDTH, Game1.buttonHeight));
         }
 
         //update game logic
         public override void Update(GameTime gameTime) {
 
-            startButton.Update(gameTime);
-            settingsButton.Update(gameTime);
+            retryButton.Update(gameTime);
+            menuButton.Update(gameTime);
 
-            if(startButton.Clicked()) {
+            if(retryButton.Clicked()) {
                 State.setState(new GameState(graphics, game));
             }
-            if(settingsButton.Clicked()) {
-                State.setState(new SettingsState(graphics, game));
+            if(menuButton.Clicked()) {
+                State.setState(new MenuState(graphics, game));
             }
 
         }
@@ -67,8 +67,8 @@ namespace Plaper {
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
-            startButton.Draw(spriteBatch);
-            settingsButton.Draw(spriteBatch);
+            retryButton.Draw(spriteBatch);
+            menuButton.Draw(spriteBatch);
 
             spriteBatch.End();
 

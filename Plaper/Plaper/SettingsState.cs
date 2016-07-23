@@ -29,12 +29,8 @@ namespace Plaper {
             this.game = game;
 
             //stuff for button texture
-            buttonTexture = new Texture2D(graphics.GraphicsDevice, 20, 10);
-            Color[] startTextureData = new Color[Game1.buttonHeight * Game1.SCREEN_WIDTH];
-            for(int i = 0; i < startTextureData.Length; i++) {
-                startTextureData[i] = Color.Chocolate;
-            }
-            buttonTexture.SetData(startTextureData);
+            buttonTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            buttonTexture.SetData(new Color[] { Color.Chocolate });
 
             backButton = new Button("BACK", buttonTexture, 
                 new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight), 
