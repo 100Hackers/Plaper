@@ -29,7 +29,13 @@ namespace Plaper {
         double arrowPower;      // Used for current arrow power
         bool   powerInc;        // Controls whether power increasing or decreasing
 
+        bool isDead = false;
+        public bool IsDead {
+            get { return isDead; }
+        }
+
         const int ARROW_HEIGHT = 64;    // Arrow constants
+
         public Rectangle posRect
         {
             get
@@ -138,6 +144,7 @@ namespace Plaper {
 
                 case States.Dead:
                     position = Vector2.Zero;
+                    isDead = true;
                     break;
             }
 

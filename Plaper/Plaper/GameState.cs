@@ -86,6 +86,10 @@ namespace Plaper {
                 State.setState(new MenuState(graphics, game));
             }
 
+            if(player.IsDead) {
+                State.setState(new EndgameState(graphics, game));
+            }
+
         }
 
         //update graphics
