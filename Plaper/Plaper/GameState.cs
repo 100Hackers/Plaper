@@ -50,9 +50,9 @@ namespace Plaper {
 
             isShifting = false;
 
-            platforms[0] = new Platform(game.PlatformTex, START_HEIGHT, screenRectangle);
-            platforms[1] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(100, 300)), screenRectangle);
-            platforms[2] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(MAX_HEIGHT_DIFF - MIN_HEIGHT_DIFF) + MIN_HEIGHT_DIFF), screenRectangle);
+            platforms[0] = new Platform(game.PlatformTex, START_HEIGHT);
+            platforms[1] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(100, 300)));
+            platforms[2] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(MAX_HEIGHT_DIFF - MIN_HEIGHT_DIFF) + MIN_HEIGHT_DIFF));
             generateNewPlatform();
         }
 
@@ -89,7 +89,6 @@ namespace Plaper {
             if(player.IsDead) {
                 State.setState(new EndgameState(graphics, game));
             }
-
         }
 
         //update graphics
@@ -116,7 +115,7 @@ namespace Plaper {
                 p.SetPlatform(new Vector2(p.Pos.X, p.Pos.Y + delta));
             }
 
-            player.SetPlayer(new Vector2(player.posRect.X, player.posRect.Y + delta));
+            player.SetPlayer(new Vector2(player.Hitbox().X, player.Hitbox().Y + delta));
 
             preShift += delta;
             return preShift > screenRectangle.Height - START_HEIGHT;

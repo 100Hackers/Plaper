@@ -30,20 +30,15 @@ namespace Plaper {
             get { return isDead; }
         }
 
-        const int ARROW_HEIGHT = 64;    // Arrow constants
+        public new int Width { get { return base.Width / 3; } }
 
-        public Rectangle posRect
-        {
-            get
-            {
-                return new Rectangle((int)position.X, (int)position.Y, Width, Height);
-            }
+        public new Rectangle Hitbox() {
+            Rectangle temp = base.Hitbox();
+            temp.Width /= 3;
+            return temp;
         }
 
-		//public States GetState() {
-		//	return state;
-		//}
-
+        const int ARROW_HEIGHT = 64;    // Arrow constants
         const int ARROW_WIDTH  = 32;
         const int ARROW_PADING = 90;    // Distance from player's head
         const int ARROW_SPEED  = 2;
@@ -149,7 +144,7 @@ namespace Plaper {
             //Platform collision detection
             for (int i = 0; i < platforms.Length; i++) {
 
-                if(!Rectangle.Intersect(new Rectangle(posRect.X + Plaper.SCREEN_WIDTH / 40, posRect.Y, posRect.Width - Plaper.SCREEN_WIDTH / 20, posRect.Height), platforms[i].BoundingBox).IsEmpty) {
+                if(!Rectangle.Intersect(new Rectangle(Hitbox().X + Plaper.SCREEN_WIDTH / 40, Hitbox().Y, Hitbox().Width - Plaper.SCREEN_WIDTH / 20, Hitbox().Height), platforms[i].Hitbox()).IsEmpty) {
                     //If character is above platform and falling when he collides, sets conditions for landing on platform
                     if (position.Y < platforms[i].Pos.Y) {
                         if (velocity.Y < 0) {
@@ -161,14 +156,14 @@ namespace Plaper {
                         }
                     }
                     //If character is below platform and rising when he collides, sets conditions for falling back down and bounding off of platform
-                    else if (position.Y + Height > platforms[i].Pos.Y + platforms[i].Tex.Height) {
+                    else if (position.Y + Height > platforms[i].Pos.Y + platforms[i].Hitbox().Height) {
                         if (velocity.Y > 0) {
                             velocity.Y *= -1;
                         }
                     }
 
                     //If character hits side of platform, reverses horizontal travel direction
-                    if (position.X < platforms[i].Pos.X || position.X + Width > platforms[i].Pos.X + platforms[i].Tex.Width) {
+                    if (position.X < platforms[i].Pos.X || position.X + Width > platforms[i].Pos.X + platforms[i].Hitbox().Width) {
                         velocity.X *= -1;
                     }
                 }
@@ -196,7 +191,7 @@ namespace Plaper {
                 spriteRect.X = 14;
             }
 
-            spriteBatch.Draw(Texture, posRect, spriteRect, Color.White);
+            spriteBatch.Draw(Texture, Hitbox(), spriteRect, Color.White);
 
             // Draw arrow if the player is still on the ground
             if (state == States.Standing || state == States.Power) {

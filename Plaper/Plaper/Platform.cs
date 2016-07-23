@@ -9,57 +9,29 @@ using System.Threading.Tasks;
 
 namespace Plaper
 {
-    class Platform
+    class Platform : Entity
     {
         //Data Members
         Rectangle screenBounds;
-        private Texture2D tex;
-        private Vector2 pos;
-        const double SCALE = 3.0;
-        const int HEIGHT = (int)(24);
-        const int WIDTH = (int)(101);
-
-        //Bounding Box
-        public Rectangle BoundingBox
-        {
-            get { return new Rectangle((int)pos.X, (int)pos.Y, WIDTH, HEIGHT); }
-        }
 
         //Constructor
-        public Platform(Texture2D t, Vector2 v, Rectangle screenBounds) {
-            tex = t;
-            pos = v;
-            this.screenBounds = screenBounds;
+        public Platform(Texture2D t, Vector2 v)
+                :base(t, Plaper.PLAT_SCALE, v) { }
+
+        public Platform(Texture2D texture, int startHeight)
+                :base(texture, 1.0, Vector2.Zero) {
+            position = new Vector2((Plaper.SCREEN_WIDTH - Width)/2, Plaper.SCREEN_HEIGHT - startHeight);
         }
 
-        public Platform(Texture2D texture, int startHeight, Rectangle screenBounds) {
-            this.tex = texture;
-            this.screenBounds = screenBounds;
+        public Vector2 Pos { get { return position; } }
 
-            this.pos = new Vector2((screenBounds.Width - WIDTH)/2, screenBounds.Height - startHeight);
-        }
-
-        //Properties
-        public Texture2D Tex
-        {
-            get { return tex; }
-            set { tex = value; }
-        }
-
-        public Vector2 Pos
-        {
-            get { return pos; }
-            set { pos = value; }
-        }
-
-        public void SetPlatform(Vector2 position) {
-            this.pos = position;
+        public void SetPlatform(Vector2 p) {
+            position = p;
         }
 
         //Draw
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(tex, pos, null, Color.White);
+        public void Draw(SpriteBatch spriteBatch) {
+            spriteBatch.Draw(Texture, position, null, Color.White);
         }
     }
 }

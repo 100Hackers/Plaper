@@ -13,6 +13,7 @@ namespace Plaper {
             SCREEN_HEIGHT = 600;
 
         public const double PLAYER_SCALE = 3.0;
+        public const double PLAT_SCALE   = 1.0;
 
 
         public static KeyboardState keyboardState, lastKeyboardState;
