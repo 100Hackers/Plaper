@@ -12,37 +12,22 @@ namespace Plaper {
     //game state class
     class EndgameState : State {
 
-        GraphicsDeviceManager graphics;
-        Game1 game;
-
-        Texture2D buttonTexture;
-        const string START_TEXT = "START";
-        const string SETTINGS_TEXT = "SETTINGS";
+        const string RETRY_TEXT = "RETRY";
+        const string MENU_TEXT = "MENU";
 
         Button retryButton;
         Button menuButton;
 
-        int nButtons = 1;
-
-        const float TEXT_SCALE = 2.5f;
-        static Color HOVER_COLOR = Color.White;
-        static Color TEXT_COLOR = Color.Black;
-
-
         //ctor
-        public EndgameState(GraphicsDeviceManager graphics, Game1 game) {
-            this.graphics = graphics;
-            this.game = game;
+        public EndgameState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
 
-            //stuff for button texture
-            buttonTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
-            buttonTexture.SetData(new Color[] { Color.Chocolate });
-
-            retryButton = new Button("RETRY", buttonTexture,
+            nButtons++;
+            retryButton = new Button(RETRY_TEXT, buttonTexture,
                 new Rectangle(0, (Game1.buttonHeight + Game1.buttonSpacing * 3) * nButtons,
                 Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+
             nButtons++;
-            menuButton = new Button("MENU", buttonTexture,
+            menuButton = new Button(MENU_TEXT, buttonTexture,
                 new Rectangle(0, (Game1.buttonHeight + Game1.buttonSpacing * 2) * nButtons,
                 Plaper.SCREEN_WIDTH, Game1.buttonHeight));
         }

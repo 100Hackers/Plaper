@@ -12,27 +12,15 @@ namespace Plaper {
     //game state class
     class SettingsState : State {
 
-        GraphicsDeviceManager graphics;
-        Game1 game;
         Button backButton;
 
-        Texture2D buttonTexture;
-        int nButtons = 0;
-
-        const float TEXT_SCALE = 2.5f;
-        static Color HOVER_COLOR = Color.White;
-        static Color TEXT_COLOR = Color.Black;
+        const string BACK_TEXT = "BACK";
 
         //ctor
-        public SettingsState(GraphicsDeviceManager graphics, Game1 game) {
-            this.graphics = graphics;
-            this.game = game;
+        public SettingsState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
 
-            //stuff for button texture
-            buttonTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
-            buttonTexture.SetData(new Color[] { Color.Chocolate });
-
-            backButton = new Button("BACK", buttonTexture, 
+            nButtons++;
+            backButton = new Button(BACK_TEXT, buttonTexture, 
                 new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight),
                 Plaper.SCREEN_WIDTH, Game1.buttonHeight));
             nButtons++;

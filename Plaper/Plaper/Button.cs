@@ -7,11 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-/*
-Largly based off the example code here:
-http://stackoverflow.com/questions/32430598/making-a-button-xna-monogame
-*/
-
 namespace Plaper {
     class Button {
 

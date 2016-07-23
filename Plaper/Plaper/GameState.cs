@@ -12,9 +12,6 @@ namespace Plaper {
     //game state class
     class GameState : State {
 
-        GraphicsDeviceManager graphics;
-        Game1 game;
-
         Random rand = new Random();
 
         Player player;
@@ -36,9 +33,8 @@ namespace Plaper {
         Rectangle screenRectangle;
 
         //ctor
-        public GameState(GraphicsDeviceManager graphics, Game1 game) {
-            this.graphics = graphics;
-            this.game = game;
+        public GameState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
+
             screenRectangle = new Rectangle(0, 0, Plaper.SCREEN_WIDTH, Plaper.SCREEN_HEIGHT);
             player = new Player(game.Sprite, game.Arrow, game.ArrowFill, START_HEIGHT, screenRectangle);
 
