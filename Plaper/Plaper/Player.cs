@@ -151,8 +151,7 @@ namespace Plaper {
             //Platform collision detection
             for (int i = 0; i < platforms.Length; i++) {
 
-
-                if (posRect.Intersects(platforms[i].BoundingBox) && state != States.Standing) {
+                if(!Rectangle.Intersect(new Rectangle(posRect.X + Plaper.SCREEN_WIDTH / 40, posRect.Y, posRect.Width - Plaper.SCREEN_WIDTH / 20, posRect.Height), platforms[i].BoundingBox).IsEmpty) {
                     //If character is above platform and falling when he collides, sets conditions for landing on platform
                     if (position.Y < platforms[i].Pos.Y) {
                         if (velocity.Y < 0) {
