@@ -13,12 +13,22 @@ namespace Plaper {
 
         protected GraphicsDeviceManager graphics;
         protected Game1 game;
+        protected Texture2D buttonTexture;
+
+        protected int nButtons = 0;
+
+        protected const float TEXT_SCALE = 2.5f;
+        protected static Color HOVER_COLOR = Color.White;
+        protected static Color TEXT_COLOR = Color.Black;
 
         static State currentState = null;
 
         public State(GraphicsDeviceManager graphics, Game1 game) {
             this.graphics = graphics;
             this.game = game;
+
+            buttonTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            buttonTexture.SetData(new Color[] { Color.Chocolate });
         }
 
         public static void setState(State state) {
