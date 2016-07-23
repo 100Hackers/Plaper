@@ -30,13 +30,13 @@ namespace Plaper {
             get { return isDead; }
         }
 
-        public new int Width { get { return base.Width / 3; } }
+        /*public new int Width { get { return base.Width / 3; } }
 
         public new Rectangle Hitbox() {
             Rectangle temp = base.Hitbox();
             temp.Width /= 3;
             return temp;
-        }
+        }*/
 
         const int ARROW_HEIGHT = 64;    // Arrow constants
         const int ARROW_WIDTH  = 32;
@@ -46,7 +46,7 @@ namespace Plaper {
         const double ARROW_BOUND_LOWER = (-PI / 3);
 
         public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, int startHeight, Rectangle screenBounds) 
-            : base(texture, Plaper.PLAYER_SCALE, new Vector2(0f, 0f)) {
+            : base(texture, (int)(Plaper.PLAYER_SCALE*texture.Height), (int)(Plaper.PLAYER_SCALE*texture.Width/3), new Vector2(0f, 0f)) {
             this.arrowFill = arrowFill;
             this.arrowTexture = arrowTexture;
 

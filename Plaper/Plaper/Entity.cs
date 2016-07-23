@@ -22,6 +22,13 @@ namespace Plaper {
             this.Width    = (int) (scale * texture.Width);
         }
 
+        public Entity(Texture2D texture, int height, int width, Vector2 position) {
+            this.Texture  = texture;
+            this.position = position;
+            this.Height   = height;
+            this.Width    = width;
+        }
+
         public Rectangle Hitbox() {
             return new Rectangle((int)position.X, (int)position.Y, Width, Height);
         }
