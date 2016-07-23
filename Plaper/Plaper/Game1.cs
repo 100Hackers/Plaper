@@ -17,6 +17,7 @@ namespace Plaper {
 
         // Textures for Player
         Texture2D sprite;
+        int selectedSprite = 1;
         Texture2D platformTex;
         Texture2D arrow;
         Texture2D arrowFill;
@@ -108,7 +109,7 @@ namespace Plaper {
             arrowFill = Content.Load<Texture2D>("arrow_fill");
 
             //player
-            sprite = Content.Load<Texture2D>("blocky_all");
+            sprite = Content.Load<Texture2D>("bouncer_all");
 
             //platform
             platformTex = Content.Load<Texture2D>("platform");

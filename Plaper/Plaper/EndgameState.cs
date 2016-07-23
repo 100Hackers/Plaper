@@ -12,9 +12,6 @@ namespace Plaper {
     //game state class
     class EndgameState : State {
 
-        GraphicsDeviceManager graphics;
-        Game1 game;
-
         Texture2D buttonTexture;
         const string START_TEXT = "START";
         const string SETTINGS_TEXT = "SETTINGS";
@@ -30,9 +27,7 @@ namespace Plaper {
 
 
         //ctor
-        public EndgameState(GraphicsDeviceManager graphics, Game1 game) {
-            this.graphics = graphics;
-            this.game = game;
+        public EndgameState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
 
             //stuff for button texture
             buttonTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);

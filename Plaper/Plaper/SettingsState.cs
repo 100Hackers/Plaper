@@ -12,8 +12,6 @@ namespace Plaper {
     //game state class
     class SettingsState : State {
 
-        GraphicsDeviceManager graphics;
-        Game1 game;
         Button backButton;
 
         Texture2D buttonTexture;
@@ -24,9 +22,7 @@ namespace Plaper {
         static Color TEXT_COLOR = Color.Black;
 
         //ctor
-        public SettingsState(GraphicsDeviceManager graphics, Game1 game) {
-            this.graphics = graphics;
-            this.game = game;
+        public SettingsState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
 
             //stuff for button texture
             buttonTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
