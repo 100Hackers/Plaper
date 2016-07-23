@@ -93,7 +93,7 @@ namespace Plaper {
 
             this.IsMouseVisible = true;
 
-            Plaper.lastKeyBoardState = Keyboard.GetState();
+            Plaper.lastKeyboardState = Keyboard.GetState();
             Plaper.keyboardState     = Keyboard.GetState();
 
         }
@@ -155,7 +155,7 @@ namespace Plaper {
 
             base.Update(gameTime);
 
-            Plaper.lastKeyBoardState = Plaper.keyboardState;
+            Plaper.lastKeyboardState = Plaper.keyboardState;
         }
 
         /// <summary>
