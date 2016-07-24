@@ -37,8 +37,8 @@ namespace Plaper {
         //update game logic
         public override void Update(GameTime gameTime) {
 
-            for(int i = 0; i < buttonArr.Length; i++) {
-                buttonArr[i].Update(gameTime);
+            foreach(Button button in buttonArr) {
+                button.Update(gameTime);
             }
 
             if(buttonArr[0].Clicked()) {
@@ -53,7 +53,7 @@ namespace Plaper {
             }
 
             if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
-                game.Exit();
+                //game.Exit();
             }
 
         }
@@ -65,8 +65,8 @@ namespace Plaper {
 
             spriteBatch.Draw(game.Sprite, spritePreviewRectangle, new Rectangle(14, 0, 14, 17), Color.White);
 
-            for(int i = 0; i < buttonArr.Length; i++) {
-                buttonArr[i].Draw(spriteBatch);
+            foreach (Button button in buttonArr) {
+                button.Draw(spriteBatch);
             }
 
             spriteBatch.End();

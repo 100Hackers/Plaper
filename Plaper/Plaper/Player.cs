@@ -58,7 +58,7 @@ namespace Plaper {
             bool onNextPlat = false;
 
             // See which state we are in
-            switch (state) {
+            switch(state) {
                 case States.Standing:
 
                     // Rotate arrow
@@ -66,7 +66,7 @@ namespace Plaper {
                     arrowAngle += arrowGoingLeft ? -arrowDelta : arrowDelta;
 
                     // Check arrow bounds
-                    if (arrowAngle < ARROW_BOUND_LOWER || ARROW_BOUND_UPPER < arrowAngle) {
+                    if(arrowAngle < ARROW_BOUND_LOWER || ARROW_BOUND_UPPER < arrowAngle) {
                         // limit to bounds
                         arrowAngle = arrowGoingLeft ? ARROW_BOUND_LOWER : ARROW_BOUND_UPPER;
                         // reverse direction
@@ -74,29 +74,34 @@ namespace Plaper {
                     }
 
                     // Move to Power state to get jump power if space is pressed
-                    bool spacePressed  = Plaper.keyboardState.IsKeyDown(Keys.Space);
-                    if (spacePressed) {
+                    bool spacePressed = Plaper.keyboardState.IsKeyDown(Keys.Space);
+                    if(spacePressed) {
                         powerInc = true;
                         state = States.Power;
+                    }
+                    if(this.Hitbox().X + this.Hitbox().Width / 2 < platforms[curPlatform].Hitbox().X) {
+                        this.position.X++;
+                    } else if(this.Hitbox().X + this.Hitbox().Width / 2 > platforms[curPlatform].Hitbox().X + platforms[curPlatform].Hitbox().Width) {
+                        this.position.X--;
                     }
                     break;
 
                 case States.Power:
                     bool spaceReleased = !Plaper.keyboardState.IsKeyDown(Keys.Space);
-                    
+
                     // Move power up and down
                     arrowPower = arrowPower + elapsedSeconds * (powerInc ? -100 : 100);
 
                     // Check power bounds (full and empty)
-                    if (arrowPower < 0 || ARROW_HEIGHT < arrowPower) {
+                    if(arrowPower < 0 || ARROW_HEIGHT < arrowPower) {
                         arrowPower = powerInc ? 0 : ARROW_HEIGHT;
                         powerInc = !powerInc;
                     }
 
                     // Jump once space is released and move to Jumping state
-                    if (spaceReleased) {
-                        velocity.Y = (float) (Math.Cos(arrowAngle)  * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
-                        velocity.X = (float) (Math.Sin(-arrowAngle) * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
+                    if(spaceReleased) {
+                        velocity.Y = (float)(Math.Cos(arrowAngle) * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
+                        velocity.X = (float)(Math.Sin(-arrowAngle) * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
                         arrowPower = ARROW_HEIGHT;
                         state = States.Jumping;
                     }
@@ -104,19 +109,19 @@ namespace Plaper {
 
                 case States.Jumping:
                     // Subtract Gravity from vertical velocity and add velocity to position
-                    velocity.Y -= (float) (elapsedSeconds * Plaper.GRAVITY);
-                    position.Y -= (float) (elapsedSeconds * velocity.Y);
+                    velocity.Y -= (float)(elapsedSeconds * Plaper.GRAVITY);
+                    position.Y -= (float)(elapsedSeconds * velocity.Y);
 
                     // Check for wall colissions for add horizontal velocity to position
-                    if (position.X < 0 || Plaper.SCREEN_WIDTH < position.X + Width) {
+                    if(position.X < 0 || Plaper.SCREEN_WIDTH < position.X + Width) {
                         velocity.X = -velocity.X;
                         position.X = position.X < 0 ? 0f : Plaper.SCREEN_WIDTH - Width;
                     }
-                    position.X -= (float) (elapsedSeconds * velocity.X);
+                    position.X -= (float)(elapsedSeconds * velocity.X);
 
                     // Check for player hitting the bottom of the screen
                     // If so, go back to Standing state and reset arrow
-                    if (position.Y + Height > Plaper.SCREEN_HEIGHT) {
+                    if(position.Y + Height > Plaper.SCREEN_HEIGHT) {
                         position.Y = Plaper.SCREEN_HEIGHT - Height;
                         velocity = Vector2.Zero;
 
@@ -130,7 +135,8 @@ namespace Plaper {
                 case States.Dead:
                     position = Vector2.Zero;
                     isDead = true;
-                    break;
+                    break;              
+                
             }
 
             //Platform collision detection

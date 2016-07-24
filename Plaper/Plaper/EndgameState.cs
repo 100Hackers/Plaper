@@ -37,8 +37,8 @@ namespace Plaper {
 
         public override void Update(GameTime gameTime) {
 
-            for(int i = 0; i < buttonArr.Length; i++) {
-                buttonArr[i].Update(gameTime);
+            foreach(Button button in buttonArr) {
+                button.Update(gameTime);
             }
 
             if(buttonArr[1].Clicked()) {
@@ -62,8 +62,8 @@ namespace Plaper {
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
-            for(int i = 0; i < buttonArr.Length; i++) {
-                buttonArr[i].Draw(spriteBatch);
+            foreach(Button button in buttonArr) {
+                button.Draw(spriteBatch);
             }
 
             spriteBatch.End();

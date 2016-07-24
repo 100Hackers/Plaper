@@ -22,6 +22,7 @@ namespace Plaper {
         const int MIN_HEIGHT_DIFF = 300;
 
         bool isShifting;
+        public bool IsShifting { get { return isShifting; } }
         int shiftDelta;
         float preShift;
         const int SHIFT_SPEED = 300;

@@ -12,7 +12,7 @@ namespace Plaper {
     //game state class
     class SettingsState : State {
 
-        Button backButton;
+        Button[] buttonArr = new Button[2];
 
         const string BACK_TEXT = "BACK";
 
@@ -20,7 +20,7 @@ namespace Plaper {
         public SettingsState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
 
             nButtons++;
-            backButton = new Button(BACK_TEXT, buttonTexture, 
+            buttonArr[0] = new Button(BACK_TEXT, buttonTexture, 
                 new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight),
                 Plaper.SCREEN_WIDTH, Game1.buttonHeight));
             nButtons++;
@@ -29,7 +29,9 @@ namespace Plaper {
         //update for game logic
         public override void Update(GameTime gameTime) {
 
-            backButton.Update(gameTime);
+            foreach (Button button in buttonArr) {
+                button.Update(gameTime);
+            }
 
             //check where mouse is and do stuff if it's clicked
             if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
@@ -38,7 +40,7 @@ namespace Plaper {
 
 
             //check if mouse button has just been depressed
-            if(backButton.Clicked()) {
+            if(buttonArr[0].Clicked()) {
                 State.setState(new MenuState(graphics, game));
             }
 
@@ -49,9 +51,9 @@ namespace Plaper {
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
-            //back button
-            backButton.Draw(spriteBatch);
-
+            foreach(Button button in buttonArr) {
+                button.Draw(spriteBatch);
+            }
 
             spriteBatch.End();
 
