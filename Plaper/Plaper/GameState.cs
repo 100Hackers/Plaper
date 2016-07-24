@@ -80,7 +80,7 @@ namespace Plaper {
             }
 
             if(player.IsDead) {
-                State.setState(new EndgameState(graphics, game));
+                State.setState(new EndgameState(graphics, game, scoreCnt));
             }
         }
 

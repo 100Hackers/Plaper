@@ -18,8 +18,12 @@ namespace Plaper {
         Button startButton;
         Button settingsButton;
 
+        Rectangle spritePreviewRectangle;
+
         //ctor
         public MenuState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
+
+            spritePreviewRectangle = new Rectangle(0, (Game1.buttonHeight + Game1.buttonSpacing), Plaper.SCREEN_WIDTH, (Game1.buttonHeight + Game1.buttonSpacing * 3));
 
             nButtons++;
             startButton = new Button(START_TEXT, buttonTexture,
@@ -59,6 +63,7 @@ namespace Plaper {
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
+            spriteBatch.Draw(game.Sprite, spritePreviewRectangle, Color.White);
             startButton.Draw(spriteBatch);
             settingsButton.Draw(spriteBatch);
 

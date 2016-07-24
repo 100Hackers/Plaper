@@ -15,33 +15,36 @@ namespace Plaper {
         const string RETRY_TEXT = "RETRY";
         const string MENU_TEXT = "MENU";
 
-        Button retryButton;
-        Button menuButton;
+        Button[] buttonArr = new Button[3];
 
-        //ctor
-        public EndgameState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
+        public EndgameState(GraphicsDeviceManager graphics, Game1 game, int score) : base(graphics, game) {
 
+            buttonSpacing = Game1.buttonHeight * 3 / 2;
+
+            buttonArr[0] = new Button("Score: " + score.ToString(), buttonTexture,
+                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight/2,
+                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
             nButtons++;
-            retryButton = new Button(RETRY_TEXT, buttonTexture,
-                new Rectangle(0, (Game1.buttonHeight + Game1.buttonSpacing * 3) * nButtons,
+            buttonArr[1] = new Button(RETRY_TEXT, buttonTexture,
+                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
                 Plaper.SCREEN_WIDTH, Game1.buttonHeight));
 
             nButtons++;
-            menuButton = new Button(MENU_TEXT, buttonTexture,
-                new Rectangle(0, (Game1.buttonHeight + Game1.buttonSpacing * 2) * nButtons,
+            buttonArr[2] = new Button(MENU_TEXT, buttonTexture,
+                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
                 Plaper.SCREEN_WIDTH, Game1.buttonHeight));
         }
 
-        //update game logic
         public override void Update(GameTime gameTime) {
 
-            retryButton.Update(gameTime);
-            menuButton.Update(gameTime);
+            for(int i = 0; i < buttonArr.Length; i++) {
+                buttonArr[i].Update(gameTime);
+            }
 
-            if(retryButton.Clicked()) {
+            if(buttonArr[1].Clicked()) {
                 State.setState(new GameState(graphics, game));
             }
-            if(menuButton.Clicked()) {
+            if(buttonArr[2].Clicked()) {
                 State.setState(new MenuState(graphics, game));
             }
 
@@ -55,13 +58,13 @@ namespace Plaper {
 
         }
 
-        //update graphics
         public override void Draw(SpriteBatch spriteBatch) {
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
-            retryButton.Draw(spriteBatch);
-            menuButton.Draw(spriteBatch);
+            for(int i = 0; i < buttonArr.Length; i++) {
+                buttonArr[i].Draw(spriteBatch);
+            }
 
             spriteBatch.End();
 

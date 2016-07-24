@@ -58,7 +58,7 @@ namespace Plaper {
         }
         public void Draw(SpriteBatch spriteBatch) {
 
-            spriteBatch.Draw(texture, buttonRect, Color.White);
+            spriteBatch.Draw(texture, buttonRect, new Rectangle(14, 0, 14, 17), Color.White);
 
             spriteBatch.DrawString(font, name, textPosition, isInBounds() ? HOVER_COLOR : TEXT_COLOR);
 

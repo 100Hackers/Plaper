@@ -17,7 +17,6 @@ namespace Plaper {
 
         // Textures for Player
         Texture2D sprite;
-        int selectedSprite = 1;
         Texture2D platformTex;
         Texture2D arrow;
         Texture2D arrowFill;

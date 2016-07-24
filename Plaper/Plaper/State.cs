@@ -15,6 +15,8 @@ namespace Plaper {
         protected Game1 game;
         protected Texture2D buttonTexture;
 
+        protected int buttonSpacing;
+
         protected int nButtons = 0;
 
         protected const float TEXT_SCALE = 2.5f;
