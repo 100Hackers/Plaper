@@ -88,8 +88,6 @@ namespace Plaper {
         //update graphics
         public override void Draw(SpriteBatch spriteBatch) {
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-
             player.Draw(spriteBatch);
 
             foreach (var plat in platforms) {
@@ -97,9 +95,6 @@ namespace Plaper {
             }
 
 			spriteBatch.DrawString(game.font10, "Score: " + scoreCnt.ToString(), scorePos, Color.Black);
-
-            spriteBatch.End();
-
         }
 
         private void generateNewPlatform() {

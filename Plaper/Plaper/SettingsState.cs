@@ -65,15 +65,9 @@ namespace Plaper {
 
         //update graphics
         public override void Draw(SpriteBatch spriteBatch) {
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-
             for (int i = 0; i < nButtons; ++i) {
                 buttonArr[i].Draw(spriteBatch);
             }
-
-            spriteBatch.End();
-
         }
     }
 }
