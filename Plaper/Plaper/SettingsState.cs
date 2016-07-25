@@ -23,6 +23,11 @@ namespace Plaper {
                 new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight),
                 Plaper.SCREEN_WIDTH, Game1.buttonHeight));
             nButtons++;
+
+            buttonArr[1] = new Button("FULLSCREEN", buttonTexture, 
+                new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight) + 50,
+                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+            nButtons++;
         }
 
         //update for game logic
@@ -41,6 +46,19 @@ namespace Plaper {
             //check if mouse button has just been depressed
             if(buttonArr[0].Clicked()) {
                 State.setState(new MenuState(graphics, game));
+            }
+
+            if (buttonArr[1].Clicked()) {
+                var displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
+                if (graphics.IsFullScreen) {
+                    graphics.PreferredBackBufferHeight = 600;
+                    graphics.PreferredBackBufferWidth = 400;
+                } else {
+                    graphics.PreferredBackBufferHeight = displayMode.Height;
+                    graphics.PreferredBackBufferWidth = displayMode.Width;
+                }
+                graphics.IsFullScreen = !graphics.IsFullScreen;
+                graphics.ApplyChanges();
             }
 
         }
