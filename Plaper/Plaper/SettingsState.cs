@@ -19,7 +19,6 @@ namespace Plaper {
         //ctor
         public SettingsState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
 
-            nButtons++;
             buttonArr[0] = new Button(BACK_TEXT, buttonTexture, 
                 new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight),
                 Plaper.SCREEN_WIDTH, Game1.buttonHeight));
@@ -29,8 +28,8 @@ namespace Plaper {
         //update for game logic
         public override void Update(GameTime gameTime) {
 
-            foreach (Button button in buttonArr) {
-                button.Update(gameTime);
+            for (int i = 0; i < nButtons; ++i) {
+                buttonArr[i].Update(gameTime);
             }
 
             //check where mouse is and do stuff if it's clicked
@@ -51,8 +50,8 @@ namespace Plaper {
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
-            foreach(Button button in buttonArr) {
-                button.Draw(spriteBatch);
+            for (int i = 0; i < nButtons; ++i) {
+                buttonArr[i].Draw(spriteBatch);
             }
 
             spriteBatch.End();

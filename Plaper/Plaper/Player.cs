@@ -142,9 +142,13 @@ namespace Plaper {
             //Platform collision detection
             for (int i = 0; i < platforms.Length; i++) {
 
+                //makes platform smaller so the player has to be more centered to land on platform.
                 if(!Rectangle.Intersect(new Rectangle(Hitbox().X + Plaper.SCREEN_WIDTH / 40, Hitbox().Y, Hitbox().Width - Plaper.SCREEN_WIDTH / 20, Hitbox().Height), platforms[i].Hitbox()).IsEmpty) {
+                    //old version on next line
+                    //if (posRect.Intersects(platforms[i].BoundingBox) && state != States.Standing) {
+
                     //If character is above platform and falling when he collides, sets conditions for landing on platform
-                    if (position.Y < platforms[i].Pos.Y) {
+                    if(position.Y < platforms[i].Pos.Y) {
                         if (velocity.Y < 0) {
                             velocity = Vector2.Zero;
                             position.Y = platforms[i].Pos.Y - Height;
