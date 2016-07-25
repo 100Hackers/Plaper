@@ -12,11 +12,7 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        // Height and Width to make screen
-        public const int SCREEN_WIDTH = 400;
-        public const int SCREEN_HEIGHT = 600;
-
-        public const int buttonHeight = SCREEN_HEIGHT / 5;
+        public const int buttonHeight = Plaper.SCREEN_HEIGHT / 5;
         public const int buttonSpacing = buttonHeight / 3;
 
         // Textures for Player
@@ -39,6 +35,7 @@ namespace Plaper {
         public static SpriteFont font12;
         public static SpriteFont font24;
         public static SpriteFont font36;
+		public /*static*/ SpriteFont font10;
 
         public Game1() {
 
@@ -46,8 +43,8 @@ namespace Plaper {
             Content.RootDirectory = "Content";
 
             // Set screen height and width
-            graphics.PreferredBackBufferHeight = SCREEN_HEIGHT;
-            graphics.PreferredBackBufferWidth = SCREEN_WIDTH;
+            graphics.PreferredBackBufferHeight = Plaper.SCREEN_HEIGHT;
+            graphics.PreferredBackBufferWidth = Plaper.SCREEN_WIDTH;
 
             // unrestricted framerate
             //this.IsFixedTimeStep = false;
@@ -92,7 +89,8 @@ namespace Plaper {
 
             this.IsMouseVisible = true;
 
-            
+            Plaper.lastKeyboardState = Keyboard.GetState();
+            Plaper.keyboardState     = Keyboard.GetState();
 
         }
 
@@ -110,7 +108,7 @@ namespace Plaper {
             arrowFill = Content.Load<Texture2D>("arrow_fill");
 
             //player
-            sprite = Content.Load<Texture2D>("blocky_all");
+            sprite = Content.Load<Texture2D>("bouncer_all");
 
             //platform
             platformTex = Content.Load<Texture2D>("platform");
@@ -119,6 +117,7 @@ namespace Plaper {
             font12 = Content.Load<SpriteFont>("joystik");
             font24 = Content.Load<SpriteFont>("joystik24");
             font36 = Content.Load<SpriteFont>("joystik36");
+			font10 = Content.Load<SpriteFont>("ScoreFont");
 
             font = font24;
         }
@@ -138,6 +137,9 @@ namespace Plaper {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
 
+            Plaper.keyboardState = Keyboard.GetState();
+            Plaper.gameTime = gameTime;
+
             //exit if esc is pressed
             if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) {
                 Exit();
@@ -149,6 +151,8 @@ namespace Plaper {
             }
 
             base.Update(gameTime);
+
+            Plaper.lastKeyboardState = Plaper.keyboardState;
         }
 
         /// <summary>

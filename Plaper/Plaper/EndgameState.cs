@@ -10,42 +10,42 @@ using System.Threading.Tasks;
 namespace Plaper {
 
     //game state class
-    class MenuState : State {
+    class EndgameState : State {
 
-        const string START_TEXT = "START";
-        const string SETTINGS_TEXT = "SETTINGS";
+        const string RETRY_TEXT = "RETRY";
+        const string MENU_TEXT = "MENU";
 
-        Rectangle spritePreviewRectangle;
+        Button[] buttonArr = new Button[3];
 
-        Button[] buttonArr = new Button[2];
+        public EndgameState(GraphicsDeviceManager graphics, Game1 game, int score) : base(graphics, game) {
 
-        //ctor
-        public MenuState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
+            buttonSpacing = Game1.buttonHeight * 3 / 2;
 
-            spritePreviewRectangle = new Rectangle(Plaper.SCREEN_WIDTH / 4, Plaper.SCREEN_HEIGHT / 50, Plaper.SCREEN_WIDTH/2, (int)(Plaper.SCREEN_WIDTH/2 * 17.0 / 14.0));
-
-            nButtons++;
-            buttonArr[0] = new Button(START_TEXT, buttonTexture,
-                new Rectangle(0, (int)(Game1.buttonHeight + Game1.buttonSpacing*3.9) * nButtons,
+            buttonArr[0] = new Button("Score: " + score.ToString(), buttonTexture,
+                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight/2,
                 Plaper.SCREEN_WIDTH, Game1.buttonHeight));
             nButtons++;
-            buttonArr[1] = new Button(SETTINGS_TEXT, buttonTexture,
-                new Rectangle(0, (int)(Game1.buttonHeight + Game1.buttonSpacing*2.4) * nButtons,
+            buttonArr[1] = new Button(RETRY_TEXT, buttonTexture,
+                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
+                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+
+            nButtons++;
+            buttonArr[2] = new Button(MENU_TEXT, buttonTexture,
+                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
                 Plaper.SCREEN_WIDTH, Game1.buttonHeight));
         }
 
-        //update game logic
         public override void Update(GameTime gameTime) {
 
             foreach(Button button in buttonArr) {
                 button.Update(gameTime);
             }
 
-            if(buttonArr[0].Clicked()) {
+            if(buttonArr[1].Clicked()) {
                 State.setState(new GameState(graphics, game));
             }
-            if(buttonArr[1].Clicked()) {
-                State.setState(new SettingsState(graphics, game));
+            if(buttonArr[2].Clicked()) {
+                State.setState(new MenuState(graphics, game));
             }
 
             if(!Keyboard.GetState().IsKeyDown(Keys.Space) && Plaper.lastKeyboardState.IsKeyDown(Keys.Space)) {
@@ -53,19 +53,16 @@ namespace Plaper {
             }
 
             if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
-                //game.Exit();
+                State.setState(new MenuState(graphics, game));
             }
 
         }
 
-        //update graphics
         public override void Draw(SpriteBatch spriteBatch) {
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
-            spriteBatch.Draw(game.Sprite, spritePreviewRectangle, new Rectangle(14, 0, 14, 17), Color.White);
-
-            foreach (Button button in buttonArr) {
+            foreach(Button button in buttonArr) {
                 button.Draw(spriteBatch);
             }
 

@@ -8,28 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Plaper {
-    class Player {
+    class Player : Entity {
 
         private enum States { Standing, Power, Jumping, Dead }; // Possible states Player can be in
         private States state; // Current state
 
         const double PI = Math.PI;  // Too lazy to keep typing Math.PI
-        const int GRAVITY = 400;    // Subtracted from velocity.X
         const int JUMP_SPEED = 11;  // Initial upwards velocity.Y
 
-        const double SCALE = 3.0;   // How much to scale player sprite by
-        const int HEIGHT = (int) (17 * SCALE);
-        const int WIDTH  = (int) (14 * SCALE);
-
-        Vector2 position;   // Position and velocity of player
         Vector2 velocity;
-
-        KeyboardState keyboardState; // Current state of keyboard, and state from last update
-        KeyboardState lastState;
-
-        Texture2D sprite; // Player texture
-
-        Rectangle screenBounds; 
 
         double arrowAngle;      // Used for current angle of the arrow
         bool   arrowGoingLeft;  // Controls direction of arrow
@@ -38,27 +25,22 @@ namespace Plaper {
         double arrowPower;      // Used for current arrow power
         bool   powerInc;        // Controls whether power increasing or decreasing
 
-        const int ARROW_HEIGHT = 64;    // Arrow constants
-        public Rectangle posRect
-        {
-            get
-            {
-                return new Rectangle((int)position.X, (int)position.Y, WIDTH, HEIGHT);
-            }
+        bool isDead = false;
+        public bool IsDead {
+            get { return isDead; }
         }
+
+        const int ARROW_HEIGHT = 64;    // Arrow constants
         const int ARROW_WIDTH  = 32;
         const int ARROW_PADING = 90;    // Distance from player's head
         const int ARROW_SPEED  = 2;
         const double ARROW_BOUND_UPPER = (PI / 3);
         const double ARROW_BOUND_LOWER = (-PI / 3);
 
-        public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, int startHeight, Rectangle screenBounds) {
-            this.sprite = texture;
+        public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, int startHeight, Rectangle screenBounds) 
+            : base(texture, (int)(Plaper.PLAYER_SCALE*texture.Height), (int)(Plaper.PLAYER_SCALE*texture.Width/3), new Vector2(0f, 0f)) {
             this.arrowFill = arrowFill;
             this.arrowTexture = arrowTexture;
-            this.screenBounds = screenBounds;
-
-            this.position = new Vector2((screenBounds.Width - WIDTH) / 2, screenBounds.Height - startHeight - HEIGHT);
 
             // Initial conditions of the game
             state = States.Standing;
@@ -66,7 +48,7 @@ namespace Plaper {
             arrowPower = ARROW_HEIGHT;
             arrowGoingLeft = false;
 
-            lastState = Keyboard.GetState();
+            position = new Vector2((screenBounds.Width - Width) / 2, screenBounds.Height - startHeight - Height);
         }
 
         public bool Update(GameTime gameTime, Platform[] platforms, int curPlatform) {
@@ -76,17 +58,15 @@ namespace Plaper {
             bool onNextPlat = false;
 
             // See which state we are in
-            switch (state) {
+            switch(state) {
                 case States.Standing:
-
-                    keyboardState = Keyboard.GetState();
 
                     // Rotate arrow
                     double arrowDelta = elapsedSeconds * ARROW_SPEED;
                     arrowAngle += arrowGoingLeft ? -arrowDelta : arrowDelta;
 
                     // Check arrow bounds
-                    if (arrowAngle < ARROW_BOUND_LOWER || ARROW_BOUND_UPPER < arrowAngle) {
+                    if(arrowAngle < ARROW_BOUND_LOWER || ARROW_BOUND_UPPER < arrowAngle) {
                         // limit to bounds
                         arrowAngle = arrowGoingLeft ? ARROW_BOUND_LOWER : ARROW_BOUND_UPPER;
                         // reverse direction
@@ -94,31 +74,34 @@ namespace Plaper {
                     }
 
                     // Move to Power state to get jump power if space is pressed
-                    bool spacePressed  = keyboardState.IsKeyDown(Keys.Space);
-                    if (spacePressed) {
+                    bool spacePressed = Plaper.keyboardState.IsKeyDown(Keys.Space);
+                    if(spacePressed) {
                         powerInc = true;
                         state = States.Power;
                     }
-
-                    lastState = keyboardState;
+                    if(this.Hitbox().X + this.Hitbox().Width / 2 < platforms[curPlatform].Hitbox().X) {
+                        this.position.X++;
+                    } else if(this.Hitbox().X + this.Hitbox().Width / 2 > platforms[curPlatform].Hitbox().X + platforms[curPlatform].Hitbox().Width) {
+                        this.position.X--;
+                    }
                     break;
 
                 case States.Power:
-                    bool spaceReleased = !Keyboard.GetState().IsKeyDown(Keys.Space);
-                    
+                    bool spaceReleased = !Plaper.keyboardState.IsKeyDown(Keys.Space);
+
                     // Move power up and down
                     arrowPower = arrowPower + elapsedSeconds * (powerInc ? -100 : 100);
 
                     // Check power bounds (full and empty)
-                    if (arrowPower < 0 || ARROW_HEIGHT < arrowPower) {
+                    if(arrowPower < 0 || ARROW_HEIGHT < arrowPower) {
                         arrowPower = powerInc ? 0 : ARROW_HEIGHT;
                         powerInc = !powerInc;
                     }
 
                     // Jump once space is released and move to Jumping state
-                    if (spaceReleased) {
-                        velocity.Y = (float) (Math.Cos(arrowAngle)  * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
-                        velocity.X = (float) (Math.Sin(-arrowAngle) * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
+                    if(spaceReleased) {
+                        velocity.Y = (float)(Math.Cos(arrowAngle) * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
+                        velocity.X = (float)(Math.Sin(-arrowAngle) * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
                         arrowPower = ARROW_HEIGHT;
                         state = States.Jumping;
                     }
@@ -126,20 +109,20 @@ namespace Plaper {
 
                 case States.Jumping:
                     // Subtract Gravity from vertical velocity and add velocity to position
-                    velocity.Y -= (float) (elapsedSeconds * GRAVITY);
-                    position.Y -= (float) (elapsedSeconds * velocity.Y);
+                    velocity.Y -= (float)(elapsedSeconds * Plaper.GRAVITY);
+                    position.Y -= (float)(elapsedSeconds * velocity.Y);
 
                     // Check for wall colissions for add horizontal velocity to position
-                    if (position.X < 0 || screenBounds.Width < position.X + WIDTH) {
+                    if(position.X < 0 || Plaper.SCREEN_WIDTH < position.X + Width) {
                         velocity.X = -velocity.X;
-                        position.X = position.X < 0 ? 0f : screenBounds.Width - WIDTH;
+                        position.X = position.X < 0 ? 0f : Plaper.SCREEN_WIDTH - Width;
                     }
-                    position.X -= (float) (elapsedSeconds * velocity.X);
+                    position.X -= (float)(elapsedSeconds * velocity.X);
 
                     // Check for player hitting the bottom of the screen
                     // If so, go back to Standing state and reset arrow
-                    if (position.Y + HEIGHT > screenBounds.Height) {
-                        position.Y = screenBounds.Height - HEIGHT;
+                    if(position.Y + Height > Plaper.SCREEN_HEIGHT) {
+                        position.Y = Plaper.SCREEN_HEIGHT - Height;
                         velocity = Vector2.Zero;
 
                         arrowAngle = 0;
@@ -151,14 +134,16 @@ namespace Plaper {
 
                 case States.Dead:
                     position = Vector2.Zero;
-                    break;
+                    isDead = true;
+                    break;              
+                
             }
 
             //Platform collision detection
             for (int i = 0; i < platforms.Length; i++) {
 
                 //makes platform smaller so the player has to be more centered to land on platform.
-                if(!Rectangle.Intersect(new Rectangle(posRect.X + 10, posRect.Y, posRect.Width - 20, posRect.Height), platforms[i].BoundingBox).IsEmpty) {
+                if(!Rectangle.Intersect(new Rectangle(Hitbox().X + Plaper.SCREEN_WIDTH / 40, Hitbox().Y, Hitbox().Width - Plaper.SCREEN_WIDTH / 20, Hitbox().Height), platforms[i].Hitbox()).IsEmpty) {
                     //old version on next line
                     //if (posRect.Intersects(platforms[i].BoundingBox) && state != States.Standing) {
 
@@ -166,21 +151,21 @@ namespace Plaper {
                     if(position.Y < platforms[i].Pos.Y) {
                         if (velocity.Y < 0) {
                             velocity = Vector2.Zero;
-                            position.Y = platforms[i].Pos.Y - HEIGHT;
+                            position.Y = platforms[i].Pos.Y - Height;
                             state = States.Standing;
                             if (i == ((curPlatform + 1) % 3))
                                 onNextPlat = true;
                         }
                     }
                     //If character is below platform and rising when he collides, sets conditions for falling back down and bounding off of platform
-                    else if (position.Y + HEIGHT > platforms[i].Pos.Y + platforms[i].Tex.Height) {
+                    else if (position.Y + Height > platforms[i].Pos.Y + platforms[i].Hitbox().Height) {
                         if (velocity.Y > 0) {
                             velocity.Y *= -1;
                         }
                     }
 
                     //If character hits side of platform, reverses horizontal travel direction
-                    if (position.X < platforms[i].Pos.X || position.X + WIDTH > platforms[i].Pos.X + platforms[i].Tex.Width) {
+                    if (position.X < platforms[i].Pos.X || position.X + Width > platforms[i].Pos.X + platforms[i].Hitbox().Width) {
                         velocity.X *= -1;
                     }
                 }
@@ -208,18 +193,18 @@ namespace Plaper {
                 spriteRect.X = 14;
             }
 
-            spriteBatch.Draw(sprite, posRect, spriteRect, Color.White);
+            spriteBatch.Draw(Texture, Hitbox(), spriteRect, Color.White);
 
             // Draw arrow if the player is still on the ground
-            if (state == States.Standing || state == States.Power) {
+            if ((state == States.Standing || state == States.Power) && !Entity.IsScrolling) {
 
                 // Arrow Fill
                 // Gross math to get the position of where the arrow should be
                 var arrowRect = new Rectangle();
-                arrowRect.X = (int)((ARROW_PADING - arrowPower) * Math.Cos(arrowAngle - PI / 2) + position.X + WIDTH / 2 
+                arrowRect.X = (int)((ARROW_PADING - arrowPower) * Math.Cos(arrowAngle - PI / 2) + position.X + Width / 2 
                                         - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
 
-                arrowRect.Y = (int)((ARROW_PADING - arrowPower) * Math.Sin(arrowAngle - PI / 2) + position.Y + 5*SCALE
+                arrowRect.Y = (int)((ARROW_PADING - arrowPower) * Math.Sin(arrowAngle - PI / 2) + position.Y + Height / 3
                                         - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
 
                 arrowRect.Height = ARROW_HEIGHT - (int) arrowPower;
@@ -231,10 +216,10 @@ namespace Plaper {
 
                 // Arrow Outline
                 // More gross math, yet somehow beautiful at the same time. I </3 trig.
-                arrowRect.X = (int)(ARROW_PADING * Math.Cos(arrowAngle - PI / 2) + position.X + WIDTH / 2 
+                arrowRect.X = (int)(ARROW_PADING * Math.Cos(arrowAngle - PI / 2) + position.X + Width / 2 
                                     - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
 
-                arrowRect.Y = (int)(ARROW_PADING * Math.Sin(arrowAngle - PI / 2) + position.Y + 5*SCALE 
+                arrowRect.Y = (int)(ARROW_PADING * Math.Sin(arrowAngle - PI / 2) + position.Y + Height / 3
                                     - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
 
                 arrowRect.Height = ARROW_HEIGHT;

@@ -12,40 +12,25 @@ namespace Plaper {
     //game state class
     class SettingsState : State {
 
-        GraphicsDeviceManager graphics;
-        Game1 game;
-        Button backButton;
+        Button[] buttonArr = new Button[2];
 
-        Texture2D buttonTexture;
-        int nButtons = 0;
-
-        const float TEXT_SCALE = 2.5f;
-        static Color HOVER_COLOR = Color.White;
-        static Color TEXT_COLOR = Color.Black;
+        const string BACK_TEXT = "BACK";
 
         //ctor
-        public SettingsState(GraphicsDeviceManager graphics, Game1 game) {
-            this.graphics = graphics;
-            this.game = game;
+        public SettingsState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
 
-            //stuff for button texture
-            buttonTexture = new Texture2D(graphics.GraphicsDevice, 20, 10);
-            Color[] startTextureData = new Color[Game1.buttonHeight * Game1.SCREEN_WIDTH];
-            for(int i = 0; i < startTextureData.Length; i++) {
-                startTextureData[i] = Color.Chocolate;
-            }
-            buttonTexture.SetData(startTextureData);
-
-            backButton = new Button("BACK", buttonTexture, 
-                new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight), 
-                Game1.SCREEN_WIDTH, Game1.buttonHeight));
+            buttonArr[0] = new Button(BACK_TEXT, buttonTexture, 
+                new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight),
+                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
             nButtons++;
         }
 
         //update for game logic
         public override void Update(GameTime gameTime) {
 
-            backButton.Update(gameTime);
+            for (int i = 0; i < nButtons; ++i) {
+                buttonArr[i].Update(gameTime);
+            }
 
             //check where mouse is and do stuff if it's clicked
             if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
@@ -54,7 +39,7 @@ namespace Plaper {
 
 
             //check if mouse button has just been depressed
-            if(backButton.Clicked()) {
+            if(buttonArr[0].Clicked()) {
                 State.setState(new MenuState(graphics, game));
             }
 
@@ -65,9 +50,9 @@ namespace Plaper {
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
-            //back button
-            backButton.Draw(spriteBatch);
-
+            for (int i = 0; i < nButtons; ++i) {
+                buttonArr[i].Draw(spriteBatch);
+            }
 
             spriteBatch.End();
 

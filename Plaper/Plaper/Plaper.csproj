@@ -39,10 +39,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Button.cs" />
+    <Compile Include="EndgameState.cs" />
+    <Compile Include="Entity.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="MenuState.cs" />
+    <Compile Include="Plaper.cs" />
     <Compile Include="Platform.cs" />
+    <Compile Include="Scoring.cs" />
     <Compile Include="SettingsState.cs" />
     <Compile Include="State.cs" />
     <Compile Include="Player.cs" />

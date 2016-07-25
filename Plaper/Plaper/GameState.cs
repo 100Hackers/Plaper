@@ -12,9 +12,6 @@ namespace Plaper {
     //game state class
     class GameState : State {
 
-        GraphicsDeviceManager graphics;
-        Game1 game;
-
         Random rand = new Random();
 
         Player player;
@@ -25,29 +22,40 @@ namespace Plaper {
         const int MIN_HEIGHT_DIFF = 300;
 
         bool isShifting;
+        public bool IsShifting { get { return isShifting; } }
         int shiftDelta;
         float preShift;
         const int SHIFT_SPEED = 300;
 
+		//used for scoring
+		Vector2 scorePos;
+		/*static*/ int scoreCnt = 0;
+
         Rectangle screenRectangle;
 
         //ctor
-        public GameState(GraphicsDeviceManager graphics, Game1 game) {
-            this.graphics = graphics;
-            this.game = game;
-            screenRectangle = new Rectangle(0, 0, Game1.SCREEN_WIDTH, Game1.SCREEN_HEIGHT);
+        public GameState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
+
+            screenRectangle = new Rectangle(0, 0, Plaper.SCREEN_WIDTH, Plaper.SCREEN_HEIGHT);
             player = new Player(game.Sprite, game.Arrow, game.ArrowFill, START_HEIGHT, screenRectangle);
+
+			scorePos = new Vector2(5.0f, 5.0f);
+			scoreCnt = 0;
 
             platformCounter = 0;
             platforms = new Platform[3];
 
             isShifting = false;
 
-            platforms[0] = new Platform(game.PlatformTex, START_HEIGHT, screenRectangle);
-            platforms[1] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(100, 300)), screenRectangle);
-            platforms[2] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(MAX_HEIGHT_DIFF - MIN_HEIGHT_DIFF) + MIN_HEIGHT_DIFF), screenRectangle);
+            platforms[0] = new Platform(game.PlatformTex, START_HEIGHT);
+            platforms[1] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(100, 300)));
+            platforms[2] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(MAX_HEIGHT_DIFF - MIN_HEIGHT_DIFF) + MIN_HEIGHT_DIFF));
             generateNewPlatform();
         }
+
+		public int GetScore() {
+			return platformCounter;
+		}
 
         //update for game logic
         public override void Update(GameTime gameTime) {
@@ -56,16 +64,15 @@ namespace Plaper {
                 if (player.Update(gameTime, platforms, platformCounter)) {
                     generateNewPlatform();
                     ++platformCounter;
+					++scoreCnt;
                     platformCounter %= 3;
                     isShifting = true;
-                    shiftDelta = (int) (600 - platforms[platformCounter].Pos.Y) - START_HEIGHT;
-                    preShift = platforms[platformCounter].Pos.Y;
+                    Entity.ScrollInit((600 - platforms[platformCounter].Pos.Y) - START_HEIGHT);
                 }
             } else {
-                if (shiftPlatforms(gameTime)) {
+                if (!Entity.ScrollDown()) {
                     isShifting = false;
                 }
-                
             }
 
             // Quit to make menu is esc is pressed
@@ -73,6 +80,9 @@ namespace Plaper {
                 State.setState(new MenuState(graphics, game));
             }
 
+            if(player.IsDead) {
+                State.setState(new EndgameState(graphics, game, scoreCnt));
+            }
         }
 
         //update graphics
@@ -86,21 +96,10 @@ namespace Plaper {
                 plat.Draw(spriteBatch);
             }
 
+			spriteBatch.DrawString(game.font10, "Score: " + scoreCnt.ToString(), scorePos, Color.Black);
+
             spriteBatch.End();
 
-        }
-
-        private bool shiftPlatforms(GameTime gameTime) {
-            float delta = (int) (SHIFT_SPEED * gameTime.ElapsedGameTime.TotalSeconds);
-
-            foreach (Platform p in platforms) {
-                p.SetPlatform(new Vector2(p.Pos.X, p.Pos.Y + delta));
-            }
-
-            player.SetPlayer(new Vector2(player.posRect.X, player.posRect.Y + delta));
-
-            preShift += delta;
-            return preShift > screenRectangle.Height - START_HEIGHT;
         }
 
         private void generateNewPlatform() {
