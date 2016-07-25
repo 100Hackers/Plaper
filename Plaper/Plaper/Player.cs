@@ -30,9 +30,9 @@ namespace Plaper {
             get { return isDead; }
         }
 
-        const int ARROW_HEIGHT = 64;    // Arrow constants
-        const int ARROW_WIDTH  = 32;
-        const int ARROW_PADING = 90;    // Distance from player's head
+        int ArrowHeight  { get; } = (int) (Plaper.height * 0.1);    // Arrow constants
+        int ArrowWidth   { get; } = (int) (Plaper.height * 0.05);
+        int ArrowPadding { get; } = (int) (Plaper.height * 0.15);    // Distance from player's head
         const int ARROW_SPEED  = 2;
         const double ARROW_BOUND_UPPER = (PI / 3);
         const double ARROW_BOUND_LOWER = (-PI / 3);
@@ -45,7 +45,7 @@ namespace Plaper {
             // Initial conditions of the game
             state = States.Standing;
             arrowAngle = 0.0;
-            arrowPower = ARROW_HEIGHT;
+            arrowPower = ArrowHeight;
             arrowGoingLeft = false;
 
             position = new Vector2((screenBounds.Width - Width) / 2, screenBounds.Height - startHeight - Height);
@@ -93,16 +93,16 @@ namespace Plaper {
                     arrowPower = arrowPower + elapsedSeconds * (powerInc ? -100 : 100);
 
                     // Check power bounds (full and empty)
-                    if(arrowPower < 0 || ARROW_HEIGHT < arrowPower) {
-                        arrowPower = powerInc ? 0 : ARROW_HEIGHT;
+                    if(arrowPower < 0 || ArrowHeight < arrowPower) {
+                        arrowPower = powerInc ? 0 : ArrowHeight;
                         powerInc = !powerInc;
                     }
 
                     // Jump once space is released and move to Jumping state
                     if(spaceReleased) {
-                        velocity.Y = (float)(Math.Cos(arrowAngle) * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
-                        velocity.X = (float)(Math.Sin(-arrowAngle) * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
-                        arrowPower = ARROW_HEIGHT;
+                        velocity.Y = (float)(Math.Cos(arrowAngle) * (ArrowHeight - arrowPower) * JUMP_SPEED);
+                        velocity.X = (float)(Math.Sin(-arrowAngle) * (ArrowHeight - arrowPower) * JUMP_SPEED);
+                        arrowPower = ArrowHeight;
                         state = States.Jumping;
                     }
                     break;
@@ -201,28 +201,28 @@ namespace Plaper {
                 // Arrow Fill
                 // Gross math to get the position of where the arrow should be
                 var arrowRect = new Rectangle();
-                arrowRect.X = (int)((ARROW_PADING - arrowPower) * Math.Cos(arrowAngle - PI / 2) + position.X + Width / 2 
-                                        - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
+                arrowRect.X = (int)((ArrowPadding - arrowPower) * Math.Cos(arrowAngle - PI / 2) + position.X + Width / 2 
+                                        - ArrowWidth / 2 * Math.Cos(arrowAngle));
 
-                arrowRect.Y = (int)((ARROW_PADING - arrowPower) * Math.Sin(arrowAngle - PI / 2) + position.Y + Height / 3
-                                        - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
+                arrowRect.Y = (int)((ArrowPadding - arrowPower) * Math.Sin(arrowAngle - PI / 2) + position.Y + Height / 3
+                                        - ArrowWidth / 2 * Math.Sin(arrowAngle));
 
-                arrowRect.Height = ARROW_HEIGHT - (int) arrowPower;
-                arrowRect.Width = ARROW_WIDTH;
+                arrowRect.Height = ArrowHeight - (int) arrowPower;
+                arrowRect.Width = ArrowWidth;
 
-                spriteBatch.Draw(arrowFill, arrowRect, new Rectangle(0, (int) arrowPower, ARROW_WIDTH, ARROW_HEIGHT-(int)arrowPower),
+                spriteBatch.Draw(arrowFill, arrowRect, new Rectangle(0, (int) arrowPower, ArrowWidth, ArrowHeight-(int)arrowPower),
                                     Color.White, (float)arrowAngle, Vector2.Zero, SpriteEffects.None, 0);
 
 
                 // Arrow Outline
                 // More gross math, yet somehow beautiful at the same time. I </3 trig.
-                arrowRect.X = (int)(ARROW_PADING * Math.Cos(arrowAngle - PI / 2) + position.X + Width / 2 
-                                    - ARROW_WIDTH / 2 * Math.Cos(arrowAngle));
+                arrowRect.X = (int)(ArrowPadding * Math.Cos(arrowAngle - PI / 2) + position.X + Width / 2 
+                                    - ArrowWidth / 2 * Math.Cos(arrowAngle));
 
-                arrowRect.Y = (int)(ARROW_PADING * Math.Sin(arrowAngle - PI / 2) + position.Y + Height / 3
-                                    - ARROW_WIDTH / 2 * Math.Sin(arrowAngle));
+                arrowRect.Y = (int)(ArrowPadding * Math.Sin(arrowAngle - PI / 2) + position.Y + Height / 3
+                                    - ArrowWidth / 2 * Math.Sin(arrowAngle));
 
-                arrowRect.Height = ARROW_HEIGHT;
+                arrowRect.Height = ArrowHeight;
                 spriteBatch.Draw(arrowTexture, arrowRect, null, Color.White, (float)arrowAngle, Vector2.Zero, SpriteEffects.None, 0);
             }
         }

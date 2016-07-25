@@ -81,6 +81,14 @@ namespace Plaper {
 
             base.Initialize();
 
+            
+            var displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
+            Plaper.screenHeight = displayMode.Height;
+            Plaper.screenWidth  = displayMode.Width;
+
+            Plaper.height = Plaper.SCREEN_HEIGHT;
+            Plaper.width  = Plaper.SCREEN_WIDTH;
+
             //create state and pass player object
             currentState = new MenuState(graphics, this);
 
