@@ -58,10 +58,10 @@ namespace Plaper {
 		}
 
         //update for game logic
-        public override void Update(GameTime gameTime) {
+        public override void Update(GameTime gameTime, Game1 game) {
 
             if (!isShifting) {
-                if (player.Update(gameTime, platforms, platformCounter)) {
+                if (player.Update(gameTime, platforms, platformCounter, game)) {
                     generateNewPlatform();
                     ++platformCounter;
 					++scoreCnt;

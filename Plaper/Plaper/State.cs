@@ -41,7 +41,7 @@ namespace Plaper {
             return currentState;
         }
 
-        public virtual void Update(GameTime gameTime) {}
+        public virtual void Update(GameTime gameTime, Game1 game) {}
 
         public virtual void Draw(SpriteBatch spriteBatch) {}
 

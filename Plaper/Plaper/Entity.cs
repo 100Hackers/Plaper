@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 
 namespace Plaper {
     class Entity {
-        protected Texture2D Texture { get; }
+        //Had to change some stuff in this because I don't have visual studio 2015. Once I do, it can be changed back
+        protected Texture2D Texture { get; set; }
         protected Vector2 position;
 
-        protected int Height { get; }
-        protected int Width  { get; }
+        protected int Height { get; set; }
+        protected int Width  { get; set; }
 
-        protected static bool IsScrolling { get; private set; } = false;
+        protected static bool isScrolling = false;
+        protected static bool IsScrolling { get { return isScrolling; } set {isScrolling = value; } }
         static float shiftDelta;
 
         private static ArrayList entities = new ArrayList();
