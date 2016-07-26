@@ -193,10 +193,13 @@ namespace Plaper {
                 spriteRect.X = 14;
             }
 
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
             spriteBatch.Draw(Texture, Hitbox(), spriteRect, Color.White);
+            spriteBatch.End();
 
             // Draw arrow if the player is still on the ground
             if ((state == States.Standing || state == States.Power) && !Entity.IsScrolling) {
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
                 // Arrow Fill
                 // Gross math to get the position of where the arrow should be
@@ -224,6 +227,7 @@ namespace Plaper {
 
                 arrowRect.Height = ArrowHeight;
                 spriteBatch.Draw(arrowTexture, arrowRect, null, Color.White, (float)arrowAngle, Vector2.Zero, SpriteEffects.None, 0);
+                spriteBatch.End();
             }
         }
     }

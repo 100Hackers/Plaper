@@ -57,11 +57,12 @@ namespace Plaper {
             
         }
         public void Draw(SpriteBatch spriteBatch) {
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
             spriteBatch.Draw(texture, buttonRect, Color.White);
 
             spriteBatch.DrawString(font, name, textPosition, isInBounds() ? HOVER_COLOR : TEXT_COLOR);
-
+            spriteBatch.End();
         }
     }
 }

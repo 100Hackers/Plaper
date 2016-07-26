@@ -40,7 +40,9 @@ namespace Plaper
 
         //Draw
         public void Draw(SpriteBatch spriteBatch) {
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
             spriteBatch.Draw(Texture, position, null, color);
+            spriteBatch.End();
         }
     }
 }

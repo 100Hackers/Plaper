@@ -171,12 +171,8 @@ namespace Plaper {
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-            
             //check that state is initalized then call current state's draw
             State.getState()?.Draw(spriteBatch);
-
-            spriteBatch.End();
 
             //display framerate in title bar
             Window.Title = "Plaper - " + Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 2).ToString() + " FPS";

@@ -94,7 +94,9 @@ namespace Plaper {
                 plat.Draw(spriteBatch);
             }
 
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 			spriteBatch.DrawString(game.font10, "Score: " + scoreCnt.ToString(), scorePos, Color.Black);
+            spriteBatch.End();
         }
 
         private void generateNewPlatform() {
