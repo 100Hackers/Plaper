@@ -38,7 +38,7 @@ namespace Plaper {
         const double ARROW_BOUND_LOWER = (-PI / 3);
 
         public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, int startHeight, Rectangle screenBounds) 
-            : base(texture, (int)(Plaper.PLAYER_SCALE*texture.Height*Plaper.height), (int)(Plaper.PLAYER_SCALE*texture.Width*Plaper.height/3), new Vector2(0f, 0f)) {
+            : base(texture, (int)(Plaper.PLAYER_SCALE*Plaper.height*17), (int)(Plaper.PLAYER_SCALE*Plaper.height*14), new Vector2(0f, 0f)) {
             this.arrowFill = arrowFill;
             this.arrowTexture = arrowTexture;
 

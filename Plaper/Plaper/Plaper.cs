@@ -22,7 +22,7 @@ namespace Plaper {
             width;
 
         public const double PLAYER_SCALE = 1 / 200.0;
-        public const double PLAT_SCALE   = 1.0;
+        public const double PLAT_SCALE   = 1 / 600.0;
         
 
         public static KeyboardState keyboardState, lastKeyboardState;
