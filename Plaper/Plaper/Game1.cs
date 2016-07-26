@@ -12,6 +12,8 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        const bool makeFullscreen = true;
+
         public const int buttonHeight = Plaper.SCREEN_HEIGHT / 5;
         public const int buttonSpacing = buttonHeight / 3;
 
@@ -88,6 +90,15 @@ namespace Plaper {
 
             Plaper.height = Plaper.SCREEN_HEIGHT;
             Plaper.width  = Plaper.SCREEN_WIDTH;
+
+            if (makeFullscreen) {
+                Plaper.height = Plaper.screenHeight;
+                Plaper.width  = Plaper.screenWidth;
+                graphics.PreferredBackBufferHeight = Plaper.height;
+                graphics.PreferredBackBufferWidth  = Plaper.width;
+                graphics.IsFullScreen = !graphics.IsFullScreen;
+                graphics.ApplyChanges();
+            }
 
             //create state and pass player object
             currentState = new MenuState(graphics, this);

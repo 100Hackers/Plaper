@@ -213,7 +213,7 @@ namespace Plaper {
                 arrowRect.Height = ArrowHeight - (int) arrowPower;
                 arrowRect.Width = ArrowWidth;
 
-                spriteBatch.Draw(arrowFill, arrowRect, new Rectangle(0, (int) arrowPower, ArrowWidth, ArrowHeight-(int)arrowPower),
+                spriteBatch.Draw(arrowFill, arrowRect, new Rectangle(0, (int) arrowPower, arrowFill.Width, arrowFill.Height-(int)arrowPower),
                                     Color.White, (float)arrowAngle, Vector2.Zero, SpriteEffects.None, 0);
 
 
