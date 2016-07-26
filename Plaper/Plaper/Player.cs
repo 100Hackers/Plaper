@@ -199,7 +199,7 @@ namespace Plaper {
 
             // Draw arrow if the player is still on the ground
             if ((state == States.Standing || state == States.Power) && !Entity.IsScrolling) {
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
                 // Arrow Fill
                 // Gross math to get the position of where the arrow should be
