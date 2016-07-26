@@ -22,13 +22,13 @@ namespace Plaper
         //Constructor
         public Platform(Texture2D t, Vector2 v)
                 :base(t, new Rectangle((int)v.X, (int)v.Y, (int)(Plaper.height * Plaper.PLAT_SCALE * 100), (int)(Plaper.height * Plaper.PLAT_SCALE * 22))) {
-            color = colors[rand.Next(0, colors.Length)];
+            color = Color.White;
         }
 
         public Platform(Texture2D texture, int startHeight)
                 :base(texture, new Rectangle(0, 0, (int)(Plaper.height * Plaper.PLAT_SCALE * 100), (int)(Plaper.height * Plaper.PLAT_SCALE * 22))) {
             position = new Vector2((Plaper.SCREEN_WIDTH - Width)/2, Plaper.SCREEN_HEIGHT - startHeight);
-            color = colors[rand.Next(0, colors.Length)];
+            color = Color.White;
         }
 
         public Vector2 Pos { get { return position; } }
@@ -41,7 +41,7 @@ namespace Plaper
         //Draw
         public void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-            spriteBatch.Draw(Texture, position, null, color);
+            spriteBatch.Draw(Texture, Hitbox(), null, Color.White);
             spriteBatch.End();
         }
     }
