@@ -24,6 +24,7 @@ namespace Plaper {
         Texture2D arrowFill;    // Fills in arrow
         double arrowPower;      // Used for current arrow power
         bool   powerInc;        // Controls whether power increasing or decreasing
+        const int MAX_POWER = 100;
 
         bool isDead = false;
         public bool IsDead {
@@ -78,6 +79,7 @@ namespace Plaper {
                     if(spacePressed) {
                         powerInc = true;
                         state = States.Power;
+                        arrowPower = 0;
                     }
                     if(this.Hitbox().X + this.Hitbox().Width / 2 < platforms[curPlatform].Hitbox().X) {
                         this.position.X++;
@@ -90,19 +92,18 @@ namespace Plaper {
                     bool spaceReleased = !Plaper.keyboardState.IsKeyDown(Keys.Space);
 
                     // Move power up and down
-                    arrowPower = arrowPower + elapsedSeconds * (powerInc ? -100 : 100);
+                    arrowPower = arrowPower + elapsedSeconds * (powerInc ? 100 : -100);
 
                     // Check power bounds (full and empty)
-                    if(arrowPower < 0 || ArrowHeight < arrowPower) {
-                        arrowPower = powerInc ? 0 : ArrowHeight;
+                    if(arrowPower < 0 || MAX_POWER < arrowPower) {
+                        arrowPower = powerInc ? MAX_POWER : 0;
                         powerInc = !powerInc;
                     }
 
                     // Jump once space is released and move to Jumping state
                     if(spaceReleased) {
-                        velocity.Y = (float)(Math.Cos(arrowAngle) * (ArrowHeight - arrowPower) * JUMP_SPEED);
-                        velocity.X = (float)(Math.Sin(-arrowAngle) * (ArrowHeight - arrowPower) * JUMP_SPEED);
-                        arrowPower = ArrowHeight;
+                        velocity.Y = (float)(Math.Cos( arrowAngle) * arrowPower * JUMP_SPEED);
+                        velocity.X = (float)(Math.Sin(-arrowAngle) * arrowPower * JUMP_SPEED);
                         state = States.Jumping;
                     }
                     break;
@@ -204,18 +205,20 @@ namespace Plaper {
                 // Arrow Fill
                 // Gross math to get the position of where the arrow should be
                 var arrowRect = new Rectangle();
-                arrowRect.X = (int)((ArrowPadding - arrowPower) * Math.Cos(arrowAngle - PI / 2) + position.X + Width / 2 
-                                        - ArrowWidth / 2 * Math.Cos(arrowAngle));
-
-                arrowRect.Y = (int)((ArrowPadding - arrowPower) * Math.Sin(arrowAngle - PI / 2) + position.Y + Height / 3
-                                        - ArrowWidth / 2 * Math.Sin(arrowAngle));
-
-                arrowRect.Height = ArrowHeight - (int) arrowPower;
                 arrowRect.Width = ArrowWidth;
 
-                spriteBatch.Draw(arrowFill, arrowRect, new Rectangle(0, (int) arrowPower, arrowFill.Width, arrowFill.Height-(int)arrowPower),
-                                    Color.White, (float)arrowAngle, Vector2.Zero, SpriteEffects.None, 0);
+                if (state == States.Power) {
+                    arrowRect.X = (int)((ArrowPadding - ArrowHeight * ((MAX_POWER-arrowPower)/MAX_POWER)) * Math.Cos(arrowAngle - PI / 2) + position.X + Width / 2
+                                            - ArrowWidth / 2 * Math.Cos(arrowAngle));
 
+                    arrowRect.Y = (int)((ArrowPadding - ArrowHeight * ((MAX_POWER-arrowPower)/MAX_POWER)) * Math.Sin(arrowAngle - PI / 2) + position.Y + Height / 3
+                                            - ArrowWidth / 2 * Math.Sin(arrowAngle));
+
+                    arrowRect.Height = (int) (ArrowHeight * arrowPower / MAX_POWER);
+
+                    spriteBatch.Draw(arrowFill, arrowRect, new Rectangle(0, (int)(arrowFill.Height * ((MAX_POWER - arrowPower) / MAX_POWER)), arrowFill.Width, (int)(arrowFill.Height * ((arrowPower) / MAX_POWER))),
+                                        Color.White, (float)arrowAngle, Vector2.Zero, SpriteEffects.None, 0);
+                }
 
                 // Arrow Outline
                 // More gross math, yet somehow beautiful at the same time. I </3 trig.
