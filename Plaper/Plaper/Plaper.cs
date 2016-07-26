@@ -21,7 +21,7 @@ namespace Plaper {
             height,
             width;
 
-        public const double PLAYER_SCALE = 3.0;
+        public const double PLAYER_SCALE = 1 / 200.0;
         public const double PLAT_SCALE   = 1.0;
         
 
