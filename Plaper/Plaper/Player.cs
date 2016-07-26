@@ -38,7 +38,7 @@ namespace Plaper {
         const double ARROW_BOUND_LOWER = (-PI / 3);
 
         public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, int startHeight, Rectangle screenBounds) 
-            : base(texture, (int)(Plaper.PLAYER_SCALE*Plaper.height*17), (int)(Plaper.PLAYER_SCALE*Plaper.height*14), new Vector2(0f, 0f)) {
+            : base(texture, new Rectangle(0, 0, (int)(Plaper.PLAYER_SCALE*Plaper.height*14), (int)(Plaper.PLAYER_SCALE*Plaper.height*17))) {
             this.arrowFill = arrowFill;
             this.arrowTexture = arrowTexture;
 
@@ -143,7 +143,7 @@ namespace Plaper {
             for (int i = 0; i < platforms.Length; i++) {
 
                 //makes platform smaller so the player has to be more centered to land on platform.
-                if(!Rectangle.Intersect(new Rectangle(Hitbox().X + Plaper.SCREEN_WIDTH / 40, Hitbox().Y, Hitbox().Width - Plaper.SCREEN_WIDTH / 20, Hitbox().Height), platforms[i].Hitbox()).IsEmpty) {
+                if(this.Hitbox().Intersects(platforms[i].Hitbox())) {
                     //old version on next line
                     //if (posRect.Intersects(platforms[i].BoundingBox) && state != States.Standing) {
 

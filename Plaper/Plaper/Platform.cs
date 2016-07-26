@@ -21,12 +21,12 @@ namespace Plaper
 
         //Constructor
         public Platform(Texture2D t, Vector2 v)
-                :base(t, Plaper.PLAT_SCALE, v) {
+                :base(t, new Rectangle((int)v.X, (int)v.Y, (int)(Plaper.height * Plaper.PLAT_SCALE * 100), (int)(Plaper.height * Plaper.PLAT_SCALE * 22))) {
             color = colors[rand.Next(0, colors.Length)];
         }
 
         public Platform(Texture2D texture, int startHeight)
-                :base(texture, Plaper.height * Plaper.PLAT_SCALE, Vector2.Zero) {
+                :base(texture, new Rectangle(0, 0, (int)(Plaper.height * Plaper.PLAT_SCALE * 100), (int)(Plaper.height * Plaper.PLAT_SCALE * 22))) {
             position = new Vector2((Plaper.SCREEN_WIDTH - Width)/2, Plaper.SCREEN_HEIGHT - startHeight);
             color = colors[rand.Next(0, colors.Length)];
         }
