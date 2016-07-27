@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Plaper {
     class Button {
 
-        string name;
+        public string Name;
         Texture2D texture;
         static Color HOVER_COLOR = Color.White;
         static Color TEXT_COLOR = Color.Black;
@@ -20,7 +20,7 @@ namespace Plaper {
         Rectangle buttonRect;
 
         public Button(string name, Texture2D texture, Rectangle buttonRect) {
-            this.name = name;
+            this.Name = name;
             this.texture = texture;
             this.buttonRect = buttonRect;
             this.font = Game1.font36;
@@ -60,7 +60,7 @@ namespace Plaper {
 
             spriteBatch.Draw(texture, buttonRect, Color.White);
 
-            spriteBatch.DrawString(font, name, textPosition, isInBounds() ? HOVER_COLOR : TEXT_COLOR);
+            spriteBatch.DrawString(font, Name, textPosition, isInBounds() ? HOVER_COLOR : TEXT_COLOR);
 
         }
     }

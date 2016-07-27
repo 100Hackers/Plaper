@@ -169,6 +169,9 @@ namespace Plaper {
             base.Update(gameTime);
 
             Plaper.lastKeyboardState = Plaper.keyboardState;
+
+            //display framerate in title bar
+            Window.Title = "Plaper - " + Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 2).ToString() + " FPS";
         }
 
         /// <summary>
@@ -184,9 +187,7 @@ namespace Plaper {
                 State.getState().Draw(spriteBatch);
             }
 
-            //display framerate in title bar
-            Window.Title = "Plaper - " + Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 2).ToString() + " FPS";
-
+            
             base.Draw(gameTime);
         }
     }
