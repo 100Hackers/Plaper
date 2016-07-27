@@ -35,7 +35,7 @@ namespace Plaper {
                 Plaper.SCREEN_WIDTH, Game1.buttonHeight));
         }
 
-        public override void Update(GameTime gameTime) {
+        public override void Update(GameTime gameTime, Game1 game) {
 
             foreach(Button button in buttonArr) {
                 button.Update(gameTime);

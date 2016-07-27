@@ -51,7 +51,10 @@ namespace Plaper {
             position = new Vector2((screenBounds.Width - Width) / 2, screenBounds.Height - startHeight - Height);
         }
 
-        public bool Update(GameTime gameTime, Platform[] platforms, int curPlatform) {
+        public bool Update(GameTime gameTime, Platform[] platforms, int curPlatform, Game1 game) {
+            //used for generating wallHits sound
+            Random rand = new Random();
+            
             // time since Update was last called
             double elapsedSeconds = gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -104,6 +107,8 @@ namespace Plaper {
                         velocity.X = (float)(Math.Sin(-arrowAngle) * (ARROW_HEIGHT - arrowPower) * JUMP_SPEED);
                         arrowPower = ARROW_HEIGHT;
                         state = States.Jumping;
+
+                        game.jump.Play(0.9f, 0.0f, 0.0f);
                     }
                     break;
 
@@ -112,10 +117,11 @@ namespace Plaper {
                     velocity.Y -= (float)(elapsedSeconds * Plaper.GRAVITY);
                     position.Y -= (float)(elapsedSeconds * velocity.Y);
 
-                    // Check for wall colissions for add horizontal velocity to position
+                    // Check for wall colissions to add horizontal velocity to position
                     if(position.X < 0 || Plaper.SCREEN_WIDTH < position.X + Width) {
                         velocity.X = -velocity.X;
                         position.X = position.X < 0 ? 0f : Plaper.SCREEN_WIDTH - Width;
+                        game.wallHits[rand.Next(2)].Play(0.5f, 0.0f, 0.0f);
                     }
                     position.X -= (float)(elapsedSeconds * velocity.X);
 
@@ -135,6 +141,8 @@ namespace Plaper {
                 case States.Dead:
                     position = Vector2.Zero;
                     isDead = true;
+
+                    game.LosingSound.Play(0.3f, 0.0f, 0.0f);
                     break;              
                 
             }
@@ -161,12 +169,16 @@ namespace Plaper {
                     else if (position.Y + Height > platforms[i].Pos.Y + platforms[i].Hitbox().Height) {
                         if (velocity.Y > 0) {
                             velocity.Y *= -1;
+
+                            game.wallHits[rand.Next(2)].Play(0.5f, 0.0f, 0.0f);
                         }
                     }
 
                     //If character hits side of platform, reverses horizontal travel direction
-                    if (position.X < platforms[i].Pos.X || position.X + Width > platforms[i].Pos.X + platforms[i].Hitbox().Width) {
+                    else if (position.X < platforms[i].Pos.X || position.X + Width > platforms[i].Pos.X + platforms[i].Hitbox().Width) {
                         velocity.X *= -1;
+
+                        game.wallHits[rand.Next(2)].Play(0.5f, 0.0f, 0.0f);
                     }
                 }
             }
