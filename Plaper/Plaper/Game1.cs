@@ -12,7 +12,7 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        const bool makeFullscreen = false;
+        const bool makeFullscreen = true;
 
         public const int buttonHeight = Plaper.SCREEN_HEIGHT / 5;
         public const int buttonSpacing = buttonHeight / 3;
@@ -167,7 +167,6 @@ namespace Plaper {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
 
-            Plaper.keyboardState = Keyboard.GetState();
             Plaper.gameTime = gameTime;
             Input.Update();
             //exit if esc is pressed
@@ -181,8 +180,6 @@ namespace Plaper {
             }
 
             base.Update(gameTime);
-
-            Plaper.lastKeyboardState = Plaper.keyboardState;
         }
 
         /// <summary>
