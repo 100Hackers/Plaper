@@ -11,8 +11,7 @@ namespace Plaper
 {
     class Platform : Entity
     {
-        //Data Members
-        Rectangle screenBounds;
+        //Data Members;
 
         private static Color[] colors = { Color.Red, Color.Green, Color.LightSalmon, Color.LawnGreen, Color.Orange };
         private static Random rand = new Random();
@@ -21,14 +20,14 @@ namespace Plaper
 
         //Constructor
         public Platform(Texture2D t, Vector2 v)
-                :base(t, Plaper.PLAT_SCALE, v) {
-            color = colors[rand.Next(0, colors.Length)];
+                :base(t, new Rectangle((int)v.X, (int)v.Y, (int)(Plaper.playHeight * Plaper.PLAT_SCALE), (int)(Plaper.playHeight * Plaper.PLAT_SCALE * Plaper.PLAT_RATIO))) {
+            color = Color.White;
         }
 
         public Platform(Texture2D texture, int startHeight)
-                :base(texture, 1.0, Vector2.Zero) {
-            position = new Vector2((Plaper.SCREEN_WIDTH - Width)/2, Plaper.SCREEN_HEIGHT - startHeight);
-            color = colors[rand.Next(0, colors.Length)];
+                :base(texture, new Rectangle(0, 0, (int)(Plaper.playHeight * Plaper.PLAT_SCALE), (int)(Plaper.playHeight * Plaper.PLAT_SCALE * Plaper.PLAT_RATIO))) {
+            position = new Vector2((Plaper.playWidth - Width)/2, (float) (Plaper.playHeight * (1 - Plaper.START_HEIGHT)));
+            color = Color.White;
         }
 
         public Vector2 Pos { get { return position; } }
@@ -40,7 +39,9 @@ namespace Plaper
 
         //Draw
         public void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(Texture, position, null, color);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+            spriteBatch.Draw(Texture, Hitbox(), null, Color.White);
+            spriteBatch.End();
         }
     }
 }

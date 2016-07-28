@@ -21,8 +21,13 @@ namespace Plaper {
 
             buttonArr[0] = new Button(BACK_TEXT, buttonTexture, 
                 new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight),
-                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight));
             nButtons++;
+
+            /*buttonArr[1] = new Button("FULLSCREEN", buttonTexture, 
+                new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight) + 50,
+                Plaper.playWidth, Game1.buttonHeight));
+            nButtons++;*/
         }
 
         //update for game logic
@@ -43,19 +48,26 @@ namespace Plaper {
                 State.setState(new MenuState(graphics, game));
             }
 
+            /*if (buttonArr[1].Clicked()) {
+                var displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
+                if (graphics.IsFullScreen) {
+                    graphics.PreferredBackBufferHeight = 600;
+                    graphics.PreferredBackBufferWidth = 400;
+                } else {
+                    graphics.PreferredBackBufferHeight = displayMode.Height;
+                    graphics.PreferredBackBufferWidth = displayMode.Width;
+                }
+                graphics.IsFullScreen = !graphics.IsFullScreen;
+                graphics.ApplyChanges();
+            }*/
+
         }
 
         //update graphics
         public override void Draw(SpriteBatch spriteBatch) {
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-
             for (int i = 0; i < nButtons; ++i) {
                 buttonArr[i].Draw(spriteBatch);
             }
-
-            spriteBatch.End();
-
         }
     }
 }

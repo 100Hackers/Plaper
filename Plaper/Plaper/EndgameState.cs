@@ -23,16 +23,16 @@ namespace Plaper {
 
             buttonArr[0] = new Button("Score: " + score.ToString(), buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight/2,
-                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight));
             nButtons++;
             buttonArr[1] = new Button(RETRY_TEXT, buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
-                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight));
 
             nButtons++;
             buttonArr[2] = new Button(MENU_TEXT, buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
-                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight));
         }
 
         public override void Update(GameTime gameTime, Game1 game) {
@@ -59,15 +59,9 @@ namespace Plaper {
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-
             foreach(Button button in buttonArr) {
                 button.Draw(spriteBatch);
             }
-
-            spriteBatch.End();
-
         }
     }
 }

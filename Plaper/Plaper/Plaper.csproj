@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -43,6 +44,7 @@
     <Compile Include="Entity.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameState.cs" />
+    <Compile Include="Input.cs" />
     <Compile Include="MenuState.cs" />
     <Compile Include="Plaper.cs" />
     <Compile Include="Platform.cs" />
