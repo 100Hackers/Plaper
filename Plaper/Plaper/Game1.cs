@@ -197,10 +197,12 @@ namespace Plaper {
             GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(Color.DarkOrange);
             spriteBatch.Begin();
-            spriteBatch.Draw(playArea, new Rectangle((Plaper.windowWidth - Plaper.playWidth) / 2, 0, Plaper.playWidth, Plaper.playHeight), Color.White);
+            spriteBatch.Draw(playArea, new Rectangle((Plaper.windowWidth - Plaper.playWidth) / 2, 0, Plaper.playWidth, Plaper.playHeight), Color.Red);
+            spriteBatch.DrawString(font, Plaper.windowWidth + " and play: " + Plaper.playWidth, new Vector2(0, 0), Color.Yellow);
             spriteBatch.End();
             //display framerate in title bar
-            Window.Title = "Plaper - " + Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 2).ToString() + " FPS";
+            //Window.Title = "Plaper - " + Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 2).ToString() + " FPS";
+            Window.Title = Plaper.windowWidth + " and play: " + Plaper.playWidth;
 
             base.Draw(gameTime);
         }
