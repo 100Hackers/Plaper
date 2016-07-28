@@ -24,10 +24,10 @@ namespace Plaper {
                 Plaper.playWidth, Game1.buttonHeight));
             nButtons++;
 
-            buttonArr[1] = new Button("FULLSCREEN", buttonTexture, 
+            /*buttonArr[1] = new Button("FULLSCREEN", buttonTexture, 
                 new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight) + 50,
                 Plaper.playWidth, Game1.buttonHeight));
-            nButtons++;
+            nButtons++;*/
         }
 
         //update for game logic
@@ -48,7 +48,7 @@ namespace Plaper {
                 State.setState(new MenuState(graphics, game));
             }
 
-            if (buttonArr[1].Clicked()) {
+            /*if (buttonArr[1].Clicked()) {
                 var displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
                 if (graphics.IsFullScreen) {
                     graphics.PreferredBackBufferHeight = 600;
@@ -59,7 +59,7 @@ namespace Plaper {
                 }
                 graphics.IsFullScreen = !graphics.IsFullScreen;
                 graphics.ApplyChanges();
-            }
+            }*/
 
         }
 
