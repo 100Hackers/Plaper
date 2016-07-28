@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using System;
 
 namespace Plaper {
@@ -40,6 +41,8 @@ namespace Plaper {
 		public /*static*/ SpriteFont font10;
 
         RenderTarget2D playArea;
+        public SoundEffect jump, losingSound;
+        public SoundEffect[] wallHits = new SoundEffect[2];
 
         public Game1() {
 
@@ -73,6 +76,11 @@ namespace Plaper {
 
         public GraphicsDeviceManager Graphics {
             get { return graphics; }
+        }
+
+        public SoundEffect LosingSound
+        {
+            get { return losingSound; }
         }
 
         /// <summary>
@@ -150,6 +158,13 @@ namespace Plaper {
 			font10 = Content.Load<SpriteFont>("ScoreFont");
 
             font = font24;
+
+            //Sounds
+            jump = Content.Load<SoundEffect>("Jump");
+            losingSound = Content.Load<SoundEffect>("Losing Sound");
+            wallHits[0] = Content.Load<SoundEffect>("Thud1");
+            wallHits[1] = Content.Load<SoundEffect>("Thud2");
+            SoundEffect.MasterVolume = 1.0f;
         }
 
         /// <summary>
@@ -176,7 +191,7 @@ namespace Plaper {
 
             //check that state is initalized then call current state's update
             if(State.getState() != null) {
-                State.getState().Update(gameTime);
+                State.getState().Update(gameTime, this);
             }
 
             base.Update(gameTime);

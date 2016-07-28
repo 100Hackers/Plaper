@@ -31,7 +31,7 @@ namespace Plaper {
         }
 
         //update for game logic
-        public override void Update(GameTime gameTime) {
+        public override void Update(GameTime gameTime, Game1 game) {
 
             for (int i = 0; i < nButtons; ++i) {
                 buttonArr[i].Update(gameTime);
