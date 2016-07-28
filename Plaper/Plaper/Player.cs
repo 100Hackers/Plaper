@@ -2,10 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Plaper {
     class Player : Entity {
@@ -14,7 +10,6 @@ namespace Plaper {
         private States state; // Current state
 
         const double PI = Math.PI;  // Too lazy to keep typing Math.PI
-        const int JUMP_SPEED = 11;  // Initial upwards velocity.Y
 
         Vector2 velocity;
 
@@ -31,15 +26,18 @@ namespace Plaper {
             get { return isDead; }
         }
 
-        int ArrowHeight  { get; } = (int) (Plaper.height * 0.1);    // Arrow constants
-        int ArrowWidth   { get; } = (int) (Plaper.height * 0.05);
-        int ArrowPadding { get; } = (int) (Plaper.height * 0.15);    // Distance from player's head
+        int ArrowHeight  { get; } = (int) (Plaper.playHeight * 0.1);    // Arrow constants
+        int ArrowWidth   { get; } = (int) (Plaper.playHeight * 0.05);
+        int ArrowPadding { get; } = (int) (Plaper.playHeight * 0.15);    // Distance from player's head
         const int ARROW_SPEED  = 2;
         const double ARROW_BOUND_UPPER = (PI / 3);
         const double ARROW_BOUND_LOWER = (-PI / 3);
 
         public Player(Texture2D texture, Texture2D arrowTexture, Texture2D arrowFill, int startHeight, Rectangle screenBounds) 
-            : base(texture, new Rectangle(0, 0, (int)(Plaper.PLAYER_SCALE*Plaper.height*14), (int)(Plaper.PLAYER_SCALE*Plaper.height*17))) {
+                        // setting to (0,0) because position gets set later in constructor.
+                    : base(texture, new Rectangle(0, 0, (int)(Plaper.PLAYER_SCALE*Plaper.playHeight), 
+                                (int)(Plaper.PLAYER_SCALE*Plaper.playHeight*Plaper.PLAYER_RATIO))) 
+        {
             this.arrowFill = arrowFill;
             this.arrowTexture = arrowTexture;
 
@@ -102,15 +100,15 @@ namespace Plaper {
 
                     // Jump once space is released and move to Jumping state
                     if(spaceReleased) {
-                        velocity.Y = (float)(Math.Cos( arrowAngle) * arrowPower * JUMP_SPEED);
-                        velocity.X = (float)(Math.Sin(-arrowAngle) * arrowPower * JUMP_SPEED);
+                        velocity.Y = (float)(Math.Cos( arrowAngle) * arrowPower * Plaper.playHeight * Plaper.JUMP_SPEED);
+                        velocity.X = (float)(Math.Sin(-arrowAngle) * arrowPower * Plaper.playHeight * Plaper.JUMP_SPEED);
                         state = States.Jumping;
                     }
                     break;
 
                 case States.Jumping:
                     // Subtract Gravity from vertical velocity and add velocity to position
-                    velocity.Y -= (float)(elapsedSeconds * Plaper.GRAVITY);
+                    velocity.Y -= (float)(elapsedSeconds * Plaper.playHeight * Plaper.GRAVITY);
                     position.Y -= (float)(elapsedSeconds * velocity.Y);
 
                     // Check for wall colissions for add horizontal velocity to position

@@ -8,21 +8,30 @@ using System.Threading.Tasks;
 
 namespace Plaper {
     class Plaper {
+
+        // Screen variables
         public const int 
-            GRAVITY = 400,
             SCREEN_WIDTH  = 400,
             SCREEN_HEIGHT = 600,
             SHIFT_SPEED   = 300;
-
-
+        
         public static int
             screenHeight,
             screenWidth,
-            height,
-            width;
+            playHeight,
+            playWidth;
 
-        public const double PLAYER_SCALE = 1 / 200.0;
-        public const double PLAT_SCALE   = 1 / 600.0;
+        // Sprite ratios, should be height / width
+        public const double PLAYER_RATIO = 17.0 /  14.0; // remember there are actually three sprites in this file
+        public const double PLAT_RATIO   = 50.0 / 250.0;
+
+        // Sprite scales
+        public const double PLAYER_SCALE = 0.07;
+        public const double PLAT_SCALE   = 0.17;
+
+        // Physics
+        public const double GRAVITY    = 1.2;
+        public const double JUMP_SPEED = 0.015;
         
 
         public static KeyboardState keyboardState, lastKeyboardState;
