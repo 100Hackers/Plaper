@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,10 @@ namespace Plaper {
     abstract class State {
 
         protected GraphicsDeviceManager graphics;
-        protected Game1 game;
         protected Texture2D buttonTexture;
 
         protected int buttonSpacing;
+        protected ContentManager content;
 
         protected int nButtons = 0;
 
@@ -25,12 +26,16 @@ namespace Plaper {
 
         static State currentState = null;
 
-        public State(GraphicsDeviceManager graphics, Game1 game) {
+        public State(GraphicsDeviceManager graphics, ContentManager content) {
             this.graphics = graphics;
-            this.game = game;
+            this.content = content;
 
             buttonTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
             buttonTexture.SetData(new Color[] { Color.Chocolate });
+        }
+
+        ~State() {
+            content.Unload();
         }
 
         public static void setState(State state) {

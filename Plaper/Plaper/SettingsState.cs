@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -17,11 +18,11 @@ namespace Plaper {
         const string BACK_TEXT = "BACK";
 
         //ctor
-        public SettingsState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
+        public SettingsState(GraphicsDeviceManager graphics, ContentManager content) : base(graphics, content) {
 
             buttonArr[0] = new Button(BACK_TEXT, buttonTexture, 
                 new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight),
-                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+                Plaper.SCREEN_WIDTH, Game1.buttonHeight), content);
             nButtons++;
         }
 
@@ -34,13 +35,13 @@ namespace Plaper {
 
             //check where mouse is and do stuff if it's clicked
             if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
-                State.setState(new MenuState(graphics, game));
+                State.setState(new MenuState(graphics, content));
             }
 
 
             //check if mouse button has just been depressed
             if(buttonArr[0].Clicked()) {
-                State.setState(new MenuState(graphics, game));
+                State.setState(new MenuState(graphics, content));
             }
 
         }

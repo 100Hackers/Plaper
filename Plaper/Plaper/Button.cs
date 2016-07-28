@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -19,11 +20,11 @@ namespace Plaper {
         ButtonState lastMouseButton;
         Rectangle buttonRect;
 
-        public Button(string name, Texture2D texture, Rectangle buttonRect) {
+        public Button(string name, Texture2D texture, Rectangle buttonRect, ContentManager content) {
             this.name = name;
             this.texture = texture;
             this.buttonRect = buttonRect;
-            this.font = Game1.font36;
+            this.font = content.Load<SpriteFont>("joystik24");
 
             Vector2 textSize = this.font.MeasureString(name);
             textPosition.Y = (buttonRect.Height - textSize.Y) / 2 + buttonRect.Y;

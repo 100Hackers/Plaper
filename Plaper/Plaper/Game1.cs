@@ -91,7 +91,7 @@ namespace Plaper {
             base.Initialize();
 
             //create state and pass player object
-            currentState = new MenuState(graphics, this);
+            currentState = new MenuState(graphics, Content);
 
             //set state to game
             State.setState(currentState);
@@ -111,24 +111,6 @@ namespace Plaper {
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            //arrow
-            arrow  = Content.Load<Texture2D>("arrow");
-            arrowFill = Content.Load<Texture2D>("arrow_fill");
-
-            //player
-            sprite = Content.Load<Texture2D>("bouncer_all");
-
-            //platform
-            platformTex = Content.Load<Texture2D>("platform");
-
-            //fonts
-            font12 = Content.Load<SpriteFont>("joystik");
-            font24 = Content.Load<SpriteFont>("joystik24");
-            font36 = Content.Load<SpriteFont>("joystik36");
-			font10 = Content.Load<SpriteFont>("ScoreFont");
-
-            font = font24;
 
             //Sounds
             jump = Content.Load<SoundEffect>("Jump");
