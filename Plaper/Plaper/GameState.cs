@@ -67,7 +67,7 @@ namespace Plaper {
 					++scoreCnt;
                     platformCounter %= 3;
                     isShifting = true;
-                    Entity.ScrollInit((int) ((Plaper.playHeight - platforms[platformCounter].Pos.Y) - (Plaper.screenHeight * Plaper.START_HEIGHT)));
+                    Entity.ScrollInit((int) ((Plaper.playHeight - platforms[platformCounter].Pos.Y) - (Plaper.playHeight * Plaper.START_HEIGHT)));
                 }
             } else {
                 if (!Entity.ScrollDown()) {

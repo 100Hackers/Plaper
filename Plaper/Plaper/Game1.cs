@@ -87,6 +87,10 @@ namespace Plaper {
 
             
             var displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
+
+            Plaper.windowHeight = Plaper.SCREEN_HEIGHT;
+            Plaper.windowWidth  = Plaper.SCREEN_WIDTH;
+
             Plaper.screenHeight = displayMode.Height;
             Plaper.screenWidth  = displayMode.Width;
 
@@ -96,13 +100,16 @@ namespace Plaper {
             if (makeFullscreen) {
                 Plaper.playHeight = Plaper.screenHeight;
                 Plaper.playWidth  = Plaper.screenHeight / 2;
-                graphics.PreferredBackBufferHeight = Plaper.screenHeight;
-                graphics.PreferredBackBufferWidth  = Plaper.screenWidth;
+                Plaper.windowHeight = Plaper.screenHeight;
+                Plaper.windowWidth = Plaper.screenWidth;
                 graphics.IsFullScreen = !graphics.IsFullScreen;
-                graphics.ApplyChanges();
             }
 
-            playArea = new RenderTarget2D(graphics.GraphicsDevice, Plaper.playWidth, Plaper.screenHeight, false, SurfaceFormat.Color, DepthFormat.None, 2, RenderTargetUsage.DiscardContents);
+            graphics.PreferredBackBufferHeight = Plaper.windowHeight;
+            graphics.PreferredBackBufferWidth  = Plaper.windowWidth;
+            graphics.ApplyChanges();
+
+            playArea = new RenderTarget2D(graphics.GraphicsDevice, Plaper.playWidth, Plaper.playHeight, false, SurfaceFormat.Color, DepthFormat.None, 2, RenderTargetUsage.DiscardContents);
 
             //create state and pass player object
             currentState = new MenuState(graphics, this);
@@ -193,7 +200,7 @@ namespace Plaper {
             GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(Color.DarkOrange);
             spriteBatch.Begin();
-            spriteBatch.Draw(playArea, new Rectangle((Plaper.screenWidth - Plaper.playWidth) / 2, 0, Plaper.playWidth, Plaper.playHeight), Color.White);
+            spriteBatch.Draw(playArea, new Rectangle((Plaper.windowWidth - Plaper.playWidth) / 2, 0, Plaper.playWidth, Plaper.playHeight), Color.White);
             spriteBatch.End();
             //display framerate in title bar
             Window.Title = "Plaper - " + Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 2).ToString() + " FPS";

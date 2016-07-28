@@ -18,6 +18,8 @@ namespace Plaper {
         public static int
             screenHeight,
             screenWidth,
+            windowHeight,
+            windowWidth,
             playHeight,
             playWidth;
 
@@ -32,12 +34,20 @@ namespace Plaper {
         public const double START_HEIGHT  = 0.09;
 
         // Physics
-        public const double GRAVITY    = 1.2;
-        public const double JUMP_SPEED = 0.015;
+        public const double GRAVITY    = 0.7;
+        public const double JUMP_SPEED = 0.011;
+        public const double ARROW_SPEED = 2.5;
+        public const double FILL_SPEED  = 150;
         
 
         public static KeyboardState keyboardState, lastKeyboardState;
 
+        public static bool jumpPressed;
+
         public static GameTime gameTime;
+
+        public static Vector2 mouse;
+        public static bool curMouse;
+        public static bool prevMouse;
     }
 }

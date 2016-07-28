@@ -29,7 +29,7 @@ namespace Plaper {
         int ArrowHeight  { get; } = (int) (Plaper.playHeight * 0.1);    // Arrow constants
         int ArrowWidth   { get; } = (int) (Plaper.playHeight * 0.05);
         int ArrowPadding { get; } = (int) (Plaper.playHeight * 0.15);    // Distance from player's head
-        const int ARROW_SPEED  = 2;
+        //const int ARROW_SPEED  = 2;
         const double ARROW_BOUND_UPPER = (PI / 3);
         const double ARROW_BOUND_LOWER = (-PI / 3);
 
@@ -61,7 +61,7 @@ namespace Plaper {
                 case States.Standing:
 
                     // Rotate arrow
-                    double arrowDelta = elapsedSeconds * ARROW_SPEED;
+                    double arrowDelta = elapsedSeconds * Plaper.ARROW_SPEED;
                     arrowAngle += arrowGoingLeft ? -arrowDelta : arrowDelta;
 
                     // Check arrow bounds
@@ -90,7 +90,7 @@ namespace Plaper {
                     bool spaceReleased = !Plaper.keyboardState.IsKeyDown(Keys.Space);
 
                     // Move power up and down
-                    arrowPower = arrowPower + elapsedSeconds * (powerInc ? 100 : -100);
+                    arrowPower = arrowPower + elapsedSeconds * (powerInc ? Plaper.FILL_SPEED : -Plaper.FILL_SPEED);
 
                     // Check power bounds (full and empty)
                     if(arrowPower < 0 || MAX_POWER < arrowPower) {
