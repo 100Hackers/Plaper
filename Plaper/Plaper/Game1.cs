@@ -12,7 +12,7 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        const bool makeFullscreen = false;
+        const bool makeFullscreen = true;
 
         public const int buttonHeight = Plaper.SCREEN_HEIGHT / 5;
         public const int buttonSpacing = buttonHeight / 3;
@@ -46,7 +46,7 @@ namespace Plaper {
 
             // Set screen height and width
             graphics.PreferredBackBufferHeight = Plaper.SCREEN_HEIGHT;
-            graphics.PreferredBackBufferWidth = Plaper.SCREEN_WIDTH;
+            graphics.PreferredBackBufferWidth = Plaper.SCREEN_HEIGHT / 2;
 
             // unrestricted framerate
             //this.IsFixedTimeStep = false;
@@ -89,13 +89,13 @@ namespace Plaper {
             Plaper.screenWidth  = displayMode.Width;
 
             Plaper.playHeight = Plaper.SCREEN_HEIGHT;
-            Plaper.playWidth  = Plaper.SCREEN_WIDTH;
+            Plaper.playWidth  = Plaper.SCREEN_HEIGHT / 2;
 
             if (makeFullscreen) {
                 Plaper.playHeight = Plaper.screenHeight;
-                Plaper.playWidth  = Plaper.screenWidth;
-                graphics.PreferredBackBufferHeight = Plaper.playHeight;
-                graphics.PreferredBackBufferWidth  = Plaper.playWidth;
+                Plaper.playWidth  = Plaper.screenHeight / 2;
+                graphics.PreferredBackBufferHeight = Plaper.screenHeight;
+                graphics.PreferredBackBufferWidth  = Plaper.screenWidth;
                 graphics.IsFullScreen = !graphics.IsFullScreen;
                 graphics.ApplyChanges();
             }

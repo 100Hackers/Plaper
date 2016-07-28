@@ -22,16 +22,16 @@ namespace Plaper {
         //ctor
         public MenuState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
 
-            spritePreviewRectangle = new Rectangle(Plaper.SCREEN_WIDTH / 4, Plaper.SCREEN_HEIGHT / 50, Plaper.SCREEN_WIDTH/2, (int)(Plaper.SCREEN_WIDTH/2 * 17.0 / 14.0));
+            spritePreviewRectangle = new Rectangle(Plaper.playWidth / 4, Plaper.playHeight / 50, Plaper.playWidth/2, (int)(Plaper.playWidth/2 * 17.0 / 14.0));
 
             nButtons++;
             buttonArr[0] = new Button(START_TEXT, buttonTexture,
                 new Rectangle(0, (int)(Game1.buttonHeight + Game1.buttonSpacing*3.9) * nButtons,
-                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight));
             nButtons++;
             buttonArr[1] = new Button(SETTINGS_TEXT, buttonTexture,
                 new Rectangle(0, (int)(Game1.buttonHeight + Game1.buttonSpacing*2.4) * nButtons,
-                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight));
         }
 
         //update game logic

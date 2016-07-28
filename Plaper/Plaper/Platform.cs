@@ -26,7 +26,7 @@ namespace Plaper
 
         public Platform(Texture2D texture, int startHeight)
                 :base(texture, new Rectangle(0, 0, (int)(Plaper.playHeight * Plaper.PLAT_SCALE), (int)(Plaper.playHeight * Plaper.PLAT_SCALE * Plaper.PLAT_RATIO))) {
-            position = new Vector2((Plaper.SCREEN_WIDTH - Width)/2, Plaper.SCREEN_HEIGHT - startHeight);
+            position = new Vector2((Plaper.playWidth - Width)/2, (float) (Plaper.playHeight * (1 - Plaper.START_HEIGHT)));
             color = Color.White;
         }
 

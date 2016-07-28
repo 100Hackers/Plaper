@@ -47,7 +47,7 @@ namespace Plaper {
             arrowPower = ArrowHeight;
             arrowGoingLeft = false;
 
-            position = new Vector2((screenBounds.Width - Width) / 2, screenBounds.Height - startHeight - Height);
+            position = new Vector2((Plaper.playWidth - Width) / 2, (float) (Plaper.playHeight * (1 - Plaper.START_HEIGHT) - Height));
         }
 
         public bool Update(GameTime gameTime, Platform[] platforms, int curPlatform) {
@@ -112,16 +112,16 @@ namespace Plaper {
                     position.Y -= (float)(elapsedSeconds * velocity.Y);
 
                     // Check for wall colissions for add horizontal velocity to position
-                    if(position.X < 0 || Plaper.SCREEN_WIDTH < position.X + Width) {
+                    if(position.X < 0 || Plaper.playWidth < position.X + Width) {
                         velocity.X = -velocity.X;
-                        position.X = position.X < 0 ? 0f : Plaper.SCREEN_WIDTH - Width;
+                        position.X = position.X < 0 ? 0f : Plaper.playWidth - Width;
                     }
                     position.X -= (float)(elapsedSeconds * velocity.X);
 
                     // Check for player hitting the bottom of the screen
                     // If so, go back to Standing state and reset arrow
-                    if(position.Y + Height > Plaper.SCREEN_HEIGHT) {
-                        position.Y = Plaper.SCREEN_HEIGHT - Height;
+                    if(position.Y + Height > Plaper.playHeight) {
+                        position.Y = Plaper.playHeight - Height;
                         velocity = Vector2.Zero;
 
                         arrowAngle = 0;

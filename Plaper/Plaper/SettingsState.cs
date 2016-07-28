@@ -21,12 +21,12 @@ namespace Plaper {
 
             buttonArr[0] = new Button(BACK_TEXT, buttonTexture, 
                 new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight),
-                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight));
             nButtons++;
 
             buttonArr[1] = new Button("FULLSCREEN", buttonTexture, 
                 new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight) + 50,
-                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight));
             nButtons++;
         }
 

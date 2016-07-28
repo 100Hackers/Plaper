@@ -36,8 +36,8 @@ namespace Plaper {
         //ctor
         public GameState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
 
-            screenRectangle = new Rectangle(0, 0, Plaper.SCREEN_WIDTH, Plaper.SCREEN_HEIGHT);
-            player = new Player(game.Sprite, game.Arrow, game.ArrowFill, START_HEIGHT, screenRectangle);
+            screenRectangle = new Rectangle(0, 0, Plaper.playWidth, Plaper.playHeight);
+            player = new Player(game.Sprite, game.Arrow, game.ArrowFill, START_HEIGHT * Plaper.playHeight, screenRectangle);
 
 			scorePos = new Vector2(5.0f, 5.0f);
 			scoreCnt = 0;
@@ -47,7 +47,7 @@ namespace Plaper {
 
             isShifting = false;
 
-            platforms[0] = new Platform(game.PlatformTex, START_HEIGHT);
+            platforms[0] = new Platform(game.PlatformTex, START_HEIGHT * Plaper.playHeight);
             platforms[1] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(100, 300)));
             platforms[2] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(MAX_HEIGHT_DIFF - MIN_HEIGHT_DIFF) + MIN_HEIGHT_DIFF));
             generateNewPlatform();
@@ -67,7 +67,7 @@ namespace Plaper {
 					++scoreCnt;
                     platformCounter %= 3;
                     isShifting = true;
-                    Entity.ScrollInit((600 - platforms[platformCounter].Pos.Y) - START_HEIGHT);
+                    Entity.ScrollInit((int) ((Plaper.playHeight - platforms[platformCounter].Pos.Y) - (Plaper.screenHeight * Plaper.START_HEIGHT)));
                 }
             } else {
                 if (!Entity.ScrollDown()) {
@@ -104,7 +104,7 @@ namespace Plaper {
             Platform curPlatform   = platforms[(platformCounter + 2) % 3];
             
 
-            curPlatform.SetPlatform(new Vector2(rand.Next(0, screenRectangle.Width - 101), rand.Next((int)prevPlatform.Pos.Y - MAX_HEIGHT_DIFF, (int)prevPlatform.Pos.Y - MIN_HEIGHT_DIFF) ));
+            curPlatform.SetPlatform(new Vector2(rand.Next(0, screenRectangle.Width - platforms[0].Hitbox().Width), rand.Next((int)prevPlatform.Pos.Y - MAX_HEIGHT_DIFF, (int)prevPlatform.Pos.Y - MIN_HEIGHT_DIFF) ));
         }
 
     }
