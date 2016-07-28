@@ -32,22 +32,22 @@ namespace Plaper {
 
         public Boolean Clicked() {
 
-            if(Mouse.GetState().LeftButton == ButtonState.Released && lastMouseButton == ButtonState.Pressed) {
+            if(Plaper.prevMouse && !Plaper.curMouse) {
                 if(this.isInBounds()) {
                     return true;
                 }
             }
-            lastMouseButton = Mouse.GetState().LeftButton;
+            //lastMouseButton = Mouse.GetState().LeftButton;
             return false;            
         }
 
         public Boolean isInBounds() {
-            var mouseState = Mouse.GetState();
+            //var mouseState = Mouse.GetState();
 
-            if(mouseState.X < buttonRect.X + buttonRect.Width &&
-               mouseState.X > buttonRect.X &&
-               mouseState.Y < buttonRect.Y + buttonRect.Height &&
-               mouseState.Y > buttonRect.Y) {
+            if(Plaper.mouse.X < buttonRect.X + buttonRect.Width &&
+               Plaper.mouse.X > buttonRect.X &&
+               Plaper.mouse.Y < buttonRect.Y + buttonRect.Height &&
+               Plaper.mouse.Y > buttonRect.Y) {
                 return true;
             }
             return false;
