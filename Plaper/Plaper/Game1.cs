@@ -39,6 +39,8 @@ namespace Plaper {
         public static SpriteFont font36;
 		public /*static*/ SpriteFont font10;
 
+        RenderTarget2D playArea;
+
         public Game1() {
 
             graphics = new GraphicsDeviceManager(this);
@@ -65,7 +67,7 @@ namespace Plaper {
             get { return arrowFill; }
         }
 
-        public Texture2D PlatformTex{
+        public Texture2D PlatformTex {
             get { return platformTex; }
         }
 
@@ -99,6 +101,8 @@ namespace Plaper {
                 graphics.IsFullScreen = !graphics.IsFullScreen;
                 graphics.ApplyChanges();
             }
+
+            playArea = new RenderTarget2D(graphics.GraphicsDevice, Plaper.playWidth, Plaper.screenHeight, false, SurfaceFormat.Color, DepthFormat.None, 2, RenderTargetUsage.DiscardContents);
 
             //create state and pass player object
             currentState = new MenuState(graphics, this);
@@ -180,11 +184,17 @@ namespace Plaper {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
 
+            GraphicsDevice.SetRenderTarget(playArea);
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //check that state is initalized then call current state's draw
             State.getState()?.Draw(spriteBatch);
 
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(Color.DarkOrange);
+            spriteBatch.Begin();
+            spriteBatch.Draw(playArea, new Rectangle((Plaper.screenWidth - Plaper.playWidth) / 2, 0, Plaper.playWidth, Plaper.playHeight), Color.White);
+            spriteBatch.End();
             //display framerate in title bar
             Window.Title = "Plaper - " + Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 2).ToString() + " FPS";
 
