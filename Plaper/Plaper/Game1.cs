@@ -13,7 +13,7 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        const bool makeFullscreen = true;
+        const bool makeFullscreen = false;
 
         public const int buttonHeight = Plaper.SCREEN_HEIGHT / 5;
         public const int buttonSpacing = buttonHeight / 3;
@@ -190,9 +190,8 @@ namespace Plaper {
             }
 
             //check that state is initalized then call current state's update
-            if(State.getState() != null) {
-                State.getState().Update(gameTime, this);
-            }
+            State.getState()?.Update(gameTime, this);
+            
 
             base.Update(gameTime);
         }
