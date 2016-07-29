@@ -28,8 +28,9 @@ namespace Plaper {
         const int SHIFT_SPEED = 300;
 
 		//used for scoring
-		Vector2 scorePos;
-		/*static*/ int scoreCnt = 0;
+		Scoring Score;
+		//Vector2 scorePos;
+		///*static*/ int scoreCnt = 0;
 
         Rectangle screenRectangle;
 
@@ -39,8 +40,10 @@ namespace Plaper {
             screenRectangle = new Rectangle(0, 0, Plaper.playWidth, Plaper.playHeight);
             player = new Player(game.Sprite, game.Arrow, game.ArrowFill, START_HEIGHT * Plaper.playHeight, screenRectangle);
 
-			scorePos = new Vector2(5.0f, 5.0f);
-			scoreCnt = 0;
+			Score = new Scoring(game);
+
+			//scorePos = new Vector2(5.0f, 5.0f);
+			//scoreCnt = 0;
 
             platformCounter = 0;
             platforms = new Platform[3];
@@ -64,7 +67,7 @@ namespace Plaper {
                 if (player.Update(gameTime, platforms, platformCounter, game)) {
                     generateNewPlatform();
                     ++platformCounter;
-					++scoreCnt;
+					Score.Update();
                     platformCounter %= 3;
                     isShifting = true;
                     Entity.ScrollInit((int) ((Plaper.playHeight - platforms[platformCounter].Pos.Y) - (Plaper.playHeight * Plaper.START_HEIGHT)));
@@ -81,7 +84,7 @@ namespace Plaper {
             }
 
             if(player.IsDead) {
-                State.setState(new EndgameState(graphics, game, scoreCnt));
+                State.setState(new EndgameState(graphics, game, Score.GetScore()));
             }
         }
 
@@ -94,9 +97,11 @@ namespace Plaper {
                 plat.Draw(spriteBatch);
             }
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-			spriteBatch.DrawString(game.font10, "Score: " + scoreCnt.ToString(), scorePos, Color.Black);
-            spriteBatch.End();
+			Score.Draw(spriteBatch);
+
+   //         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+			////spriteBatch.DrawString(game.font10, "Score: " + scoreCnt.ToString(), scorePos, Color.Black);
+   //         spriteBatch.End();
         }
 
         private void generateNewPlatform() {
