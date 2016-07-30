@@ -11,6 +11,7 @@ namespace Plaper {
 
         const double PI = Math.PI;  // Too lazy to keep typing Math.PI
 
+        Vector2 lastPos;
         Vector2 velocity;
 
         double arrowAngle;      // Used for current angle of the arrow
@@ -48,6 +49,7 @@ namespace Plaper {
             arrowGoingLeft = false;
 
             position = new Vector2((Plaper.playWidth - Width) / 2, (float) (Plaper.playHeight * (1 - Plaper.START_HEIGHT) - Height));
+            lastPos = position;
         }
 
         public bool Update(GameTime gameTime, Platform[] platforms, int curPlatform, Game1 game) {
@@ -181,6 +183,8 @@ namespace Plaper {
                     }
                 }
             }
+
+            lastPos = position;
 
             return onNextPlat;
         }
