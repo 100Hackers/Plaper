@@ -12,15 +12,15 @@ namespace Plaper {
         public static KeyboardState lastKeyboardState, keyboardState;
         public static bool jumpPressed;
 
-        public static bool mouseClicked;
-        public static Vector2 prevMouse, curMouse;
+        public static bool lastMouseClicked, mouseClicked;
+        public static Vector2 lastMouse, mouse;
 
         public static void Initialize() {
             jumpPressed = false;
             lastKeyboardState = keyboardState = Keyboard.GetState();
             
             mouseClicked = false;
-            prevMouse = curMouse = new Vector2(-1, -1);
+            lastMouse = mouse = new Vector2(-1, -1);
         }
 
         public static void Update() {
@@ -28,12 +28,15 @@ namespace Plaper {
             keyboardState = Keyboard.GetState();
             jumpPressed = keyboardState.IsKeyDown(Keys.Space);
 
-            prevMouse = curMouse;
             var tMouseState = Mouse.GetState();
             var tPoint = tMouseState.Position;
-            mouseClicked = tMouseState.MiddleButton == ButtonState.Pressed;
-            curMouse.X = tPoint.X;
-            curMouse.Y = tPoint.Y;
+
+            lastMouseClicked = mouseClicked;
+            mouseClicked = tMouseState.LeftButton == ButtonState.Pressed;
+
+            lastMouse = mouse;
+            mouse.X = tPoint.X;
+            mouse.Y = tPoint.Y;
         }
     }
 }
