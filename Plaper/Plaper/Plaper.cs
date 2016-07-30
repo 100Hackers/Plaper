@@ -41,14 +41,6 @@ namespace Plaper {
 
         public static bool debugMode = false;
 
-        public static KeyboardState keyboardState, lastKeyboardState;
-
-        public static bool jumpPressed;
-
         public static GameTime gameTime;
-
-        public static Vector2 mouse;
-        public static bool curMouse;
-        public static bool prevMouse;
     }
 }

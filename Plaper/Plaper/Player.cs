@@ -78,7 +78,7 @@ namespace Plaper {
                     }
 
                     // Move to Power state to get jump power if space is pressed
-                    if(Plaper.jumpPressed) {
+                    if(Input.jumpPressed) {
                         powerInc = true;
                         state = States.Power;
                         arrowPower = 0;
@@ -101,7 +101,7 @@ namespace Plaper {
                     }
 
                     // Jump once space is released and move to Jumping state
-                    if(!Plaper.jumpPressed) {
+                    if(!Input.jumpPressed) {
                         velocity.Y = (float)(Math.Cos( arrowAngle) * arrowPower * Plaper.playHeight * Plaper.JUMP_SPEED);
                         velocity.X = (float)(Math.Sin(-arrowAngle) * arrowPower * Plaper.playHeight * Plaper.JUMP_SPEED);
                         state = States.Jumping;

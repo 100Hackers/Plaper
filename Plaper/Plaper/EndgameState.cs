@@ -48,7 +48,7 @@ namespace Plaper {
                 State.setState(new MenuState(graphics, game));
             }
 
-            if(!Keyboard.GetState().IsKeyDown(Keys.Space) && Plaper.lastKeyboardState.IsKeyDown(Keys.Space)) {
+            if(!Input.keyboardState.IsKeyDown(Keys.Space) && Input.lastKeyboardState.IsKeyDown(Keys.Space)) {
                 State.setState(new GameState(graphics, game));
             }
 

@@ -133,10 +133,7 @@ namespace Plaper {
 
             this.IsMouseVisible = true;
 
-            Plaper.lastKeyboardState = Keyboard.GetState();
-            Plaper.keyboardState     = Keyboard.GetState();
-
-
+            Input.Initialize();
         }
 
         /// <summary>
@@ -201,7 +198,7 @@ namespace Plaper {
             //check that state is initalized then call current state's update
             State.getState()?.Update(gameTime, this);
 
-            if(!Plaper.keyboardState.IsKeyDown(Keys.D) && Plaper.lastKeyboardState.IsKeyDown(Keys.D)) {
+            if(!Input.keyboardState.IsKeyDown(Keys.D) && Input.lastKeyboardState.IsKeyDown(Keys.D)) {
                 Plaper.debugMode = !Plaper.debugMode;
             }
 

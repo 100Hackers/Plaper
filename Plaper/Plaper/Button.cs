@@ -43,10 +43,10 @@ namespace Plaper {
         public Boolean isInBounds() {
             //var mouseState = Mouse.GetState();
 
-            if(Plaper.mouse.X < buttonRect.X + buttonRect.Width &&
-               Plaper.mouse.X > buttonRect.X &&
-               Plaper.mouse.Y < buttonRect.Y + buttonRect.Height &&
-               Plaper.mouse.Y > buttonRect.Y) {
+            if(Input.curMouse.X < buttonRect.X + buttonRect.Width &&
+               Input.curMouse.X > buttonRect.X &&
+               Input.curMouse.Y < buttonRect.Y + buttonRect.Height &&
+               Input.curMouse.Y > buttonRect.Y) {
                 return true;
             }
             return false;
