@@ -32,22 +32,16 @@ namespace Plaper {
 
             var displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
 
-            Plaper.windowHeight = Plaper.SCREEN_HEIGHT;
-            Plaper.windowWidth  = Plaper.SCREEN_WIDTH;
-
             Plaper.screenHeight = displayMode.Height;
             Plaper.screenWidth  = displayMode.Width;
 
-            Plaper.playHeight = Plaper.SCREEN_HEIGHT;
-            Plaper.playWidth  = Plaper.SCREEN_HEIGHT / 2;
+            Plaper.windowHeight = Plaper.screenHeight;
+            Plaper.windowWidth = Plaper.screenWidth;
 
-            if (Game1.makeFullscreen) {
-                Plaper.playHeight = Plaper.screenHeight;
-                Plaper.playWidth  = Plaper.screenHeight / 2;
-                Plaper.windowHeight = Plaper.screenHeight;
-                Plaper.windowWidth = Plaper.screenWidth;
-                graphics.IsFullScreen = !graphics.IsFullScreen;
-            }
+            Plaper.playHeight = Plaper.screenHeight;
+            Plaper.playWidth  = Plaper.screenHeight / 2;
+
+            graphics.IsFullScreen = true;
 
             graphics.PreferredBackBufferHeight = Plaper.windowHeight;
             graphics.PreferredBackBufferWidth  = Plaper.windowWidth;

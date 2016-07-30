@@ -53,7 +53,6 @@ namespace Plaper {
                 mouse.X = -1;
                 mouse.Y = -1;
             }
-
         }
     }
 }

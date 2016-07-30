@@ -31,16 +31,16 @@ namespace Plaper {
         }
 
         public Boolean Clicked() {
-            return Input.mouseClicked && !Input.lastMouseClicked && this.isInBounds();
+            return !Input.mouseClicked && Input.lastMouseClicked && this.isInBounds(Input.lastMouse);
         }
 
-        public Boolean isInBounds() {
+        public Boolean isInBounds(Vector2 mouse) {
             //var mouseState = Mouse.GetState();
 
-            if(Input.mouse.X < buttonRect.X + buttonRect.Width &&
-               Input.mouse.X > buttonRect.X &&
-               Input.mouse.Y < buttonRect.Y + buttonRect.Height &&
-               Input.mouse.Y > buttonRect.Y) {
+            if(mouse.X < buttonRect.X + buttonRect.Width &&
+               mouse.X > buttonRect.X &&
+               mouse.Y < buttonRect.Y + buttonRect.Height &&
+               mouse.Y > buttonRect.Y) {
                 return true;
             }
             return false;
@@ -54,7 +54,7 @@ namespace Plaper {
 
             spriteBatch.Draw(texture, buttonRect, Color.White);
 
-            spriteBatch.DrawString(font, name, textPosition, isInBounds() ? HOVER_COLOR : TEXT_COLOR);
+            spriteBatch.DrawString(font, name, textPosition, isInBounds(Input.mouse) ? HOVER_COLOR : TEXT_COLOR);
             spriteBatch.End();
         }
     }
