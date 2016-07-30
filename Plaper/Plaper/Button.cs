@@ -22,7 +22,7 @@ namespace Plaper {
         public Button(string name, Texture2D texture, Rectangle buttonRect) {
             this.name = name;
             this.texture = texture;
-            this.buttonRect = buttonRect;
+            this.buttonRect = new Rectangle(0, buttonRect.Y, Plaper.playWidth, (int) (buttonRect.Height * Plaper.BUTTON_HEIGHT * Plaper.playHeight));
             this.font = Game1.font36;
 
             Vector2 textSize = this.font.MeasureString(name);

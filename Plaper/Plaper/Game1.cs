@@ -121,8 +121,8 @@ namespace Plaper {
 
             playRectangle = new Rectangle((Plaper.windowWidth - Plaper.playWidth) / 2, 0, Plaper.playWidth, Plaper.playHeight);
 
-            Plaper.playWidth *= 2;
-            Plaper.playHeight *= 2;
+            Plaper.playWidth *= 1;
+            Plaper.playHeight *= 1;
             playArea = new RenderTarget2D(graphics.GraphicsDevice, Plaper.playWidth, Plaper.playHeight, false, SurfaceFormat.Color, DepthFormat.None, 2, RenderTargetUsage.DiscardContents);
 
             //create state and pass player object
