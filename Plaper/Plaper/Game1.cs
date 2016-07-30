@@ -172,6 +172,8 @@ namespace Plaper {
             wallHits[0] = Content.Load<SoundEffect>("Thud1");
             wallHits[1] = Content.Load<SoundEffect>("Thud2");
             SoundEffect.MasterVolume = 0.1f;
+
+            
         }
 
         /// <summary>
@@ -198,7 +200,10 @@ namespace Plaper {
 
             //check that state is initalized then call current state's update
             State.getState()?.Update(gameTime, this);
-            
+
+            if(!Plaper.keyboardState.IsKeyDown(Keys.D) && Plaper.lastKeyboardState.IsKeyDown(Keys.D)) {
+                Plaper.debugMode = !Plaper.debugMode;
+            }
 
             base.Update(gameTime);
         }
