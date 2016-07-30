@@ -164,7 +164,7 @@ namespace Plaper {
             losingSound = Content.Load<SoundEffect>("Losing Sound");
             wallHits[0] = Content.Load<SoundEffect>("Thud1");
             wallHits[1] = Content.Load<SoundEffect>("Thud2");
-            SoundEffect.MasterVolume = 1.0f;
+            SoundEffect.MasterVolume = 0.1f;
         }
 
         /// <summary>

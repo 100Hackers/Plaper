@@ -44,12 +44,11 @@ namespace Plaper {
                 State.setState(new MenuState(graphics, game));
             }
 
-
             if(buttonArr[0].Clicked()) {
                 if(SoundEffect.MasterVolume < 0.9f) {
                     SoundEffect.MasterVolume += 0.1f;
                 } else {
-                    SoundEffect.MasterVolume = 0.1f;
+                    SoundEffect.MasterVolume = 0.0f;
                 }
                 buttonArr[0].name = "VOLUME: " + Math.Round(SoundEffect.MasterVolume * 100, 1).ToString() + "%";
             }
