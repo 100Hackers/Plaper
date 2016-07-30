@@ -156,13 +156,11 @@ namespace Plaper {
 
                     //If character is above platform and falling when he collides, sets conditions for landing on platform
                     if(position.Y + Height < platforms[i].Pos.Y + platforms[i].Hitbox().Height && velocity.Y < 0) {
-                        if (velocity.Y < 0) {
-                            velocity = Vector2.Zero;
-                            position.Y = platforms[i].Pos.Y - Height;
-                            state = States.Standing;
-                            if (i == ((curPlatform + 1) % 3))
-                                onNextPlat = true;
-                        }
+                        velocity = Vector2.Zero;
+                        position.Y = platforms[i].Pos.Y - Height;
+                        state = States.Standing;
+                        if (i == ((curPlatform + 1) % 3))
+                            onNextPlat = true;
                     }
                     //If character is below platform and rising when he collides, sets conditions for falling back down and bounding off of platform
                     else if (lastPos.Y > platforms[i].Pos.Y + platforms[i].Hitbox().Height) {
