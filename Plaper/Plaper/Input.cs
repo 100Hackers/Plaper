@@ -8,18 +8,35 @@ using System.Threading.Tasks;
 
 namespace Plaper {
     class Input {
+
+        public static KeyboardState lastKeyboardState, keyboardState;
+        public static bool jumpPressed;
+
+        public static bool lastMouseClicked, mouseClicked;
+        public static Vector2 lastMouse, mouse;
+
+        public static void Initialize() {
+            jumpPressed = false;
+            lastKeyboardState = keyboardState = Keyboard.GetState();
+            
+            mouseClicked = false;
+            lastMouse = mouse = new Vector2(-1, -1);
+        }
+
         public static void Update() {
-            Plaper.lastKeyboardState = Plaper.keyboardState;
-            MouseState state = Mouse.GetState();
-            Plaper.keyboardState = Keyboard.GetState();
+            lastKeyboardState = keyboardState;
+            keyboardState = Keyboard.GetState();
+            jumpPressed = keyboardState.IsKeyDown(Keys.Space);
 
+            var tMouseState = Mouse.GetState();
+            var tPoint = tMouseState.Position;
 
-            Plaper.prevMouse = Plaper.curMouse;
-            Plaper.curMouse = state.LeftButton == ButtonState.Pressed;
-            Plaper.mouse = new Vector2(state.X - (Plaper.windowWidth - Plaper.playWidth)/2, state.Y);
+            lastMouseClicked = mouseClicked;
+            mouseClicked = tMouseState.LeftButton == ButtonState.Pressed;
 
-            Plaper.jumpPressed = Plaper.keyboardState.IsKeyDown(Keys.Space);
-
+            lastMouse = mouse;
+            mouse.X = tPoint.X;
+            mouse.Y = tPoint.Y;
         }
     }
 }

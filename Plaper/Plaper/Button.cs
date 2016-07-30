@@ -23,7 +23,7 @@ namespace Plaper {
             this.name = name;
             this.texture = texture;
             this.buttonRect = new Rectangle(0, buttonRect.Y, Plaper.playWidth, (int) (buttonRect.Height * Plaper.BUTTON_HEIGHT * Plaper.playHeight));
-            this.font = Game1.font36;
+            this.font = Output.font36;
 
             Vector2 textSize = this.font.MeasureString(name);
             textPosition.Y = (buttonRect.Height - textSize.Y) / 2 + buttonRect.Y;
@@ -31,22 +31,16 @@ namespace Plaper {
         }
 
         public Boolean Clicked() {
-
-            if(Mouse.GetState().LeftButton == ButtonState.Released && lastMouseButton == ButtonState.Pressed && this.isInBounds()) {
-                lastMouseButton = Mouse.GetState().LeftButton;
-                return true;
-            }
-            lastMouseButton = Mouse.GetState().LeftButton;
-            return false;
+            return !Input.mouseClicked && Input.lastMouseClicked && this.isInBounds(Input.lastMouse);
         }
 
-        public Boolean isInBounds() {
+        public Boolean isInBounds(Vector2 mouse) {
             //var mouseState = Mouse.GetState();
 
-            if(Plaper.mouse.X < buttonRect.X + buttonRect.Width &&
-               Plaper.mouse.X > buttonRect.X &&
-               Plaper.mouse.Y < buttonRect.Y + buttonRect.Height &&
-               Plaper.mouse.Y > buttonRect.Y) {
+            if(mouse.X < buttonRect.X + buttonRect.Width &&
+               mouse.X > buttonRect.X &&
+               mouse.Y < buttonRect.Y + buttonRect.Height &&
+               mouse.Y > buttonRect.Y) {
                 return true;
             }
             return false;
@@ -60,7 +54,7 @@ namespace Plaper {
 
             spriteBatch.Draw(texture, buttonRect, Color.White);
 
-            spriteBatch.DrawString(font, name, textPosition, isInBounds() ? HOVER_COLOR : TEXT_COLOR);
+            spriteBatch.DrawString(font, name, textPosition, isInBounds(Input.mouse) ? HOVER_COLOR : TEXT_COLOR);
             spriteBatch.End();
         }
     }

@@ -48,11 +48,11 @@ namespace Plaper {
                 State.setState(new SettingsState(graphics, game));
             }
 
-            if(!Plaper.keyboardState.IsKeyDown(Keys.Space) && Plaper.lastKeyboardState.IsKeyDown(Keys.Space)) {
+            if(!Input.keyboardState.IsKeyDown(Keys.Space) && Input.lastKeyboardState.IsKeyDown(Keys.Space)) {
                 State.setState(new GameState(graphics, game));
             }
 
-            if(Keyboard.GetState().IsKeyDown(Keys.Escape)) {
+            if(Input.keyboardState.IsKeyDown(Keys.Escape)) {
                 //game.Exit();
             }
 
