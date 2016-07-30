@@ -31,22 +31,16 @@ namespace Plaper {
         }
 
         public Boolean Clicked() {
-
-            if(Mouse.GetState().LeftButton == ButtonState.Released && lastMouseButton == ButtonState.Pressed && this.isInBounds()) {
-                lastMouseButton = Mouse.GetState().LeftButton;
-                return true;
-            }
-            lastMouseButton = Mouse.GetState().LeftButton;
-            return false;
+            return Input.mouseClicked && !Input.lastMouseClicked && this.isInBounds();
         }
 
         public Boolean isInBounds() {
             //var mouseState = Mouse.GetState();
 
-            if(Input.curMouse.X < buttonRect.X + buttonRect.Width &&
-               Input.curMouse.X > buttonRect.X &&
-               Input.curMouse.Y < buttonRect.Y + buttonRect.Height &&
-               Input.curMouse.Y > buttonRect.Y) {
+            if(Input.mouse.X < buttonRect.X + buttonRect.Width &&
+               Input.mouse.X > buttonRect.X &&
+               Input.mouse.Y < buttonRect.Y + buttonRect.Height &&
+               Input.mouse.Y > buttonRect.Y) {
                 return true;
             }
             return false;
