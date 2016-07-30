@@ -38,7 +38,8 @@ namespace Plaper {
         public const double JUMP_SPEED = 0.011;
         public const double ARROW_SPEED = 2.5;
         public const double FILL_SPEED  = 150;
-        
+
+        public static bool debugMode = false;
 
         public static KeyboardState keyboardState, lastKeyboardState;
 
