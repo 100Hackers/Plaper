@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Plaper {
     class Button {
 
-        string name;
+        public string name;
         Texture2D texture;
         static Color HOVER_COLOR = Color.White;
         static Color TEXT_COLOR = Color.Black;
@@ -32,13 +32,12 @@ namespace Plaper {
 
         public Boolean Clicked() {
 
-            if(Plaper.prevMouse && !Plaper.curMouse) {
-                if(this.isInBounds()) {
-                    return true;
-                }
+            if(Mouse.GetState().LeftButton == ButtonState.Released && lastMouseButton == ButtonState.Pressed && this.isInBounds()) {
+                lastMouseButton = Mouse.GetState().LeftButton;
+                return true;
             }
-            //lastMouseButton = Mouse.GetState().LeftButton;
-            return false;            
+            lastMouseButton = Mouse.GetState().LeftButton;
+            return false;
         }
 
         public Boolean isInBounds() {

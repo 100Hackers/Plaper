@@ -215,7 +215,6 @@ namespace Plaper {
             spriteBatch.End();
             //display framerate in title bar
             Window.Title = "Plaper - " + Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 2).ToString() + " FPS";
-            //Window.Title = Plaper.windowWidth + " and play: " + Plaper.playWidth;
 
             base.Draw(gameTime);
         }

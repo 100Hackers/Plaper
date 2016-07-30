@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -19,15 +20,16 @@ namespace Plaper {
         //ctor
         public SettingsState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
 
-            buttonArr[0] = new Button(BACK_TEXT, buttonTexture, 
-                new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight),
+            buttonSpacing = Game1.buttonHeight * 3 / 2;
+            
+            buttonArr[0] = new Button("VOLUME: " + Math.Round(SoundEffect.MasterVolume * 100, 1).ToString() + "%", buttonTexture,
+                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
                 Plaper.playWidth, Game1.buttonHeight));
             nButtons++;
-
-            /*buttonArr[1] = new Button("FULLSCREEN", buttonTexture, 
-                new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight) + 50,
+            buttonArr[1] = new Button(BACK_TEXT, buttonTexture,
+                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
                 Plaper.playWidth, Game1.buttonHeight));
-            nButtons++;*/
+            nButtons++;
         }
 
         //update for game logic
@@ -43,23 +45,18 @@ namespace Plaper {
             }
 
 
-            //check if mouse button has just been depressed
             if(buttonArr[0].Clicked()) {
+                if(SoundEffect.MasterVolume < 0.9f) {
+                    SoundEffect.MasterVolume += 0.1f;
+                } else {
+                    SoundEffect.MasterVolume = 0.1f;
+                }
+                buttonArr[0].name = "VOLUME: " + Math.Round(SoundEffect.MasterVolume * 100, 1).ToString() + "%";
+            }
+            
+            if(buttonArr[1].Clicked()) {
                 State.setState(new MenuState(graphics, game));
             }
-
-            /*if (buttonArr[1].Clicked()) {
-                var displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
-                if (graphics.IsFullScreen) {
-                    graphics.PreferredBackBufferHeight = 600;
-                    graphics.PreferredBackBufferWidth = 400;
-                } else {
-                    graphics.PreferredBackBufferHeight = displayMode.Height;
-                    graphics.PreferredBackBufferWidth = displayMode.Width;
-                }
-                graphics.IsFullScreen = !graphics.IsFullScreen;
-                graphics.ApplyChanges();
-            }*/
 
         }
 
