@@ -51,7 +51,7 @@ namespace Plaper {
             isShifting = false;
 
             platforms[0] = new Platform(game.PlatformTex, START_HEIGHT * Plaper.playHeight);
-            platforms[1] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(100, 300)));
+            platforms[1] = new Platform(game.PlatformTex, new Vector2(rand.Next(Plaper.playWidth - platforms[0].Hitbox().Width), rand.Next((int) (Plaper.playHeight * 0.25), (int) (Plaper.playHeight * 0.5))));
             platforms[2] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(MAX_HEIGHT_DIFF - MIN_HEIGHT_DIFF) + MIN_HEIGHT_DIFF));
             generateNewPlatform();
         }

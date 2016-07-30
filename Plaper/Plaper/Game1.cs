@@ -13,7 +13,7 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        const bool makeFullscreen = false;
+        const bool makeFullscreen = true;
 
         public const int buttonHeight = Plaper.SCREEN_HEIGHT / 5;
         public const int buttonSpacing = buttonHeight / 3;
@@ -43,6 +43,8 @@ namespace Plaper {
         RenderTarget2D playArea;
         public SoundEffect jump, losingSound;
         public SoundEffect[] wallHits = new SoundEffect[2];
+
+        Rectangle playRectangle;
 
         public Game1() {
 
@@ -117,6 +119,10 @@ namespace Plaper {
             graphics.PreferredBackBufferWidth  = Plaper.windowWidth;
             graphics.ApplyChanges();
 
+            playRectangle = new Rectangle((Plaper.windowWidth - Plaper.playWidth) / 2, 0, Plaper.playWidth, Plaper.playHeight);
+
+            Plaper.playWidth *= 2;
+            Plaper.playHeight *= 2;
             playArea = new RenderTarget2D(graphics.GraphicsDevice, Plaper.playWidth, Plaper.playHeight, false, SurfaceFormat.Color, DepthFormat.None, 2, RenderTargetUsage.DiscardContents);
 
             //create state and pass player object
@@ -129,6 +135,7 @@ namespace Plaper {
 
             Plaper.lastKeyboardState = Keyboard.GetState();
             Plaper.keyboardState     = Keyboard.GetState();
+
 
         }
 
@@ -211,7 +218,7 @@ namespace Plaper {
             GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(Color.DarkOrange);
             spriteBatch.Begin();
-            spriteBatch.Draw(playArea, new Rectangle((Plaper.windowWidth - Plaper.playWidth) / 2, 0, Plaper.playWidth, Plaper.playHeight), Color.White);
+            spriteBatch.Draw(playArea, playRectangle, Color.White);
             spriteBatch.End();
             //display framerate in title bar
             Window.Title = "Plaper - " + Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 2).ToString() + " FPS";
