@@ -11,6 +11,7 @@ namespace Plaper {
 
         const double PI = Math.PI;  // Too lazy to keep typing Math.PI
 
+        Vector2 lastPos;
         Vector2 velocity;
 
         double arrowAngle;      // Used for current angle of the arrow
@@ -48,6 +49,7 @@ namespace Plaper {
             arrowGoingLeft = false;
 
             position = new Vector2((Plaper.playWidth - Width) / 2, (float) (Plaper.playHeight * (1 - Plaper.START_HEIGHT) - Height));
+            lastPos = position;
         }
 
         public bool Update(GameTime gameTime, Platform[] platforms, int curPlatform, Game1 game) {
@@ -151,11 +153,9 @@ namespace Plaper {
 
                 //makes platform smaller so the player has to be more centered to land on platform.
                 if(this.Hitbox().Intersects(platforms[i].Hitbox())) {
-                    //old version on next line
-                    //if (posRect.Intersects(platforms[i].BoundingBox) && state != States.Standing) {
 
                     //If character is above platform and falling when he collides, sets conditions for landing on platform
-                    if(position.Y < platforms[i].Pos.Y) {
+                    if(position.Y + Height < platforms[i].Pos.Y + platforms[i].Hitbox().Height && velocity.Y < 0) {
                         if (velocity.Y < 0) {
                             velocity = Vector2.Zero;
                             position.Y = platforms[i].Pos.Y - Height;
@@ -165,7 +165,7 @@ namespace Plaper {
                         }
                     }
                     //If character is below platform and rising when he collides, sets conditions for falling back down and bounding off of platform
-                    else if (position.Y + Height > platforms[i].Pos.Y + platforms[i].Hitbox().Height) {
+                    else if (lastPos.Y > platforms[i].Pos.Y + platforms[i].Hitbox().Height) {
                         if (velocity.Y > 0) {
                             velocity.Y *= -1;
 
@@ -174,13 +174,15 @@ namespace Plaper {
                     }
 
                     //If character hits side of platform, reverses horizontal travel direction
-                    else if (position.X < platforms[i].Pos.X || position.X + Width > platforms[i].Pos.X + platforms[i].Hitbox().Width) {
+                    else {
                         velocity.X *= -1;
 
                         game.wallHits[rand.Next(2)].Play(0.5f, 0.0f, 0.0f);
                     }
                 }
             }
+
+            lastPos = position;
 
             return onNextPlat;
         }
