@@ -12,8 +12,7 @@ namespace Plaper {
         // Screen variables
         public const int 
             SCREEN_WIDTH  = 400,
-            SCREEN_HEIGHT = 600,
-            SHIFT_SPEED   = 300;
+            SCREEN_HEIGHT = 600;
         
         public static int
             screenHeight,
@@ -30,14 +29,15 @@ namespace Plaper {
         // Sprite scales
         public const double PLAYER_SCALE  = 0.06;
         public const double PLAT_SCALE    = 0.13;
-        public const double BUTTON_HEIGHT = 0.1;
+        public const double BUTTON_HEIGHT = 0.0012;
         public const double START_HEIGHT  = 0.09;
 
         // Physics
-        public const double GRAVITY    = 0.7;
-        public const double JUMP_SPEED = 0.011;
-        public const double ARROW_SPEED = 2.5;
-        public const double FILL_SPEED  = 150;
+        public const double GRAVITY      =   0.7;
+        public const double JUMP_SPEED   =   0.011;
+        public const double ARROW_SPEED  =   2.5;
+        public const double FILL_SPEED   = 150.0;
+        public const double SCROLL_SPEED =   0.5;
 
         public static bool debugMode = false;
 

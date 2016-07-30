@@ -44,6 +44,8 @@ namespace Plaper {
         public SoundEffect jump, losingSound;
         public SoundEffect[] wallHits = new SoundEffect[2];
 
+        Rectangle playRectangle;
+
         public Game1() {
 
             graphics = new GraphicsDeviceManager(this);
@@ -117,6 +119,10 @@ namespace Plaper {
             graphics.PreferredBackBufferWidth  = Plaper.windowWidth;
             graphics.ApplyChanges();
 
+            playRectangle = new Rectangle((Plaper.windowWidth - Plaper.playWidth) / 2, 0, Plaper.playWidth, Plaper.playHeight);
+
+            Plaper.playWidth *= 1;
+            Plaper.playHeight *= 1;
             playArea = new RenderTarget2D(graphics.GraphicsDevice, Plaper.playWidth, Plaper.playHeight, false, SurfaceFormat.Color, DepthFormat.None, 2, RenderTargetUsage.DiscardContents);
 
             //create state and pass player object
@@ -129,6 +135,7 @@ namespace Plaper {
 
             Plaper.lastKeyboardState = Keyboard.GetState();
             Plaper.keyboardState     = Keyboard.GetState();
+
 
         }
 
@@ -216,7 +223,7 @@ namespace Plaper {
             GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(Color.DarkOrange);
             spriteBatch.Begin();
-            spriteBatch.Draw(playArea, new Rectangle((Plaper.windowWidth - Plaper.playWidth) / 2, 0, Plaper.playWidth, Plaper.playHeight), Color.White);
+            spriteBatch.Draw(playArea, playRectangle, Color.White);
             spriteBatch.End();
             //display framerate in title bar
             Window.Title = "Plaper - " + Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 2).ToString() + " FPS";

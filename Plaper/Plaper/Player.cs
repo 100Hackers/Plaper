@@ -78,8 +78,7 @@ namespace Plaper {
                     }
 
                     // Move to Power state to get jump power if space is pressed
-                    bool spacePressed = Plaper.keyboardState.IsKeyDown(Keys.Space);
-                    if(spacePressed) {
+                    if(Plaper.jumpPressed) {
                         powerInc = true;
                         state = States.Power;
                         arrowPower = 0;
@@ -92,8 +91,6 @@ namespace Plaper {
                     break;
 
                 case States.Power:
-                    bool spaceReleased = !Plaper.keyboardState.IsKeyDown(Keys.Space);
-
                     // Move power up and down
                     arrowPower = arrowPower + elapsedSeconds * (powerInc ? Plaper.FILL_SPEED : -Plaper.FILL_SPEED);
 
@@ -104,7 +101,7 @@ namespace Plaper {
                     }
 
                     // Jump once space is released and move to Jumping state
-                    if(spaceReleased) {
+                    if(!Plaper.jumpPressed) {
                         velocity.Y = (float)(Math.Cos( arrowAngle) * arrowPower * Plaper.playHeight * Plaper.JUMP_SPEED);
                         velocity.X = (float)(Math.Sin(-arrowAngle) * arrowPower * Plaper.playHeight * Plaper.JUMP_SPEED);
                         state = States.Jumping;
