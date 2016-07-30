@@ -13,7 +13,7 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        const bool makeFullscreen = false;
+        const bool makeFullscreen = true;
 
         public const int buttonHeight = Plaper.SCREEN_HEIGHT / 5;
         public const int buttonSpacing = buttonHeight / 3;
@@ -192,7 +192,7 @@ namespace Plaper {
             Plaper.gameTime = gameTime;
             Input.Update();
             //exit if esc is pressed
-            if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) {
+            if(Plaper.keyboardState.IsKeyDown(Keys.Escape) && Plaper.lastKeyboardState.IsKeyUp(Keys.Escape)) {
                 Exit();
             }
 
