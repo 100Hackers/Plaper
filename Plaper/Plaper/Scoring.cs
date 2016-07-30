@@ -31,7 +31,7 @@ namespace Plaper {
 
 		public void Draw(SpriteBatch spritebatch) {
 			spritebatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-			spritebatch.DrawString(game.font10, SCTEXT + score, scorePos, textColor);
+			spritebatch.DrawString(Output.font10, SCTEXT + score, scorePos, textColor);
 			spritebatch.End();
 		}
 

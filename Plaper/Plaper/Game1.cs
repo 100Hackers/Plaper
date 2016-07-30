@@ -13,7 +13,7 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        const bool makeFullscreen = false;
+        public const bool makeFullscreen = false;
 
         public const int buttonHeight = Plaper.SCREEN_HEIGHT / 5;
         public const int buttonSpacing = buttonHeight / 3;
@@ -34,17 +34,6 @@ namespace Plaper {
 
         State currentState;
 
-        public static SpriteFont font;
-        public static SpriteFont font12;
-        public static SpriteFont font24;
-        public static SpriteFont font36;
-		public /*static*/ SpriteFont font10;
-
-        RenderTarget2D playArea;
-        public SoundEffect jump, losingSound;
-        public SoundEffect[] wallHits = new SoundEffect[2];
-
-        Rectangle playRectangle;
 
         public Game1() {
 
@@ -54,10 +43,6 @@ namespace Plaper {
             // Set screen height and width
             graphics.PreferredBackBufferHeight = Plaper.SCREEN_HEIGHT;
             graphics.PreferredBackBufferWidth = Plaper.SCREEN_HEIGHT / 2;
-
-            // unrestricted framerate
-            //this.IsFixedTimeStep = false;
-            //this.graphics.SynchronizeWithVerticalRetrace = false;
         }
 
         public Texture2D Sprite {
@@ -80,10 +65,10 @@ namespace Plaper {
             get { return graphics; }
         }
 
-        public SoundEffect LosingSound
-        {
-            get { return losingSound; }
-        }
+        //public SoundEffect LosingSound
+        //{
+        //    get { return Output.losingSound; }
+        //}
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -95,35 +80,7 @@ namespace Plaper {
 
             base.Initialize();
 
-            
-            var displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
-
-            Plaper.windowHeight = Plaper.SCREEN_HEIGHT;
-            Plaper.windowWidth  = Plaper.SCREEN_WIDTH;
-
-            Plaper.screenHeight = displayMode.Height;
-            Plaper.screenWidth  = displayMode.Width;
-
-            Plaper.playHeight = Plaper.SCREEN_HEIGHT;
-            Plaper.playWidth  = Plaper.SCREEN_HEIGHT / 2;
-
-            if (makeFullscreen) {
-                Plaper.playHeight = Plaper.screenHeight;
-                Plaper.playWidth  = Plaper.screenHeight / 2;
-                Plaper.windowHeight = Plaper.screenHeight;
-                Plaper.windowWidth = Plaper.screenWidth;
-                graphics.IsFullScreen = !graphics.IsFullScreen;
-            }
-
-            graphics.PreferredBackBufferHeight = Plaper.windowHeight;
-            graphics.PreferredBackBufferWidth  = Plaper.windowWidth;
-            graphics.ApplyChanges();
-
-            playRectangle = new Rectangle((Plaper.windowWidth - Plaper.playWidth) / 2, 0, Plaper.playWidth, Plaper.playHeight);
-
-            Plaper.playWidth *= 1;
-            Plaper.playHeight *= 1;
-            playArea = new RenderTarget2D(graphics.GraphicsDevice, Plaper.playWidth, Plaper.playHeight, false, SurfaceFormat.Color, DepthFormat.None, 2, RenderTargetUsage.DiscardContents);
+            Output.Initialize(graphics);
 
             //create state and pass player object
             currentState = new MenuState(graphics, this);
@@ -156,18 +113,18 @@ namespace Plaper {
             platformTex = Content.Load<Texture2D>("platform");
 
             //fonts
-            font12 = Content.Load<SpriteFont>("joystik");
-            font24 = Content.Load<SpriteFont>("joystik24");
-            font36 = Content.Load<SpriteFont>("joystik36");
-			font10 = Content.Load<SpriteFont>("ScoreFont");
+            Output.font12 = Content.Load<SpriteFont>("joystik");
+            Output.font24 = Content.Load<SpriteFont>("joystik24");
+            Output.font36 = Content.Load<SpriteFont>("joystik36");
+			Output.font10 = Content.Load<SpriteFont>("ScoreFont");
 
-            font = font24;
+            Output.font = Output.font24;
 
             //Sounds
-            jump = Content.Load<SoundEffect>("Jump");
-            losingSound = Content.Load<SoundEffect>("Losing Sound");
-            wallHits[0] = Content.Load<SoundEffect>("Thud1");
-            wallHits[1] = Content.Load<SoundEffect>("Thud2");
+            Output.jump = Content.Load<SoundEffect>("Jump");
+            Output.losingSound = Content.Load<SoundEffect>("Losing Sound");
+            Output.wallHits[0] = Content.Load<SoundEffect>("Thud1");
+            Output.wallHits[1] = Content.Load<SoundEffect>("Thud2");
             SoundEffect.MasterVolume = 0.1f;
 
             
@@ -211,7 +168,7 @@ namespace Plaper {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
 
-            GraphicsDevice.SetRenderTarget(playArea);
+            GraphicsDevice.SetRenderTarget(Output.playArea);
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //check that state is initalized then call current state's draw
@@ -220,7 +177,7 @@ namespace Plaper {
             GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(Color.DarkOrange);
             spriteBatch.Begin();
-            spriteBatch.Draw(playArea, playRectangle, Color.White);
+            spriteBatch.Draw(Output.playArea, Output.playRectangle, Color.White);
             spriteBatch.End();
             //display framerate in title bar
             Window.Title = "Plaper - " + Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 2).ToString() + " FPS";

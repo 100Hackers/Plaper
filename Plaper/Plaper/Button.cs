@@ -23,7 +23,7 @@ namespace Plaper {
             this.name = name;
             this.texture = texture;
             this.buttonRect = new Rectangle(0, buttonRect.Y, Plaper.playWidth, (int) (buttonRect.Height * Plaper.BUTTON_HEIGHT * Plaper.playHeight));
-            this.font = Game1.font36;
+            this.font = Output.font36;
 
             Vector2 textSize = this.font.MeasureString(name);
             textPosition.Y = (buttonRect.Height - textSize.Y) / 2 + buttonRect.Y;
