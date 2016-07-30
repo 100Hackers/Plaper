@@ -20,6 +20,7 @@ namespace Plaper {
         const int START_HEIGHT = 30;
         const int MAX_HEIGHT_DIFF = 400;
         const int MIN_HEIGHT_DIFF = 300;
+        Texture2D pixel;
 
         bool isShifting;
         public bool IsShifting { get { return isShifting; } }
@@ -49,6 +50,9 @@ namespace Plaper {
             platforms = new Platform[3];
 
             isShifting = false;
+
+            pixel = new Texture2D(graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            pixel.SetData(new[] { Color.White });
 
             platforms[0] = new Platform(game.PlatformTex, START_HEIGHT * Plaper.playHeight);
             platforms[1] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(100, 300)));
@@ -97,7 +101,14 @@ namespace Plaper {
                 plat.Draw(spriteBatch);
             }
 
-			Score.Draw(spriteBatch);
+            if(Plaper.debugMode) {
+                foreach(var plat in platforms) {
+                    DrawBorder(plat.Hitbox(), 2, spriteBatch, Color.Red);
+                }
+                DrawBorder(player.Hitbox(), 2, spriteBatch, Color.Red);
+            }
+
+            Score.Draw(spriteBatch);
 
    //         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 			////spriteBatch.DrawString(game.font10, "Score: " + scoreCnt.ToString(), scorePos, Color.Black);
@@ -110,6 +121,29 @@ namespace Plaper {
             
 
             curPlatform.SetPlatform(new Vector2(rand.Next(0, screenRectangle.Width - platforms[0].Hitbox().Width), rand.Next((int)prevPlatform.Pos.Y - MAX_HEIGHT_DIFF, (int)prevPlatform.Pos.Y - MIN_HEIGHT_DIFF) ));
+        }
+
+        private void DrawBorder(Rectangle rectangleToDraw, int thicknessOfBorder, SpriteBatch spriteBatch, Color borderColor) {
+
+            spriteBatch.Begin();
+            // Draw top line
+            spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, rectangleToDraw.Width, thicknessOfBorder), borderColor);
+
+            // Draw left line
+            spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), borderColor);
+
+            // Draw right line
+            spriteBatch.Draw(pixel, new Rectangle((rectangleToDraw.X + rectangleToDraw.Width - thicknessOfBorder),
+                                            rectangleToDraw.Y,
+                                            thicknessOfBorder,
+                                            rectangleToDraw.Height), borderColor);
+            // Draw bottom line
+            spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X,
+                                            rectangleToDraw.Y + rectangleToDraw.Height - thicknessOfBorder,
+                                            rectangleToDraw.Width,
+                                            thicknessOfBorder), borderColor);
+
+            spriteBatch.End();
         }
 
     }
