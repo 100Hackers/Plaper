@@ -42,7 +42,7 @@ namespace Plaper {
 
         public static bool ScrollDown() {
 
-            float delta = (float) (Plaper.SHIFT_SPEED * Plaper.gameTime.ElapsedGameTime.TotalSeconds);
+            float delta = (float) (Plaper.SCROLL_SPEED * Plaper.playHeight * Plaper.gameTime.ElapsedGameTime.TotalSeconds);
 
             foreach (Entity entity in entities) {
                 entity.position.Y += delta;
