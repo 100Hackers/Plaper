@@ -1,3 +1,4 @@
+using AdBuddiz.Xamarin;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
@@ -17,6 +18,12 @@ namespace Plaper {
             base.OnCreate(bundle);
             var g = new Game1();
             SetContentView((View)g.Services.GetService(typeof(View)));
+
+            AdBuddizHandler.Instance.SetLogLevel(ABLogLevel.ABLogLevelInfo);
+            AdBuddizHandler.Instance.SetPublisherKey("TEST_PUBLISHER_KEY");
+            AdBuddizHandler.Instance.SetTestModeActive();
+            AdBuddizHandler.Instance.CacheAds(this);
+
             g.Run();
         }
     }
