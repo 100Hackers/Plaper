@@ -1,4 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿#if __ANDROID__
+using AdBuddiz.Xamarin;
+#endif
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -14,6 +18,8 @@ namespace Plaper {
 
         const string RETRY_TEXT = "RETRY";
         const string MENU_TEXT = "MENU";
+
+        static int deathCounter = 0;
 
         Button[] buttonArr = new Button[3];
 
@@ -33,9 +39,17 @@ namespace Plaper {
             buttonArr[2] = new Button(MENU_TEXT, buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
                 Plaper.playWidth, Game1.buttonHeight));
+
+            ++deathCounter;
         }
 
         public override void Update(GameTime gameTime, Game1 game) {
+
+#if __ANDROID__
+            if (Activity1.TimesPlayed > 2 && deathCounter % 5 == 4) {
+                AdBuddizHandler.Instance.ShowAd();
+            }
+#endif
 
             foreach(Button button in buttonArr) {
                 button.Update(gameTime);

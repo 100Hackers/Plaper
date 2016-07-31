@@ -46,6 +46,9 @@
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdBuddiz.Xamarin.Android">
+      <HintPath>..\AdBuddiz\AdBuddiz.Xamarin.Android.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
     <Reference Include="OpenTK-1.0" />
