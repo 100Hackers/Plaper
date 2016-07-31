@@ -11,4 +11,7 @@ Create new branch for everything. Push it and submit a pull request to get it me
 Join our chat: https://100guys.slack.com/
 
 # To do
-- [ ] test
+- [ ] Button scaling
+- [ ] Android not filling screen
+- [ ] Share-worthy score screen
+- [ ] Clouds
