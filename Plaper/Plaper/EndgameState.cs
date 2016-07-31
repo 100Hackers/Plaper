@@ -17,35 +17,28 @@ namespace Plaper {
 
         Button[] buttonArr = new Button[3];
 
-        public EndgameState(GraphicsDeviceManager graphics, Game1 game, int score) : base(graphics, game) {
+        public EndgameState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
 
             buttonSpacing = Game1.buttonHeight * 3 / 2;
 
-            buttonArr[0] = new Button("Score: " + score.ToString(), buttonTexture,
+            buttonArr[0] = new Button("Score: " + Plaper.score.ToString(), buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight/2,
-                Plaper.playWidth, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight), 3);
             nButtons++;
             buttonArr[1] = new Button(RETRY_TEXT, buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
-                Plaper.playWidth, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight), 1);
 
             nButtons++;
             buttonArr[2] = new Button(MENU_TEXT, buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
-                Plaper.playWidth, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight), 0);
         }
 
         public override void Update(GameTime gameTime, Game1 game) {
 
             foreach(Button button in buttonArr) {
                 button.Update(gameTime);
-            }
-
-            if(buttonArr[1].Clicked()) {
-                State.setState(new GameState(graphics, game));
-            }
-            if(buttonArr[2].Clicked()) {
-                State.setState(new MenuState(graphics, game));
             }
 
             if(!Input.keyboardState.IsKeyDown(Keys.Space) && Input.lastKeyboardState.IsKeyDown(Keys.Space)) {

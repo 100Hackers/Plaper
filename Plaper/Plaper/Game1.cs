@@ -15,6 +15,8 @@ namespace Plaper {
 
         public const bool makeFullscreen = false;
 
+        State[] states = new State[4];
+
         public const int buttonHeight = Plaper.SCREEN_HEIGHT / 5;
         public const int buttonSpacing = buttonHeight / 3;
 
@@ -32,9 +34,6 @@ namespace Plaper {
         //used for generating platform
         Random rand = new Random();
 
-        State currentState;
-
-
         public Game1() {
 
             graphics = new GraphicsDeviceManager(this);
@@ -43,6 +42,12 @@ namespace Plaper {
             // Set screen height and width
             graphics.PreferredBackBufferHeight = Plaper.SCREEN_HEIGHT;
             graphics.PreferredBackBufferWidth = Plaper.SCREEN_HEIGHT / 2;
+
+            states[0] = new MenuState(graphics, this);
+            states[1] = new GameState(graphics, this);
+            states[2] = new SettingsState(graphics, this);
+            states[3] = new EndgameState(graphics, this);
+
         }
 
         public Texture2D Sprite {
@@ -82,11 +87,8 @@ namespace Plaper {
 
             Output.Initialize(graphics);
 
-            //create state and pass player object
-            currentState = new MenuState(graphics, this);
-
             //set state to game
-            State.setState(currentState);
+            State.setState(states[Plaper.currentState]);
 
             this.IsMouseVisible = true;
 
@@ -154,7 +156,7 @@ namespace Plaper {
 
             //check that state is initalized then call current state's update
             State.getState()?.Update(gameTime, this);
-
+            
             if(!Input.keyboardState.IsKeyDown(Keys.D) && Input.lastKeyboardState.IsKeyDown(Keys.D)) {
                 Plaper.debugMode = !Plaper.debugMode;
             }

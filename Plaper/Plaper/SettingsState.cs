@@ -24,11 +24,11 @@ namespace Plaper {
             
             buttonArr[0] = new Button("VOLUME: " + Math.Round(SoundEffect.MasterVolume * 100, 1).ToString() + "%", buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
-                Plaper.playWidth, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight), 2);
             nButtons++;
             buttonArr[1] = new Button(BACK_TEXT, buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
-                Plaper.playWidth, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight), 0);
             nButtons++;
         }
 
@@ -44,19 +44,14 @@ namespace Plaper {
                 State.setState(new MenuState(graphics, game));
             }
 
-            if(buttonArr[0].Clicked()) {
+            /*if(buttonArr[0].Clicked()) {
                 if(SoundEffect.MasterVolume < 0.9f) {
                     SoundEffect.MasterVolume += 0.1f;
                 } else {
                     SoundEffect.MasterVolume = 0.0f;
                 }
                 buttonArr[0].name = "VOLUME: " + Math.Round(SoundEffect.MasterVolume * 100, 1).ToString() + "%";
-            }
-            
-            if(buttonArr[1].Clicked()) {
-                State.setState(new MenuState(graphics, game));
-            }
-
+            }*/
         }
 
         //update graphics

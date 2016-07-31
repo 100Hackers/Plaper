@@ -27,6 +27,7 @@ namespace Plaper {
 
 		public void Update() {
 			++score;
+            Plaper.score = this.score;
 		}
 
 		public void Draw(SpriteBatch spritebatch) {
@@ -35,9 +36,7 @@ namespace Plaper {
 			spritebatch.End();
 		}
 
-		public int GetScore() {
-			return score;
-		}
+		public int Score { get { return score; } }
 		
 	}
 }

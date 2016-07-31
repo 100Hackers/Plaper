@@ -27,11 +27,11 @@ namespace Plaper {
             nButtons++;
             buttonArr[0] = new Button(START_TEXT, buttonTexture,
                 new Rectangle(0, (int)(Game1.buttonHeight + Game1.buttonSpacing*3.9) * nButtons,
-                Plaper.playWidth, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight), 1);
             nButtons++;
             buttonArr[1] = new Button(SETTINGS_TEXT, buttonTexture,
                 new Rectangle(0, (int)(Game1.buttonHeight + Game1.buttonSpacing*2.4) * nButtons,
-                Plaper.playWidth, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight), 2);
         }
 
         //update game logic
@@ -41,19 +41,12 @@ namespace Plaper {
                 button.Update(gameTime);
             }
 
-            if(buttonArr[0].Clicked()) {
-                State.setState(new GameState(graphics, game));
-            }
-            if(buttonArr[1].Clicked()) {
-                State.setState(new SettingsState(graphics, game));
-            }
-
             if(!Input.keyboardState.IsKeyDown(Keys.Space) && Input.lastKeyboardState.IsKeyDown(Keys.Space)) {
                 State.setState(new GameState(graphics, game));
             }
 
-            if(Input.keyboardState.IsKeyDown(Keys.Escape)) {
-                //game.Exit();
+            if(Input.keyboardState.IsKeyDown(Keys.Escape) && Input.lastKeyboardState.IsKeyUp(Keys.Escape)) {
+                game.Exit();
             }
 
         }

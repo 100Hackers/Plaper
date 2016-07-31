@@ -40,7 +40,8 @@ namespace Plaper {
         public const double SCROLL_SPEED =   0.5;
 
         public static bool debugMode = false;
-
+        public static int score = 0;
+        public static int currentState = 0;
         public static GameTime gameTime;
     }
 }

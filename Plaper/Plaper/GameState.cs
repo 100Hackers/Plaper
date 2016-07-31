@@ -24,8 +24,6 @@ namespace Plaper {
 
         bool isShifting;
         public bool IsShifting { get { return isShifting; } }
-        int shiftDelta;
-        float preShift;
         const int SHIFT_SPEED = 300;
 
 		//used for scoring
@@ -88,7 +86,7 @@ namespace Plaper {
             }
 
             if(player.IsDead) {
-                State.setState(new EndgameState(graphics, game, Score.GetScore()));
+                State.setState(new EndgameState(graphics, game));
             }
         }
 
