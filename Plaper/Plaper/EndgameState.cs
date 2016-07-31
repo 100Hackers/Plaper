@@ -20,6 +20,7 @@ namespace Plaper {
         const string MENU_TEXT = "MENU";
 
         static int deathCounter = 0;
+        bool adShown;
 
         Button[] buttonArr = new Button[3];
 
@@ -41,13 +42,15 @@ namespace Plaper {
                 Plaper.playWidth, Game1.buttonHeight));
 
             ++deathCounter;
+            adShown = false;
         }
 
         public override void Update(GameTime gameTime, Game1 game) {
 
 #if __ANDROID__
-            if (Activity1.TimesPlayed > 2 && deathCounter % 5 == 4) {
+            if (!adShown && deathCounter % 5 == 4 && Activity1.TimesPlayed > 2) {
                 AdBuddizHandler.Instance.ShowAd();
+                adShown = true;
             }
 #endif
 
