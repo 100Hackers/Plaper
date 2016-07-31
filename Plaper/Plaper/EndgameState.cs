@@ -1,4 +1,7 @@
-﻿using AdBuddiz.Xamarin;
+﻿#if __ANDROID__
+using AdBuddiz.Xamarin;
+#endif
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -42,10 +45,12 @@ namespace Plaper {
 
         public override void Update(GameTime gameTime, Game1 game) {
 
+#if __ANDROID__
             if (!adShown) {
                 AdBuddizHandler.Instance.ShowAd();
                 adShown = true;
             }
+#endif
 
             foreach(Button button in buttonArr) {
                 button.Update(gameTime);
