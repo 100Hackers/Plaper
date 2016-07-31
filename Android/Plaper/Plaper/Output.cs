@@ -41,7 +41,7 @@ namespace Plaper {
             Plaper.playHeight = Plaper.screenHeight;
             Plaper.playWidth  = Plaper.screenHeight / 2;
 
-            graphics.IsFullScreen = true;
+            //graphics.IsFullScreen = true;
 
             graphics.PreferredBackBufferHeight = Plaper.windowHeight;
             graphics.PreferredBackBufferWidth  = Plaper.windowWidth;

@@ -15,7 +15,7 @@ namespace Plaper {
 		private int score;
 		Vector2 scorePos;
 		Game1 game;
-		const string SCTEXT = "Score :";
+		const string SCTEXT = "Score: ";
 		Color textColor = Color.Black;
 
 		//constructor
@@ -31,7 +31,7 @@ namespace Plaper {
 
 		public void Draw(SpriteBatch spritebatch) {
 			spritebatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-			spritebatch.DrawString(Output.font10, SCTEXT + score, scorePos, textColor);
+			spritebatch.DrawString(Output.font24, SCTEXT + score, scorePos, textColor, 0, Vector2.Zero, Plaper.playHeight / 1000f, SpriteEffects.None, 0.5f);
 			spritebatch.End();
 		}
 
