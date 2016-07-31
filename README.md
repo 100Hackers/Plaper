@@ -15,3 +15,4 @@ Join our chat: https://100guys.slack.com/
 - [ ] Android not filling screen
 - [ ] Share-worthy score screen
 - [ ] Clouds
+- [ ] Jump sound plays 50/50
