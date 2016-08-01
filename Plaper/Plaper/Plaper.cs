@@ -29,7 +29,8 @@ namespace Plaper {
         // Sprite scales
         public const double PLAYER_SCALE  = 0.06;
         public const double PLAT_SCALE    = 0.13;
-        public const double BUTTON_HEIGHT = 0.0012;
+        public const double BUTTON_HEIGHT = 0.12;
+        public const double BUTTON_SPACING = BUTTON_HEIGHT * 3 / 2;
         public const double START_HEIGHT  = 0.09;
 
         // Physics

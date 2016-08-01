@@ -19,16 +19,13 @@ namespace Plaper {
 
         //ctor
         public SettingsState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
-
-            buttonSpacing = Game1.buttonHeight * 3 / 2;
             
-            buttonArr[0] = new Button("VOLUME: " + Math.Round(SoundEffect.MasterVolume * 100, 1).ToString() + "%", buttonTexture,
-                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
-                Plaper.playWidth, Game1.buttonHeight));
+            buttonArr[0] = new Button("VOLUME: " + Math.Round(SoundEffect.MasterVolume * 100, 1).ToString() + "%", buttonTexture, new Rectangle(0, (int)(Plaper.BUTTON_SPACING * Plaper.playHeight * nButtons),
+                Plaper.playWidth, (int)(Plaper.playHeight * Plaper.BUTTON_HEIGHT)));
             nButtons++;
             buttonArr[1] = new Button(BACK_TEXT, buttonTexture,
-                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
-                Plaper.playWidth, Game1.buttonHeight));
+                new Rectangle(0, (int)(Plaper.BUTTON_SPACING * Plaper.playHeight * nButtons),
+                Plaper.playWidth, (int)(Plaper.playHeight * Plaper.BUTTON_HEIGHT)));
             nButtons++;
         }
 

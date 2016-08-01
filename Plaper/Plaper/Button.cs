@@ -16,13 +16,24 @@ namespace Plaper {
         static Color TEXT_COLOR = Color.Black;
         SpriteFont font;
         Vector2 textPosition;
-        ButtonState lastMouseButton;
         Rectangle buttonRect;
 
         public Button(string name, Texture2D texture, Rectangle buttonRect) {
             this.name = name;
             this.texture = texture;
-            this.buttonRect = new Rectangle(0, buttonRect.Y, Plaper.playWidth, (int) (buttonRect.Height * Plaper.BUTTON_HEIGHT * Plaper.playHeight));
+            this.buttonRect = buttonRect;
+            this.font = Output.font36;
+
+            Vector2 textSize = this.font.MeasureString(name);
+            textPosition.Y = (buttonRect.Height - textSize.Y) / 2 + buttonRect.Y;
+            textPosition.X = (buttonRect.Width - textSize.X) / 2 + buttonRect.X;
+        }
+
+        public Button(string name, Texture2D texture, int nButtons) {
+            this.name = name;
+            this.texture = texture;
+            this.buttonRect = new Rectangle(0, (int)(Plaper.BUTTON_SPACING * Plaper.playHeight * nButtons),
+                Plaper.playWidth, (int)(Plaper.playHeight * Plaper.BUTTON_HEIGHT));
             this.font = Output.font36;
 
             Vector2 textSize = this.font.MeasureString(name);

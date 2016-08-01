@@ -13,9 +13,7 @@ namespace Plaper {
 
         protected GraphicsDeviceManager graphics;
         protected Game1 game;
-        protected Texture2D buttonTexture;
-
-        protected int buttonSpacing;
+        protected Texture2D buttonTexture; 
 
         protected int nButtons = 0;
 

@@ -15,8 +15,8 @@ namespace Plaper {
 
         public const bool makeFullscreen = false;
 
-        public const int buttonHeight = Plaper.SCREEN_HEIGHT / 5;
-        public const int buttonSpacing = buttonHeight / 3;
+        //public const int buttonHeight = Plaper.SCREEN_HEIGHT / 5;
+        //public const int buttonSpacing = buttonHeight / 3;
 
         // Textures for Player
         Texture2D sprite;
