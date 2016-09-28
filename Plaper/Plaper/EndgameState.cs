@@ -27,10 +27,10 @@ namespace Plaper {
         public EndgameState(GraphicsDeviceManager graphics, Game1 game, int score) : base(graphics, game) {
 
             buttonSpacing = Game1.buttonHeight * 3 / 2;
-
+            
             buttonArr[0] = new Button("Score: " + score.ToString(), buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight/2,
-                Plaper.playWidth, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight), false);
             nButtons++;
             buttonArr[1] = new Button(RETRY_TEXT, buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
@@ -76,7 +76,7 @@ namespace Plaper {
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
-            foreach(Button button in buttonArr) {
+            foreach (Button button in buttonArr) {
                 button.Draw(spriteBatch);
             }
         }

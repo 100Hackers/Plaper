@@ -38,6 +38,5 @@ namespace Plaper {
 		public int GetScore() {
 			return score;
 		}
-		
 	}
 }
