@@ -20,20 +20,12 @@ namespace Plaper {
 
         private static ArrayList entities = new ArrayList();
 
-        public Entity(Texture2D texture, double scale, Vector2 position, bool scrollable = true) {
+        public Entity(Texture2D texture, Rectangle rectangle, bool scrollable = true) {
             this.Texture  = texture;
-            this.position = position;
-            this.Height   = (int) (scale * texture.Height);
-            this.Width    = (int) (scale * texture.Width);
-            
-            if (scrollable) entities.Add(this);
-        }
 
-        public Entity(Texture2D texture, int height, int width, Vector2 position, bool scrollable = true) {
-            this.Texture  = texture;
-            this.position = position;
-            this.Height   = height;
-            this.Width    = width;
+            this.position = new Vector2(rectangle.X, rectangle.Y);
+            this.Height = rectangle.Height;
+            this.Width  = rectangle.Width;
 
             if (scrollable) entities.Add(this);
         }
@@ -50,7 +42,7 @@ namespace Plaper {
 
         public static bool ScrollDown() {
 
-            float delta = (float) (Plaper.SHIFT_SPEED * Plaper.gameTime.ElapsedGameTime.TotalSeconds);
+            float delta = (float) (Plaper.SCROLL_SPEED * Plaper.playHeight * Plaper.gameTime.ElapsedGameTime.TotalSeconds);
 
             foreach (Entity entity in entities) {
                 entity.position.Y += delta;

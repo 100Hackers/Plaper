@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,15 @@ namespace Plaper {
         //ctor
         public SettingsState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
 
-            buttonArr[0] = new Button(BACK_TEXT, buttonTexture, 
-                new Rectangle(0, (Game1.buttonHeight/2) + (nButtons * Game1.buttonHeight),
-                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+            buttonSpacing = Game1.buttonHeight * 3 / 2;
+            
+            buttonArr[0] = new Button("VOLUME: " + Math.Round(SoundEffect.MasterVolume * 100, 1).ToString() + "%", buttonTexture,
+                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
+                Plaper.playWidth, Game1.buttonHeight));
+            nButtons++;
+            buttonArr[1] = new Button(BACK_TEXT, buttonTexture,
+                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
+                Plaper.playWidth, Game1.buttonHeight));
             nButtons++;
         }
 
@@ -37,9 +44,16 @@ namespace Plaper {
                 State.setState(new MenuState(graphics, game));
             }
 
-
-            //check if mouse button has just been depressed
             if(buttonArr[0].Clicked()) {
+                if(SoundEffect.MasterVolume < 0.9f) {
+                    SoundEffect.MasterVolume += 0.1f;
+                } else {
+                    SoundEffect.MasterVolume = 0.0f;
+                }
+                buttonArr[0].name = "VOLUME: " + Math.Round(SoundEffect.MasterVolume * 100, 1).ToString() + "%";
+            }
+            
+            if(buttonArr[1].Clicked()) {
                 State.setState(new MenuState(graphics, game));
             }
 
@@ -47,15 +61,9 @@ namespace Plaper {
 
         //update graphics
         public override void Draw(SpriteBatch spriteBatch) {
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-
             for (int i = 0; i < nButtons; ++i) {
                 buttonArr[i].Draw(spriteBatch);
             }
-
-            spriteBatch.End();
-
         }
     }
 }

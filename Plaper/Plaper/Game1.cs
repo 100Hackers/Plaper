@@ -13,6 +13,8 @@ namespace Plaper {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        public const bool makeFullscreen = false;
+
         public const int buttonHeight = Plaper.SCREEN_HEIGHT / 5;
         public const int buttonSpacing = buttonHeight / 3;
 
@@ -32,14 +34,6 @@ namespace Plaper {
 
         State currentState;
 
-        public static SpriteFont font;
-        public static SpriteFont font12;
-        public static SpriteFont font24;
-        public static SpriteFont font36;
-		public /*static*/ SpriteFont font10;
-
-        public SoundEffect jump, losingSound;
-        public SoundEffect[] wallHits = new SoundEffect[2];
 
         public Game1() {
 
@@ -48,11 +42,7 @@ namespace Plaper {
 
             // Set screen height and width
             graphics.PreferredBackBufferHeight = Plaper.SCREEN_HEIGHT;
-            graphics.PreferredBackBufferWidth = Plaper.SCREEN_WIDTH;
-
-            // unrestricted framerate
-            //this.IsFixedTimeStep = false;
-            //this.graphics.SynchronizeWithVerticalRetrace = false;
+            graphics.PreferredBackBufferWidth = Plaper.SCREEN_HEIGHT / 2;
         }
 
         public Texture2D Sprite {
@@ -67,7 +57,7 @@ namespace Plaper {
             get { return arrowFill; }
         }
 
-        public Texture2D PlatformTex{
+        public Texture2D PlatformTex {
             get { return platformTex; }
         }
 
@@ -75,10 +65,10 @@ namespace Plaper {
             get { return graphics; }
         }
 
-        public SoundEffect LosingSound
-        {
-            get { return losingSound; }
-        }
+        //public SoundEffect LosingSound
+        //{
+        //    get { return Output.losingSound; }
+        //}
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -90,6 +80,8 @@ namespace Plaper {
 
             base.Initialize();
 
+            Output.Initialize(graphics);
+
             //create state and pass player object
             currentState = new MenuState(graphics, this);
 
@@ -98,9 +90,7 @@ namespace Plaper {
 
             this.IsMouseVisible = true;
 
-            Plaper.lastKeyboardState = Keyboard.GetState();
-            Plaper.keyboardState     = Keyboard.GetState();
-
+            Input.Initialize();
         }
 
         /// <summary>
@@ -123,19 +113,21 @@ namespace Plaper {
             platformTex = Content.Load<Texture2D>("platform");
 
             //fonts
-            font12 = Content.Load<SpriteFont>("joystik");
-            font24 = Content.Load<SpriteFont>("joystik24");
-            font36 = Content.Load<SpriteFont>("joystik36");
-			font10 = Content.Load<SpriteFont>("ScoreFont");
+            Output.font12 = Content.Load<SpriteFont>("joystik");
+            Output.font24 = Content.Load<SpriteFont>("joystik24");
+            Output.font36 = Content.Load<SpriteFont>("joystik36");
+			Output.font10 = Content.Load<SpriteFont>("ScoreFont");
 
-            font = font24;
+            Output.font = Output.font24;
 
             //Sounds
-            jump = Content.Load<SoundEffect>("Jump");
-            losingSound = Content.Load<SoundEffect>("Losing Sound");
-            wallHits[0] = Content.Load<SoundEffect>("Thud1");
-            wallHits[1] = Content.Load<SoundEffect>("Thud2");
-            SoundEffect.MasterVolume = 1.0f;
+            Output.jump = Content.Load<SoundEffect>("Jump");
+            Output.losingSound = Content.Load<SoundEffect>("Losing Sound");
+            Output.wallHits[0] = Content.Load<SoundEffect>("Thud1");
+            Output.wallHits[1] = Content.Load<SoundEffect>("Thud2");
+            SoundEffect.MasterVolume = 0.1f;
+
+            
         }
 
         /// <summary>
@@ -153,22 +145,21 @@ namespace Plaper {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
 
-            Plaper.keyboardState = Keyboard.GetState();
             Plaper.gameTime = gameTime;
-
+            Input.Update();
             //exit if esc is pressed
             if(GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) {
                 Exit();
             }
 
             //check that state is initalized then call current state's update
-            if(State.getState() != null) {
-                State.getState().Update(gameTime, this);
+            State.getState()?.Update(gameTime, this);
+
+            if(!Input.keyboardState.IsKeyDown(Keys.D) && Input.lastKeyboardState.IsKeyDown(Keys.D)) {
+                Plaper.debugMode = !Plaper.debugMode;
             }
 
             base.Update(gameTime);
-
-            Plaper.lastKeyboardState = Plaper.keyboardState;
         }
 
         /// <summary>
@@ -177,13 +168,17 @@ namespace Plaper {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
 
+            GraphicsDevice.SetRenderTarget(Output.playArea);
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //check that state is initalized then call current state's draw
-            if(State.getState() != null) {
-                State.getState().Draw(spriteBatch);
-            }
+            State.getState()?.Draw(spriteBatch);
 
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(Color.DarkOrange);
+            spriteBatch.Begin();
+            spriteBatch.Draw(Output.playArea, Output.playRectangle, Color.White);
+            spriteBatch.End();
             //display framerate in title bar
             Window.Title = "Plaper - " + Math.Round((1 / gameTime.ElapsedGameTime.TotalSeconds), 2).ToString() + " FPS";
 

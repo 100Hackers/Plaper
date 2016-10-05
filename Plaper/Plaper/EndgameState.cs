@@ -1,4 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿#if __ANDROID__
+using AdBuddiz.Xamarin;
+#endif
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -15,27 +19,40 @@ namespace Plaper {
         const string RETRY_TEXT = "RETRY";
         const string MENU_TEXT = "MENU";
 
+        static int deathCounter = 0;
+        bool adShown;
+
         Button[] buttonArr = new Button[3];
 
         public EndgameState(GraphicsDeviceManager graphics, Game1 game, int score) : base(graphics, game) {
 
-            buttonSpacing = Game1.buttonHeight * 3 / 2;
-
+            buttonSpacing = (int)(((double)Plaper.windowHeight / (double)600) * Game1.buttonHeight * 3 / 2);
+            
             buttonArr[0] = new Button("Score: " + score.ToString(), buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight/2,
-                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight), false);
             nButtons++;
             buttonArr[1] = new Button(RETRY_TEXT, buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
-                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight));
 
             nButtons++;
             buttonArr[2] = new Button(MENU_TEXT, buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
-                Plaper.SCREEN_WIDTH, Game1.buttonHeight));
+                Plaper.playWidth, Game1.buttonHeight));
+
+            ++deathCounter;
+            adShown = false;
         }
 
         public override void Update(GameTime gameTime, Game1 game) {
+
+#if __ANDROID__
+            if (!adShown && deathCounter % 5 == 4 && Activity1.TimesPlayed > 2) {
+                AdBuddizHandler.Instance.ShowAd();
+                adShown = true;
+            }
+#endif
 
             foreach(Button button in buttonArr) {
                 button.Update(gameTime);
@@ -48,7 +65,7 @@ namespace Plaper {
                 State.setState(new MenuState(graphics, game));
             }
 
-            if(!Keyboard.GetState().IsKeyDown(Keys.Space) && Plaper.lastKeyboardState.IsKeyDown(Keys.Space)) {
+            if(!Input.keyboardState.IsKeyDown(Keys.Space) && Input.lastKeyboardState.IsKeyDown(Keys.Space)) {
                 State.setState(new GameState(graphics, game));
             }
 
@@ -59,15 +76,9 @@ namespace Plaper {
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
-
-            foreach(Button button in buttonArr) {
+            foreach (Button button in buttonArr) {
                 button.Draw(spriteBatch);
             }
-
-            spriteBatch.End();
-
         }
     }
 }

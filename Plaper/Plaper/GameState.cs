@@ -20,6 +20,7 @@ namespace Plaper {
         const int START_HEIGHT = 30;
         const int MAX_HEIGHT_DIFF = 400;
         const int MIN_HEIGHT_DIFF = 300;
+        Texture2D pixel;
 
         bool isShifting;
         public bool IsShifting { get { return isShifting; } }
@@ -28,28 +29,34 @@ namespace Plaper {
         const int SHIFT_SPEED = 300;
 
 		//used for scoring
-		Vector2 scorePos;
-		/*static*/ int scoreCnt = 0;
+		Scoring Score;
+		//Vector2 scorePos;
+		///*static*/ int scoreCnt = 0;
 
         Rectangle screenRectangle;
 
         //ctor
         public GameState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
 
-            screenRectangle = new Rectangle(0, 0, Plaper.SCREEN_WIDTH, Plaper.SCREEN_HEIGHT);
-            player = new Player(game.Sprite, game.Arrow, game.ArrowFill, START_HEIGHT, screenRectangle);
+            screenRectangle = new Rectangle(0, 0, Plaper.playWidth, Plaper.playHeight);
+            player = new Player(game.Sprite, game.Arrow, game.ArrowFill, START_HEIGHT * Plaper.playHeight, screenRectangle);
 
-			scorePos = new Vector2(5.0f, 5.0f);
-			scoreCnt = 0;
+			Score = new Scoring(game);
+
+			//scorePos = new Vector2(5.0f, 5.0f);
+			//scoreCnt = 0;
 
             platformCounter = 0;
             platforms = new Platform[3];
 
             isShifting = false;
 
-            platforms[0] = new Platform(game.PlatformTex, START_HEIGHT);
-            platforms[1] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(100, 300)));
-            platforms[2] = new Platform(game.PlatformTex, new Vector2(rand.Next(screenRectangle.Width - 101), rand.Next(MAX_HEIGHT_DIFF - MIN_HEIGHT_DIFF) + MIN_HEIGHT_DIFF));
+            pixel = new Texture2D(graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            pixel.SetData(new[] { Color.White });
+
+            platforms[0] = new Platform(game.PlatformTex, START_HEIGHT * Plaper.playHeight);
+            platforms[1] = new Platform(game.PlatformTex, new Vector2(rand.Next(Plaper.playWidth - platforms[0].Hitbox().Width), rand.Next((int) (Plaper.playHeight * 0.35), (int) (Plaper.playHeight * 0.45))));
+            platforms[2] = new Platform(game.PlatformTex, new Vector2(rand.Next(Plaper.playWidth - platforms[0].Hitbox().Width), rand.Next(MAX_HEIGHT_DIFF - MIN_HEIGHT_DIFF) + MIN_HEIGHT_DIFF));
             generateNewPlatform();
         }
 
@@ -64,10 +71,10 @@ namespace Plaper {
                 if (player.Update(gameTime, platforms, platformCounter, game)) {
                     generateNewPlatform();
                     ++platformCounter;
-					++scoreCnt;
+					Score.Update();
                     platformCounter %= 3;
                     isShifting = true;
-                    Entity.ScrollInit((600 - platforms[platformCounter].Pos.Y) - START_HEIGHT);
+                    Entity.ScrollInit((int) ((Plaper.playHeight - platforms[platformCounter].Pos.Y) - (Plaper.playHeight * Plaper.START_HEIGHT)));
                 }
             } else {
                 if (!Entity.ScrollDown()) {
@@ -81,14 +88,12 @@ namespace Plaper {
             }
 
             if(player.IsDead) {
-                State.setState(new EndgameState(graphics, game, scoreCnt));
+                State.setState(new EndgameState(graphics, game, Score.GetScore()));
             }
         }
 
         //update graphics
         public override void Draw(SpriteBatch spriteBatch) {
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 
             player.Draw(spriteBatch);
 
@@ -96,10 +101,18 @@ namespace Plaper {
                 plat.Draw(spriteBatch);
             }
 
-			spriteBatch.DrawString(game.font10, "Score: " + scoreCnt.ToString(), scorePos, Color.Black);
+            if(Plaper.debugMode) {
+                foreach(var plat in platforms) {
+                    DrawBorder(plat.Hitbox(), 2, spriteBatch, Color.Red);
+                }
+                DrawBorder(player.Hitbox(), 2, spriteBatch, Color.Red);
+            }
 
-            spriteBatch.End();
+            Score.Draw(spriteBatch);
 
+   //         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
+			////spriteBatch.DrawString(game.font10, "Score: " + scoreCnt.ToString(), scorePos, Color.Black);
+   //         spriteBatch.End();
         }
 
         private void generateNewPlatform() {
@@ -107,7 +120,30 @@ namespace Plaper {
             Platform curPlatform   = platforms[(platformCounter + 2) % 3];
             
 
-            curPlatform.SetPlatform(new Vector2(rand.Next(0, screenRectangle.Width - 101), rand.Next((int)prevPlatform.Pos.Y - MAX_HEIGHT_DIFF, (int)prevPlatform.Pos.Y - MIN_HEIGHT_DIFF) ));
+            curPlatform.SetPlatform(new Vector2(rand.Next(Plaper.playWidth - platforms[0].Hitbox().Width), prevPlatform.Pos.Y - rand.Next(Plaper.playHeight / 2, (int) (Plaper.playHeight * 0.7))));
+        }
+
+        private void DrawBorder(Rectangle rectangleToDraw, int thicknessOfBorder, SpriteBatch spriteBatch, Color borderColor) {
+
+            spriteBatch.Begin();
+            // Draw top line
+            spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, rectangleToDraw.Width, thicknessOfBorder), borderColor);
+
+            // Draw left line
+            spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X, rectangleToDraw.Y, thicknessOfBorder, rectangleToDraw.Height), borderColor);
+
+            // Draw right line
+            spriteBatch.Draw(pixel, new Rectangle((rectangleToDraw.X + rectangleToDraw.Width - thicknessOfBorder),
+                                            rectangleToDraw.Y,
+                                            thicknessOfBorder,
+                                            rectangleToDraw.Height), borderColor);
+            // Draw bottom line
+            spriteBatch.Draw(pixel, new Rectangle(rectangleToDraw.X,
+                                            rectangleToDraw.Y + rectangleToDraw.Height - thicknessOfBorder,
+                                            rectangleToDraw.Width,
+                                            thicknessOfBorder), borderColor);
+
+            spriteBatch.End();
         }
 
     }
