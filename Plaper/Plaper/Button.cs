@@ -27,8 +27,8 @@ namespace Plaper {
             this.isClickable = clickable;
 
             Vector2 textSize = this.font.MeasureString(name);
-            textPosition.Y = (buttonRect.Height - textSize.Y) / 2 + buttonRect.Y;
-            textPosition.X = (buttonRect.Width - textSize.X) / 2 + buttonRect.X;
+            textPosition.Y = (buttonRect.Height - textSize.Y *(Plaper.screenHeight/1000) ) /2 + buttonRect.Y;
+            textPosition.X = (buttonRect.Width  - textSize.X *(Plaper.screenHeight/600)) /2 + buttonRect.X;
         }
 
         public Boolean Clicked() {
@@ -54,10 +54,10 @@ namespace Plaper {
 
             if (isClickable)
             {
-                spriteBatch.DrawString(font, name, textPosition, isInBounds(Input.mouse) ? HOVER_COLOR : TEXT_COLOR);
+                spriteBatch.DrawString(font, name, textPosition, isInBounds(Input.mouse) ? HOVER_COLOR : TEXT_COLOR, 0f, Vector2.Zero, new Vector2(Plaper.screenHeight/600), SpriteEffects.None, 1);
             } else
             {
-                spriteBatch.DrawString(font, name, textPosition, TEXT_COLOR);
+                spriteBatch.DrawString(font, name, textPosition, TEXT_COLOR, 0f, Vector2.Zero, new Vector2(Plaper.screenHeight/600), SpriteEffects.None, 1);
             }
             spriteBatch.End();
         }

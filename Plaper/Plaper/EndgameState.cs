@@ -26,7 +26,7 @@ namespace Plaper {
 
         public EndgameState(GraphicsDeviceManager graphics, Game1 game, int score) : base(graphics, game) {
 
-            buttonSpacing = Game1.buttonHeight * 3 / 2;
+            buttonSpacing = (int)(((double)Plaper.windowHeight / (double)600) * Game1.buttonHeight * 3 / 2);
             
             buttonArr[0] = new Button("Score: " + score.ToString(), buttonTexture,
                 new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight/2,
