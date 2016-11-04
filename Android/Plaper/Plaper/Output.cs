@@ -19,6 +19,9 @@ namespace Plaper {
         public static SpriteFont font12;
         public static SpriteFont font24;
         public static SpriteFont font36;
+        public static SpriteFont font72;
+        public static SpriteFont font108;
+        public static SpriteFont font144;
 		public static SpriteFont font10;
 
         public static RenderTarget2D playArea;
@@ -41,7 +44,7 @@ namespace Plaper {
             Plaper.playHeight = Plaper.screenHeight;
             Plaper.playWidth  = Plaper.screenHeight / 2;
 
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
 
             graphics.PreferredBackBufferHeight = Plaper.windowHeight;
             graphics.PreferredBackBufferWidth  = Plaper.windowWidth;

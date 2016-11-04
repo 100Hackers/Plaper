@@ -157,3 +157,21 @@
 /processorParam:Quality=Best
 /build:Thud2.wav
 
+#begin joystik72.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:joystik72.spritefont
+
+#begin joystik144.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:joystik144.spritefont
+
+#begin joystik108.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:joystik108.spritefont
+

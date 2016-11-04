@@ -116,6 +116,10 @@ namespace Plaper {
             Output.font12 = Content.Load<SpriteFont>("joystik");
             Output.font24 = Content.Load<SpriteFont>("joystik24");
             Output.font36 = Content.Load<SpriteFont>("joystik36");
+            Output.font72 = Content.Load<SpriteFont>("joystik72");
+            Output.font108 = Content.Load<SpriteFont>("joystik108");
+            Output.font144 = Content.Load<SpriteFont>("joystik144");
+
 			Output.font10 = Content.Load<SpriteFont>("ScoreFont");
 
             Output.font = Output.font24;

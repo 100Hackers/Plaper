@@ -16,19 +16,37 @@ namespace Plaper {
         static Color TEXT_COLOR = Color.Black;
         SpriteFont font;
         Vector2 textPosition;
+        float  textScale;
+        Vector2 textSize;
         Rectangle buttonRect;
         Boolean isClickable;
 
         public Button(string name, Texture2D texture, Rectangle buttonRect, Boolean clickable = true) {
             this.name = name;
             this.texture = texture;
-            this.buttonRect = new Rectangle(0, buttonRect.Y, Plaper.playWidth, (int) (buttonRect.Height * Plaper.BUTTON_HEIGHT * Plaper.playHeight));
-            this.font = Output.font36;
+            this.buttonRect = new Rectangle(0, buttonRect.Y, Plaper.playWidth, (int)(buttonRect.Height * Plaper.BUTTON_HEIGHT * Plaper.playHeight));
+
+            //if (Plaper.screenHeight > 1500) {
+            //    this.font = Output.font72;
+            //} else {
+                this.font = Output.font36;
+            //}
+
             this.isClickable = clickable;
 
-            Vector2 textSize = this.font.MeasureString(name);
-            textPosition.Y = (buttonRect.Height - textSize.Y *(Plaper.screenHeight/1000) ) /2 + buttonRect.Y;
-            textPosition.X = (buttonRect.Width  - textSize.X *(Plaper.screenHeight/600)) /2 + buttonRect.X;
+            textSize = this.font.MeasureString(name);
+            //textScale = buttonRect.Height / textSize.Y;
+            //textScale = Math.Min(textScale, buttonRect.Width/textSize.X);
+
+            //textScale = (int)(textScale *1.5);
+
+            //int stringHeight = (int) Math.Round(textSize.Y * textScale);
+            //int stringWidth  = (int) Math.Round(textSize.X * textScale);
+
+            textPosition.Y = (buttonRect.Height - textSize.Y)/2 + buttonRect.Y;
+            textPosition.X = (buttonRect.Width  - textSize.X) /2 + buttonRect.X;
+            Console.WriteLine("but: " + buttonRect.Height);
+            Console.WriteLine("txt: " + textSize.Y);
         }
 
         public Boolean Clicked() {
@@ -54,10 +72,10 @@ namespace Plaper {
 
             if (isClickable)
             {
-                spriteBatch.DrawString(font, name, textPosition, isInBounds(Input.mouse) ? HOVER_COLOR : TEXT_COLOR, 0f, Vector2.Zero, new Vector2(Plaper.screenHeight/600), SpriteEffects.None, 1);
+                spriteBatch.DrawString(font, name, textPosition, isInBounds(Input.mouse) ? HOVER_COLOR : TEXT_COLOR);
             } else
             {
-                spriteBatch.DrawString(font, name, textPosition, TEXT_COLOR, 0f, Vector2.Zero, new Vector2(Plaper.screenHeight/600), SpriteEffects.None, 1);
+                spriteBatch.DrawString(font, name, textPosition, TEXT_COLOR);
             }
             spriteBatch.End();
         }
