@@ -29,16 +29,16 @@ namespace Plaper {
             buttonSpacing = (int)(((double)Plaper.windowHeight / (double)600) * Game1.buttonHeight * 3 / 2);
             
             buttonArr[0] = new Button("Score: " + score.ToString(), buttonTexture,
-                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight/2,
+                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight*2,
                 Plaper.playWidth, Game1.buttonHeight), false);
             nButtons++;
             buttonArr[1] = new Button(RETRY_TEXT, buttonTexture,
-                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
+                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight * 3,
                 Plaper.playWidth, Game1.buttonHeight));
 
             nButtons++;
             buttonArr[2] = new Button(MENU_TEXT, buttonTexture,
-                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight / 2,
+                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight * 3,
                 Plaper.playWidth, Game1.buttonHeight));
 
             ++deathCounter;
