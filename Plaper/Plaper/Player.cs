@@ -125,19 +125,12 @@ namespace Plaper {
 
                     // Check for player hitting the bottom of the screen
                     // If so, go back to Standing state and reset arrow
-                    if(position.Y + Height > Plaper.playHeight) {
-                        position.Y = Plaper.playHeight - Height;
-                        velocity = Vector2.Zero;
-
-                        arrowAngle = 0;
-                        arrowGoingLeft = false;
-
+                    if(position.Y  > Plaper.playHeight) {
                         state = States.Dead;
                     }
                     break;
 
                 case States.Dead:
-                    position = Vector2.Zero;
                     isDead = true;
 
                     //Output.losingSound.Play(0.3f, 0.0f, 0.0f);
