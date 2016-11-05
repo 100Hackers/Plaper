@@ -102,8 +102,8 @@ namespace Plaper {
 
                     // Jump once space is released and move to Jumping state
                     if(!Input.jumpPressed) {
-                        velocity.Y = (float)(Math.Cos( arrowAngle) * arrowPower * Plaper.playHeight * Plaper.JUMP_SPEED);
-                        velocity.X = (float)(Math.Sin(-arrowAngle) * arrowPower * Plaper.playHeight * Plaper.JUMP_SPEED);
+                        velocity.Y = (float)(Math.Cos( arrowAngle) * Math.Sqrt(arrowPower) * 10 * Plaper.playHeight * Plaper.JUMP_SPEED);
+                        velocity.X = (float)(Math.Sin(-arrowAngle) * Math.Sqrt(arrowPower) * 10 * Plaper.playHeight * Plaper.JUMP_SPEED);
                         state = States.Jumping;
 
                         //Output.jump.Play(0.9f, 0.0f, 0.0f);
