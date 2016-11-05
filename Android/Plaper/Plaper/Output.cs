@@ -29,6 +29,7 @@ namespace Plaper {
         public static SoundEffect[] wallHits = new SoundEffect[2];
 
         public static Rectangle playRectangle;
+        public static GraphicsDeviceManager graphics;
 
 
         public static void Initialize(GraphicsDeviceManager graphics) {
@@ -45,6 +46,8 @@ namespace Plaper {
             Plaper.playWidth  = Plaper.screenHeight / 2;
 
             graphics.IsFullScreen = false;
+
+            Output.graphics = graphics;
 
             graphics.PreferredBackBufferHeight = Plaper.windowHeight;
             graphics.PreferredBackBufferWidth  = Plaper.windowWidth;

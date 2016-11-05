@@ -17,7 +17,7 @@ namespace Plaper {
 
         Rectangle spritePreviewRectangle;
 
-        Button[] buttonArr = new Button[2];
+        Button[] buttonArr = new Button[1];
 
         //ctor
         public MenuState(GraphicsDeviceManager graphics, Game1 game) : base(graphics, game) {
@@ -31,9 +31,9 @@ namespace Plaper {
                 new Rectangle(0, Game1.buttonHeight*3 + buttonSpacing*nButtons,
                 Plaper.playWidth, Game1.buttonHeight));
             nButtons++;
-            buttonArr[1] = new Button(SETTINGS_TEXT, buttonTexture,
-                new Rectangle(0, Game1.buttonHeight*10 + buttonSpacing*nButtons,
-                Plaper.playWidth, Game1.buttonHeight));
+            //buttonArr[1] = new Button(SETTINGS_TEXT, buttonTexture,
+            //    new Rectangle(0, Game1.buttonHeight*10 + buttonSpacing*nButtons,
+            //    Plaper.playWidth, Game1.buttonHeight));
         }
 
         //update game logic
@@ -46,9 +46,9 @@ namespace Plaper {
             if(buttonArr[0].Clicked()) {
                 State.setState(new GameState(graphics, game));
             }
-            if(buttonArr[1].Clicked()) {
+            /*if(buttonArr[1].Clicked()) {
                 State.setState(new SettingsState(graphics, game));
-            }
+            }*/
 
             if(!Input.keyboardState.IsKeyDown(Keys.Space) && Input.lastKeyboardState.IsKeyDown(Keys.Space)) {
                 State.setState(new GameState(graphics, game));
