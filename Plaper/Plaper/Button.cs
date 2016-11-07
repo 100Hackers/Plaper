@@ -88,7 +88,7 @@ namespace Plaper {
                 spriteBatch.DrawString(font, name, textPosition, isInBounds(Input.mouse) ? HOVER_COLOR : TEXT_COLOR, 0f, Vector2.Zero, textScale, SpriteEffects.None, 0f);
             } else
             {
-                spriteBatch.DrawString(font, name, textPosition, Color.White, 0f, Vector2.Zero, textScale, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(font, name, textPosition, Color.Black, 0f, Vector2.Zero, textScale, SpriteEffects.None, 0f);
                 //spriteBatch.DrawString(font, name, textPosition, TEXT_COLOR);
             }
             spriteBatch.End();
