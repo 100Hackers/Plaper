@@ -35,9 +35,9 @@ namespace Plaper {
         public static void Initialize(GraphicsDeviceManager graphics) {
 
             var displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
-
-            Plaper.screenHeight = displayMode.Height;
-            Plaper.screenWidth  = displayMode.Width;
+            var screenSize = graphics.GraphicsDevice.Viewport.Bounds;
+            Plaper.screenHeight = screenSize.Height;
+            Plaper.screenWidth  = screenSize.Width;
 
             Plaper.windowHeight = Plaper.screenHeight;
             Plaper.windowWidth = Plaper.screenWidth;
@@ -45,15 +45,18 @@ namespace Plaper {
             Plaper.playHeight = Plaper.screenHeight;
             Plaper.playWidth  = Plaper.screenHeight / 2;
 
+            int H = displayMode.Width;
+
             graphics.IsFullScreen = false;
 
             Output.graphics = graphics;
 
             graphics.PreferredBackBufferHeight = Plaper.windowHeight;
-            graphics.PreferredBackBufferWidth  = Plaper.windowWidth;
+            graphics.PreferredBackBufferWidth  = H;
             graphics.ApplyChanges();
+            //graphics.GraphicsDevice.Viewport.
 
-            playRectangle = new Rectangle((Plaper.windowWidth - Plaper.playWidth) / 2, 0, Plaper.playWidth, Plaper.playHeight);
+            playRectangle = new Rectangle((H - Plaper.playWidth) / 2, 0, Plaper.playWidth, Plaper.playHeight);
 
             Plaper.playWidth *= 1;
             Plaper.playHeight *= 1;
