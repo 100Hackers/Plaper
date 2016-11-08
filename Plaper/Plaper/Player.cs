@@ -83,11 +83,15 @@ namespace Plaper {
                         state = States.Power;
                         arrowPower = 0;
                     }
+
+                    // Shifting for if the player isn't all the way on the platform
                     if(this.Hitbox().X + this.Hitbox().Width / 2 < platforms[curPlatform].Hitbox().X) {
-                        this.position.X++;
+                        this.position.X += Plaper.SCREEN_WIDTH/Plaper.SLIDE_SCALE;
                     } else if(this.Hitbox().X + this.Hitbox().Width / 2 > platforms[curPlatform].Hitbox().X + platforms[curPlatform].Hitbox().Width) {
-                        this.position.X--;
+                        this.position.X -= Plaper.SCREEN_WIDTH/Plaper.SLIDE_SCALE;
                     }
+
+
                     break;
 
                 case States.Power:

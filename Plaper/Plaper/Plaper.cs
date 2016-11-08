@@ -39,6 +39,9 @@ namespace Plaper {
         public const double FILL_SPEED   = 150.0;
         public const double SCROLL_SPEED =   0.5;
 
+        // Slide amout (when player lands on edge of platform)
+        public const int SLIDE_SCALE = 300;
+
         public static bool debugMode = false;
 
         public static GameTime gameTime;

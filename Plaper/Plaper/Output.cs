@@ -14,6 +14,9 @@ namespace Plaper {
         public static SpriteFont font24;
         public static SpriteFont font36;
 		public static SpriteFont font10;
+        public static SpriteFont font72;
+        public static SpriteFont font144;
+        public static SpriteFont font108;
 
         public static RenderTarget2D playArea;
         public static SoundEffect jump, losingSound;
