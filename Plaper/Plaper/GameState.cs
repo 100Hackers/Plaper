@@ -120,6 +120,7 @@ namespace Plaper {
 
         private void saveHighScore() {
             if(Score.GetScore() > Plaper.highScore) {
+                Plaper.highScore = Score.GetScore();
                 IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("high_score.txt", FileMode.OpenOrCreate, FileAccess.Write);
                 using(StreamWriter sw = new StreamWriter(isoStream)) {
                     sw.Flush();

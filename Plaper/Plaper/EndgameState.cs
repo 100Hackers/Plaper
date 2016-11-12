@@ -23,7 +23,7 @@ namespace Plaper {
 
             nButtons = 0;
 
-            buttonSpacing = Plaper.playHeight / buttonArr.Length;
+            buttonSpacing = Plaper.windowHeight / buttonArr.Length;
             double buttonHeight = buttonSpacing * 2 / 3;
 
             Rectangle newButtonPosRect = new Rectangle(0, (buttonSpacing * nButtons) + ((int)buttonHeight / 4), Plaper.playWidth, (int)buttonHeight);
@@ -50,10 +50,10 @@ namespace Plaper {
                 button.Update(gameTime);
             }
 
-            if(buttonArr[1].Clicked()) {
+            if(buttonArr[2].Clicked()) {
                 State.setState(new GameState(graphics, game));
             }
-            if(buttonArr[2].Clicked()) {
+            if(buttonArr[3].Clicked()) {
                 State.setState(new MenuState(graphics, game));
             }
 

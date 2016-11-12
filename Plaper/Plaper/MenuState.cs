@@ -24,13 +24,16 @@ namespace Plaper {
 
             spritePreviewRectangle = new Rectangle(Plaper.playWidth / 4, Plaper.playHeight / 50, Plaper.playWidth/2, (int)(Plaper.playWidth/2 * 17.0 / 14.0));
 
-            buttonSpacing = (int)(((double)Plaper.windowHeight / (double)600) * Game1.buttonHeight * 3 / 2);
+            nButtons = 2;
 
-            nButtons++;
-            buttonArr[0] = new Button(START_TEXT, buttonTexture,
-                new Rectangle(0, Game1.buttonHeight*3 + buttonSpacing*nButtons,
-                Plaper.playWidth, Game1.buttonHeight));
-            nButtons++;
+            buttonSpacing = Plaper.windowHeight / 4;
+            double buttonHeight = buttonSpacing * 2 / 3;
+
+            Rectangle newButtonPosRect = new Rectangle(0, (buttonSpacing * nButtons), Plaper.playWidth, (int)buttonHeight);
+            buttonArr[0] = new Button(START_TEXT, buttonTexture, newButtonPosRect, true);
+
+            //nButtons++;
+
             //buttonArr[1] = new Button(SETTINGS_TEXT, buttonTexture,
             //    new Rectangle(0, Game1.buttonHeight*10 + buttonSpacing*nButtons,
             //    Plaper.playWidth, Game1.buttonHeight));
