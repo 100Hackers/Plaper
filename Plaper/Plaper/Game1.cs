@@ -79,18 +79,6 @@ namespace Plaper {
         /// </summary>
         protected override void Initialize() {
 
-            // Save game stuff
-            IsolatedStorageFile savegameStorage = IsolatedStorageFile.GetUserStoreForDomain();
-            if(savegameStorage.FileExists("high_score.txt")) {
-                IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("high_score.txt", FileMode.OpenOrCreate, FileAccess.Read);
-                using(StreamReader sr = new StreamReader(isoStream)) {
-                    Plaper.highScore = int.Parse(sr.ReadLine());
-                }
-            } else {
-                Plaper.highScore = 0;
-            }
-            // End save game stuff
-
             /*
             // Save game stuff
             IsolatedStorageFile savegameStorage = IsolatedStorageFile.GetUserStoreForDomain();
@@ -104,6 +92,19 @@ namespace Plaper {
             }
             // End save game stuff
             */
+            
+            // ANDROID Save game stuff
+            IsolatedStorageFile savegameStorage = IsolatedStorageFile.GetUserStoreForApplication();
+            if(savegameStorage.FileExists("high_score.txt")) {
+                IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("high_score.txt", FileMode.OpenOrCreate, FileAccess.Read);
+                using(StreamReader sr = new StreamReader(isoStream)) {
+                    Plaper.highScore = int.Parse(sr.ReadLine());
+                }
+            } else {
+                Plaper.highScore = 0;
+            }
+            // End save game stuff
+            
 
             base.Initialize();
 
