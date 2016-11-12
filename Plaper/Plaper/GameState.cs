@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,7 +89,8 @@ namespace Plaper {
                 State.setState(new MenuState(graphics, game));
             }
 
-            if(player.IsDead) {
+            if(player.IsDead || Keyboard.GetState().IsKeyDown(Keys.K)) {
+                saveHighScore();
                 State.setState(new EndgameState(graphics, game, Score.GetScore()));
             }
         }
@@ -113,6 +116,16 @@ namespace Plaper {
    //         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise);
 			////spriteBatch.DrawString(game.font10, "Score: " + scoreCnt.ToString(), scorePos, Color.Black);
    //         spriteBatch.End();
+        }
+
+        private void saveHighScore() {
+            if(Score.GetScore() > Plaper.highScore) {
+                IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("high_score.txt", FileMode.OpenOrCreate, FileAccess.Write);
+                using(StreamWriter sw = new StreamWriter(isoStream)) {
+                    sw.Flush();
+                    sw.WriteLine(Score.GetScore().ToString());
+                }
+            }
         }
 
         private void generateNewPlatform() {

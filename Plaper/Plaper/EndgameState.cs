@@ -17,24 +17,29 @@ namespace Plaper {
 
         static int deathCounter = 0;
 
-        Button[] buttonArr = new Button[3];
+        Button[] buttonArr = new Button[4];
 
         public EndgameState(GraphicsDeviceManager graphics, Game1 game, int score) : base(graphics, game) {
 
-            buttonSpacing = (int)(((double)Plaper.windowHeight / (double)600) * Game1.buttonHeight * 3 / 2);
-            
-            buttonArr[0] = new Button("Score: " + score.ToString(), buttonTexture,
-                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight*2,
-                Plaper.playWidth, Game1.buttonHeight), false);
-            nButtons++;
-            buttonArr[1] = new Button(RETRY_TEXT, buttonTexture,
-                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight * 3,
-                Plaper.playWidth, Game1.buttonHeight));
+            nButtons = 0;
 
+            buttonSpacing = Plaper.playHeight / buttonArr.Length;
+            double buttonHeight = buttonSpacing * 2 / 3;
+
+            Rectangle newButtonPosRect = new Rectangle(0, (buttonSpacing * nButtons) + ((int)buttonHeight / 4), Plaper.playWidth, (int)buttonHeight);
+            buttonArr[0] = new Button("Score: " + score.ToString(), buttonTexture, newButtonPosRect, false);
             nButtons++;
-            buttonArr[2] = new Button(MENU_TEXT, buttonTexture,
-                new Rectangle(0, buttonSpacing * nButtons + Game1.buttonHeight * 3,
-                Plaper.playWidth, Game1.buttonHeight));
+
+            newButtonPosRect = new Rectangle(0, (buttonSpacing * nButtons) + ((int)buttonHeight / 4), Plaper.playWidth, (int)buttonHeight);
+            buttonArr[1] = new Button("Max: " + Plaper.highScore.ToString(), buttonTexture, newButtonPosRect, false);
+            nButtons++;
+
+            newButtonPosRect = new Rectangle(0, (buttonSpacing * nButtons) + ((int)buttonHeight / 4), Plaper.playWidth, (int)buttonHeight);
+            buttonArr[2] = new Button(RETRY_TEXT, buttonTexture, newButtonPosRect);
+            nButtons++;
+
+            newButtonPosRect = new Rectangle(0, (buttonSpacing * nButtons) + ((int)buttonHeight / 4), Plaper.playWidth, (int)buttonHeight);
+            buttonArr[3] = new Button(MENU_TEXT, buttonTexture, newButtonPosRect);
 
             ++deathCounter;
         }

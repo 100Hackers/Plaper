@@ -10,9 +10,9 @@ namespace Plaper {
     class Plaper {
 
         // Screen variables
-        public const int 
-            SCREEN_WIDTH  = 400,
-            SCREEN_HEIGHT = 600;
+        public const int
+            SCREEN_WIDTH  = 600,
+            SCREEN_HEIGHT = 800;
         
         public static int
             screenHeight,
@@ -21,6 +21,8 @@ namespace Plaper {
             windowWidth,
             playHeight,
             playWidth;
+
+        public static int highScore = 0;
 
         // Sprite ratios, should be height / width
         public const double PLAYER_RATIO = 17.0 /  14.0; // remember there are actually three sprites in this file
