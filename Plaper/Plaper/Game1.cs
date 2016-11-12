@@ -146,6 +146,7 @@ namespace Plaper {
             // TODO: Unload any non ContentManager content here
         }
 
+        /*
         private void loadHighScoreWindows() {
             IsolatedStorageFile savegameStorage = IsolatedStorageFile.GetUserStoreForDomain();
             if(savegameStorage.FileExists("high_score.txt")) {
@@ -157,6 +158,7 @@ namespace Plaper {
                 Plaper.highScore = 0;
             }
         }
+        */
 
         private void loadHighScoreAndroid() {
             IsolatedStorageFile savegameStorage = IsolatedStorageFile.GetUserStoreForApplication();
