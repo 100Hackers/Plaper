@@ -79,8 +79,8 @@ namespace Plaper {
         /// </summary>
         protected override void Initialize() {
 
-            loadHighScoreWindows();
-            //loadHighScoreAndroid();
+            //loadHighScoreWindows();
+            loadHighScoreAndroid();
 
             base.Initialize();
 
@@ -145,8 +145,7 @@ namespace Plaper {
         protected override void UnloadContent() {
             // TODO: Unload any non ContentManager content here
         }
-
-        /*
+        
         private void loadHighScoreWindows() {
             IsolatedStorageFile savegameStorage = IsolatedStorageFile.GetUserStoreForDomain();
             if(savegameStorage.FileExists("high_score.txt")) {
@@ -158,7 +157,6 @@ namespace Plaper {
                 Plaper.highScore = 0;
             }
         }
-        */
 
         private void loadHighScoreAndroid() {
             IsolatedStorageFile savegameStorage = IsolatedStorageFile.GetUserStoreForApplication();
