@@ -24,8 +24,8 @@ namespace Plaper {
         public Button(string name, Texture2D texture, Rectangle buttonrect, Boolean clickable = true) {
             this.name = name;
             this.texture = texture;
-            this.buttonRect = new Rectangle(0, buttonrect.Y, Plaper.playWidth, (int)(buttonrect.Height * Plaper.BUTTON_HEIGHT * Plaper.playHeight));
-
+            //this.buttonRect = new Rectangle(0, buttonrect.Y, Plaper.playWidth, (int)(buttonrect.Height * Plaper.BUTTON_HEIGHT * Plaper.playHeight));
+            this.buttonRect = buttonrect;
             /*this.texture = new Texture2D(Output.graphics.GraphicsDevice  , buttonRect.Width, buttonRect.Height);
             Color[] data = new Color[buttonRect.Width * buttonRect.Height];
             for (int i = 0; i < data.Length; ++i) {

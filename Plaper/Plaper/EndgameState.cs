@@ -50,10 +50,10 @@ namespace Plaper {
                 button.Update(gameTime);
             }
 
-            if(buttonArr[1].Clicked()) {
+            if(buttonArr[2].Clicked()) {
                 State.setState(new GameState(graphics, game));
             }
-            if(buttonArr[2].Clicked()) {
+            if(buttonArr[3].Clicked()) {
                 State.setState(new MenuState(graphics, game));
             }
 
