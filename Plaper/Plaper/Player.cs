@@ -110,7 +110,7 @@ namespace Plaper {
                         velocity.X = (float)(Math.Sin(-arrowAngle) * Math.Sqrt(arrowPower) * 10 * Plaper.playHeight * Plaper.JUMP_SPEED);
                         state = States.Jumping;
 
-                        //Output.jump.Play(0.9f, 0.0f, 0.0f);
+                        Output.jump.Play(0.9f, 0.0f, 0.0f);
                     }
                     break;
 
@@ -123,7 +123,7 @@ namespace Plaper {
                     if(position.X < 0 || Plaper.playWidth < position.X + Width) {
                         velocity.X = -velocity.X;
                         position.X = position.X < 0 ? 0f : Plaper.playWidth - Width;
-                        //Output.wallHits[rand.Next(2)].Play(0.5f, 0.0f, 0.0f);
+                        Output.wallHits[rand.Next(2)].Play(0.5f, 0.0f, 0.0f);
                     }
                     position.X -= (float)(elapsedSeconds * velocity.X);
 
@@ -137,7 +137,7 @@ namespace Plaper {
                 case States.Dead:
                     isDead = true;
 
-                    //Output.losingSound.Play(0.3f, 0.0f, 0.0f);
+                    Output.losingSound.Play(0.3f, 0.0f, 0.0f);
                     break;              
                 
             }

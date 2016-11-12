@@ -79,33 +79,8 @@ namespace Plaper {
         /// </summary>
         protected override void Initialize() {
 
-            /*
-            // Save game stuff
-            IsolatedStorageFile savegameStorage = IsolatedStorageFile.GetUserStoreForDomain();
-            if(savegameStorage.FileExists("high_score.txt")) {
-                IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("high_score.txt", FileMode.OpenOrCreate, FileAccess.Read);
-                using(StreamReader sr = new StreamReader(isoStream)) {
-                    Plaper.highScore = int.Parse(sr.ReadLine());
-                }
-            } else {
-                Plaper.highScore = 0;
-            }
-            // End save game stuff
-            */
-            
-            
-            // ANDROID Save game stuff
-            IsolatedStorageFile savegameStorage = IsolatedStorageFile.GetUserStoreForApplication();
-            if(savegameStorage.FileExists("high_score.txt")) {
-                IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("high_score.txt", FileMode.OpenOrCreate, FileAccess.Read);
-                using(StreamReader sr = new StreamReader(isoStream)) {
-                    Plaper.highScore = int.Parse(sr.ReadLine());
-                }
-            } else {
-                Plaper.highScore = 0;
-            }
-            // End save game stuff
-            
+            loadHighScoreWindows();
+            //loadHighScoreAndroid();
 
             base.Initialize();
 
@@ -171,6 +146,30 @@ namespace Plaper {
             // TODO: Unload any non ContentManager content here
         }
 
+        private void loadHighScoreWindows() {
+            IsolatedStorageFile savegameStorage = IsolatedStorageFile.GetUserStoreForDomain();
+            if(savegameStorage.FileExists("high_score.txt")) {
+                IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("high_score.txt", FileMode.OpenOrCreate, FileAccess.Read);
+                using(StreamReader sr = new StreamReader(isoStream)) {
+                    Plaper.highScore = int.Parse(sr.ReadLine());
+                }
+            } else {
+                Plaper.highScore = 0;
+            }
+        }
+
+        private void loadHighScoreAndroid() {
+            IsolatedStorageFile savegameStorage = IsolatedStorageFile.GetUserStoreForApplication();
+            if(savegameStorage.FileExists("high_score.txt")) {
+                IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("high_score.txt", FileMode.OpenOrCreate, FileAccess.Read);
+                using(StreamReader sr = new StreamReader(isoStream)) {
+                    Plaper.highScore = int.Parse(sr.ReadLine());
+                }
+            } else {
+                Plaper.highScore = 0;
+            }
+        }
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -208,7 +207,7 @@ namespace Plaper {
             State.getState()?.Draw(spriteBatch);
 
             GraphicsDevice.SetRenderTarget(null);
-            GraphicsDevice.Clear(Color.DarkOrange);
+            GraphicsDevice.Clear(Color.Blue);
             spriteBatch.Begin();
             spriteBatch.Draw(Output.playArea, Output.playRectangle, Color.White);
             spriteBatch.End();
