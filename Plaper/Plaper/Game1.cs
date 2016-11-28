@@ -207,7 +207,7 @@ namespace Plaper {
             State.getState()?.Draw(spriteBatch);
 
             GraphicsDevice.SetRenderTarget(null);
-            GraphicsDevice.Clear(Color.Blue);
+            GraphicsDevice.Clear(Color.DarkOrange);
             spriteBatch.Begin();
             spriteBatch.Draw(Output.playArea, Output.playRectangle, Color.White);
             spriteBatch.End();
